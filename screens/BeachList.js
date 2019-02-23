@@ -46,16 +46,7 @@ export default class BeachList extends React.Component {
 
         <FlatList data={data.torontoIsland} renderItem={({item}) =>
           <TouchableOpacity onPress={() => this.beachFocus(item)}>
-            <View style={styles.beachCard} key={item.beachId} >
-              <View style={styles.beachCardContents}>
-                <View style={styles.beachcardImage}/>
-                <View style={styles.beachCardBody}>
-                  <Text style={styles.beachCardText}>
-                    {item.beachName}
-                  </Text>
-                </View>
-              </View>
-            </View>
+            <BeachCard beachData={item}/>
           </TouchableOpacity>
 
         }/>

@@ -31,12 +31,12 @@ export default class BeachCard extends React.Component {
 
   render() {
     return (
-        <View style={styles.beachCard} key={item.beachId}>
+        <View style={styles.beachCard} key={this.props.beachData.beachId}>
         <View style={styles.beachCardContents}>
           <View style={styles.beachcardImage}/>
           <View style={styles.beachCardBody}>
             <Text style={styles.beachCardText}>
-              {item.beachName}
+              {this.props.beachData.beachName}
             </Text>
           </View>
         </View>
