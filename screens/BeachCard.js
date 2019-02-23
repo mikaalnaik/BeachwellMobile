@@ -7,20 +7,19 @@ import {
   View,
   Dimensions,
   StatusBar,
+  Image,
   TouchableOpacity
 } from 'react-native';
+// import cherryBeach from './assets/cherry.jpg'
+import Images from '../assets/index';
+
+
+
 
 export default class BeachCard extends React.Component {
   static navigationOptions = {
     header: null,
     gesturesEnabled: false
-  }
-
-  componentDidMount() {
-    // console.log('whioe', this.props.navigation.state.params);
-    // console.log('data', this.props.beachData.torontoIsland);
-    // console.log('data coming in? ', data);
-    console.log('this props in card', this.props);
   }
 
 
@@ -32,8 +31,12 @@ export default class BeachCard extends React.Component {
   render() {
     return (
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
+
+
+            <WhichImage beach={this.props.beachData.beachName}/>
+
+
         <View style={styles.beachCardContents}>
-          <View style={styles.beachcardImage}/>
           <View style={styles.beachCardBody}>
             <Text style={styles.beachCardText}>
               {this.props.beachData.beachName}
@@ -46,15 +49,14 @@ export default class BeachCard extends React.Component {
             </Text>
               {
                 this.props.beachData.eColi < 100 &&
-                <Text style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}>
-                  CLEAN AND SAFE TO ENJOY
-                </Text>
+                <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}>
+
+                </View>
               }
               {
                 this.props.beachData.eColi > 100 &&
-                <Text style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}>
-                  EXCEEDS SAFE LEVEL OF ECOLI
-                </Text>
+                <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}>
+                </View>
               }
 
 
@@ -65,6 +67,46 @@ export default class BeachCard extends React.Component {
   }
 }
 
+
+class WhichImage extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+
+
+
+  }
+
+    render() {
+      let specificBeachImage;
+      let random = 0;
+      console.log('props', this.props);
+
+      if(this.props.beach === 'Sunnyside Beach') {
+        console.log('howdy!');
+        random = random + 1;
+        specificBeachImage = Images.sunnyside;
+      } else if(random === 3 || random === 11){
+        specificBeachImage = Images.cherry
+      } else {
+        random = random + 1;
+        specificBeachImage = Images.hanlans;
+      }
+      console.log('image,', specificBeachImage);
+
+        return (
+            <View>
+              <Image
+                style={styles.cardImage}
+                source={specificBeachImage}
+              />
+            </View>
+        );
+    }
+}
+
 const styles = StyleSheet.create({
   // container: {
   //   flex: 1,
@@ -73,6 +115,7 @@ const styles = StyleSheet.create({
   //   justifyContent: 'center'
   // },
   mainText: {
+    // fontFamily: 'Chalkduster',
     fontSize: 20,
     marginBottom: 20,
     marginTop: 20,
@@ -83,9 +126,9 @@ const styles = StyleSheet.create({
   },
   beachCard: {
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     borderColor: 'rgb(185, 185, 185)',
-    width: 300,
+    width: 322,
     height: 320,
     marginBottom: 40,
     marginLeft: 20,
@@ -109,10 +152,10 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   beachConditionBlock: {
+    height: 25,
+    width: 25,
+    borderRadius: 150,
     marginLeft: 10,
-    padding: 5,
-    width: 185,
-    color: 'white',
   },
   beachCardConditionUnsafe: {
     backgroundColor: 'red',
@@ -121,7 +164,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   beachCardBody: {
-    height: 90
+    height: 90,
+    padding: 0,
+  },
+  cardImage: {
+    height: 200,
+    width:322,
+    borderTopLeftRadius: 10
   },
   beachCardContents: {
     shadowOpacity: 0,
@@ -129,9 +178,11 @@ const styles = StyleSheet.create({
   },
   beachcardImage: {
     backgroundColor: 'blue',
-    height: 200
+    height: 200,
+
   },
   beachCardText: {
+    // fontFamily: 'Baskerville-Bold',
     marginTop: 10,
     marginLeft: 10,
     fontSize: 25,

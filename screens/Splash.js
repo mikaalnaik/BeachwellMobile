@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, StatusBar, Text, View, Dimensions,  Animated, Image, Easing } from 'react-native';
 import posed from 'react-native-pose';
-
+import Images from '../assets/index';
 let Firebase = require("firebase");
 require("firebase/functions");
 
@@ -137,14 +137,18 @@ export default class Splash extends React.Component {
             width: 40,
           }}
         />
-          <Animated.Text style={{
+        <Image
+          style={styles.images}
+          source={Images.logoMark}
+        />
+          {/* <Animated.Text style={{
             opacity,
             fontSize: 30,
             marginTop: 10,
             color: 'white'}}
           >
           Beachwell
-        </Animated.Text>
+        </Animated.Text> */}
         </View>
     );
   }
@@ -155,6 +159,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 20,
     color: 'white',
+  },
+  images: {
+    height: 180,
+    width: 180,
   },
   box: {
     width: 40,

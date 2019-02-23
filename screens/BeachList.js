@@ -4,6 +4,7 @@ import {
   FlatList,
   ScrollView,
   Text,
+  StatusBar,
   View,
   Dimensions,
   TouchableOpacity
@@ -33,7 +34,8 @@ export default class BeachList extends React.Component {
     let fullWidth = Dimensions.get('window').width;
 
     return (
-      <ScrollView onScroll={this.handleScroll.bind(this)}>
+      <ScrollView onScroll={this.handleScroll.bind(this)}
+        decelerationRate={0.7}>
         <View style={[styles.container, {width:this.fullWidth}]}>
           <Text style={styles.greetingText}>
             Explore today's beach water quality for Toronto
@@ -100,12 +102,13 @@ export default class BeachList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     // margin: 0,
-    // width: '100%',
+    width: '100%',
     // flex: 1,
     // backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     marginTop: 15,
+    textAlign: 'left',
 
   },
   greetingText: {
@@ -119,8 +122,12 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   beachAreaText: {
+    marginLeft: 10,
     color: 'black',
-    fontSize: 30,
+    fontSize: 20,
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     fontWeight: '300',
     marginTop: 20,
     marginBottom: 20,
