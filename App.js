@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Splash from './screens/Splash';
 import BeachList from './screens/BeachList';
+import BeachView from './screens/BeachView';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import firebase from "firebase";
 
@@ -26,8 +27,9 @@ firebase.initializeApp(config);
 // }
 
 const RootStack = createStackNavigator({
-  Home: { screen: Splash },
+  Home: { screen: BeachList },
   BeachList: { screen: BeachList },
+  BeachView: { screen: BeachView },
 });
 
 const App = createAppContainer(RootStack);

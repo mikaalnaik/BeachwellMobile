@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Text, View, Dimensions,  Animated, Image, Easing } from 'react-native';
+import { StyleSheet, ScrollView, StatusBar, Text, View, Dimensions,  Animated, Image, Easing } from 'react-native';
 import posed from 'react-native-pose';
 
 let Firebase = require("firebase");
@@ -34,33 +34,37 @@ export default class Splash extends React.Component {
 
     let collectBeachData = Firebase.functions().httpsCallable('allBeachData');
     collectBeachData().then((result) => {
-      console.log('result data', result);
+      // console.log('result data', result);
 
-      // let sortedBeach = {
-      //   'Toronto Island': [],
-      //   'West Toronto': [],
-      //   'East Toronto': [],
-      // };
-      // result.data.map(beach => {
-      //   console.log('beach', beach);
-      //   // console.log('map beach', beach.beachId);
-      //   if (beach.beachId === '1' || '2') {
-      //     // console.log('west');
-      //       sortedBeach['West Toronto'].push(beach);
-      //   } else if (beach.beachId === '3' || '4' || '5' || '6' || '7') {
-      //     // console.log('island');
-      //     sortedBeach['Toronto Island'].push(beach);
-      //   } else {
-      //     // console.log('east');
-      //     sortedBeach['East Toronto'].push(beach);
-      //   }
-      // })
-
-      // console.log({sortedBeach});
-
+      let sortedBeach = {
+        'torontoIsland': [],
+        'westToronto': [],
+        'eastToronto': [],
+      };
+      result.data.forEach(beach => {
+        switch (beach.beachId) {
+          case '1':
+          case '2':
+            sortedBeach['westToronto'].push(beach);
+            break;
+          case '3':
+          case '4':
+          case '5':
+          case '6':
+          case '7':
+            sortedBeach['torontoIsland'].push(beach);
+            break;
+          case '8':
+          case '9':
+          case '10':
+          case '11':
+            sortedBeach['eastToronto'].push(beach);
+          break;
+        }
+      })
 
       this.setState({
-        currentBeachData: result.data,
+        currentBeachData: sortedBeach,
         loading: false,
       })
     })
@@ -68,9 +72,12 @@ export default class Splash extends React.Component {
     this.animate()
      setTimeout(() => {
        if(!this.state.loading) {
+         console.log('loading done');
          this.props.navigation.navigate('BeachList' , {
            beachData: this.state.currentBeachData
          })
+       } else {
+         console.log('timed out');
        }
      }, 2200);
   }
@@ -120,6 +127,7 @@ export default class Splash extends React.Component {
           width: fullWidth,
         }}>
         <Box style={styles.box} pose={this.isVisible ? 'visible' : 'hidden'} />
+        <StatusBar hidden />
 
         <Animated.View
           style={{
@@ -127,7 +135,6 @@ export default class Splash extends React.Component {
             marginTop: 10,
             height: 30,
             width: 40,
-            // backgroundColor: '#2342A2'
           }}
         />
           <Animated.Text style={{

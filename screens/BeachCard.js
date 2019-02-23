@@ -10,8 +10,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-
-export default class BeachView extends React.Component {
+export default class BeachCard extends React.Component {
   static navigationOptions = {
     header: null,
     gesturesEnabled: false
@@ -21,36 +20,27 @@ export default class BeachView extends React.Component {
     // console.log('whioe', this.props.navigation.state.params);
     // console.log('data', this.props.beachData.torontoIsland);
     // console.log('data coming in? ', data);
-    console.log('second screen', this.props);
+    console.log('this props in card', this.props);
   }
 
-  handleScroll(evt) {
-    console.log('scroll', evt);
-  }
-  switchScreens(evt) {
-    console.log('evvtt', evt);
-  }
 
-  beachFocus = () => {
+  beachFocus = (beach) => {
     console.log('howdy Folks!');
-  }
-
-  goBack = () => {
-    this.props.navigation.navigate('BeachList')
+    this.props.navigation.navigate('BeachView', {data: beach})
   }
 
   render() {
     return (
-
-        <View style={styles.container}>
-          <TouchableOpacity onPress={this.goBack}>
-            <Text>
-              Go Back
+        <View style={styles.beachCard} key={item.beachId}>
+        <View style={styles.beachCardContents}>
+          <View style={styles.beachcardImage}/>
+          <View style={styles.beachCardBody}>
+            <Text style={styles.beachCardText}>
+              {item.beachName}
             </Text>
-          </TouchableOpacity>
-          <Text style={styles.mainText}>{this.props.navigation.state.params.data.beachName}</Text>
+          </View>
         </View>
-
+      </View>
     );
   }
 }
@@ -84,23 +74,21 @@ const styles = StyleSheet.create({
     // shadowRadius: 4,
     // elevation: 1,
   },
-  beachCardBody : {
-    height: 90,
-
+  beachCardBody: {
+    height: 90
   },
   beachCardContents: {
     shadowOpacity: 0,
-    elevation: 0,
+    elevation: 0
   },
   beachcardImage: {
     backgroundColor: 'blue',
-    height: 200,
+    height: 200
   },
   beachCardText: {
     marginTop: 10,
     marginLeft: 10,
     fontSize: 25,
-    color: 'rgb(43, 43, 43)',
-
+    color: 'rgb(43, 43, 43)'
   }
 });
