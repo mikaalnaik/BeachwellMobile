@@ -44,7 +44,7 @@ export default class BeachView extends React.Component {
 
         <View style={styles.container}>
           <TouchableOpacity onPress={this.goBack}>
-            <Text>
+            <Text styles={styles.goBack}>
               Go Back
             </Text>
           </TouchableOpacity>
@@ -60,7 +60,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 40,
+  },
+  goBack: {
+    marginTop: 40,
+
   },
   mainText: {
     fontSize: 20,

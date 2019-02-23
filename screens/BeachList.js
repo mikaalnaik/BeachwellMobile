@@ -6,7 +6,6 @@ import {
   Text,
   View,
   Dimensions,
-  StatusBar,
   TouchableOpacity
 } from 'react-native';
 import BeachCard from './BeachCard';
@@ -15,12 +14,6 @@ export default class BeachList extends React.Component {
   static navigationOptions = {
     header: null,
     gesturesEnabled: false
-  }
-
-  componentDidMount() {
-    // console.log('whioe', this.props.navigation.state.params);
-    // console.log('data', this.props.beachData.torontoIsland);
-    // console.log('data coming in? ', data);
   }
 
   handleScroll(evt) {
@@ -32,80 +25,107 @@ export default class BeachList extends React.Component {
 
   beachFocus = (beach) => {
     console.log('howdy Folks!');
-    this.props.navigation.navigate('BeachView' , {
-      data: beach,
-    })
+    this.props.navigation.navigate('BeachView', { data: beach })
   }
 
 
   render() {
-    return (<ScrollView onScroll={this.handleScroll.bind(this)}>
-      <StatusBar hidden />
-      <View style={styles.container}>
-        <Text style={styles.mainText}>Explore today's beach water quality for Toronto</Text>
+    let fullWidth = Dimensions.get('window').width;
 
-        <FlatList data={data.torontoIsland} renderItem={({item}) =>
-          <TouchableOpacity onPress={() => this.beachFocus(item)}>
-            <BeachCard beachData={item}/>
-          </TouchableOpacity>
+    return (
+      <ScrollView onScroll={this.handleScroll.bind(this)}>
+        <View style={[styles.container, {width:this.fullWidth}]}>
+          <Text style={styles.greetingText}>
+            Explore today's beach water quality for Toronto
+          </Text>
 
-        }/>
+        <Text style={styles.beachAreaText}>
+            Toronto Island
+          </Text>
+          <FlatList
+            data={data.torontoIsland}
+            keyExtractor={(item) => item.beachId}
+            renderItem={({item, index}) =>
+            <TouchableOpacity
+              onPress={() => this.beachFocus(item)}
+              key={item.beachId.toString()}
+            >
+              <BeachCard
 
-      </View>
-    </ScrollView>);
+                beachData={item}
+              />
+            </TouchableOpacity>}
+          />
+
+            <Text style={styles.beachAreaText}>
+              West Toronto
+            </Text>
+            <FlatList
+              data={data.westToronto}
+              keyExtractor={(item) => item.beachId}
+              renderItem={({item , index}) =>
+              <TouchableOpacity
+                onPress={() => this.beachFocus(item)}
+                key={item.beachId.toString()}
+               >
+                <BeachCard
+                  beachData={item}
+                />
+              </TouchableOpacity>}
+            />
+
+
+            <Text style={styles.beachAreaText}>
+              East Toronto
+            </Text>
+          <FlatList
+            data={data.eastToronto}
+            keyExtractor={(item) => item.beachId}
+            renderItem={({item, index}) =>
+            <TouchableOpacity
+              onPress={() => this.beachFocus(item)}
+              key={item.beachId.toString()}
+            >
+              <BeachCard
+                beachData={item}
+              />
+            </TouchableOpacity>}
+          />
+        </View>
+      </ScrollView>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
+    // margin: 0,
+    // width: '100%',
+    // flex: 1,
+    // backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 15,
+
   },
-  mainText: {
-    fontSize: 20,
+  greetingText: {
+    fontSize: 25,
+    width: 300,
     marginBottom: 20,
     marginTop: 20,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    color: 'grey'
+    color: 'black',
   },
-  beachCard: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: 'rgb(185, 185, 185)',
-    width: 300,
-    height: 300,
-    marginBottom: 40,
-    // shadowColor: '#000',
-    // shadowOffset:  { width: 2, height: 2 },
-    // shadowOpacity: 0.8,
-    // shadowRadius: 4,
-    // elevation: 1,
+  beachAreaText: {
+    color: 'black',
+    fontSize: 30,
+    fontWeight: '300',
+    marginTop: 20,
+    marginBottom: 20,
   },
-  beachCardBody : {
-    height: 90,
-
-  },
-  beachCardContents: {
-    shadowOpacity: 0,
-    elevation: 0,
-  },
-  beachcardImage: {
-    backgroundColor: 'blue',
-    height: 200,
-  },
-  beachCardText: {
-    marginTop: 10,
-    marginLeft: 10,
-    fontSize: 25,
-    color: 'rgb(43, 43, 43)',
-
-  }
 });
-
 
 const data = {
   "eastToronto": [
@@ -193,5 +213,5 @@ const data = {
       "date": "September 03 2018",
       "eColi": "132"
     }
-  ],
+  ]
 }
