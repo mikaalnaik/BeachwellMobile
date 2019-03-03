@@ -10,6 +10,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import BeachCard from './BeachCard';
+import posed from 'react-native-pose';
 
 export default class BeachList extends React.Component {
   static navigationOptions = {
@@ -25,7 +26,7 @@ export default class BeachList extends React.Component {
   }
 
   beachFocus = (beach) => {
-    console.log('howdy Folks!');
+    console.log('Click Beach');
     this.props.navigation.navigate('BeachView', { data: beach })
   }
 
@@ -35,7 +36,10 @@ export default class BeachList extends React.Component {
 
     return (
       <ScrollView onScroll={this.handleScroll.bind(this)}
-        decelerationRate={0.7}>
+        decelerationRate={0.99}
+        showsVerticalScrollIndicator={true}
+        >
+
         <View style={[styles.container, {width:this.fullWidth}]}>
           <Text style={styles.greetingText}>
             Explore today's beach water quality for Toronto
@@ -44,21 +48,22 @@ export default class BeachList extends React.Component {
         <Text style={styles.beachAreaText}>
             Toronto Island
           </Text>
-          <FlatList
-            data={data.torontoIsland}
-            keyExtractor={(item) => item.beachId}
-            renderItem={({item, index}) =>
-            <TouchableOpacity
-              onPress={() => this.beachFocus(item)}
-              key={item.beachId.toString()}
-            >
-              <BeachCard
+          <View style={styles.areaContainer}>
+            <FlatList
+              data={data.torontoIsland}
+              keyExtractor={(item) => item.beachId}
+              renderItem={({item, index}) =>
+              <TouchableOpacity
+                onPress={() => this.beachFocus(item)}
+                key={item.beachId.toString()}
+              >
+                <BeachCard
 
-                beachData={item}
-              />
-            </TouchableOpacity>}
-          />
-
+                  beachData={item}
+                />
+              </TouchableOpacity>}
+            />
+          </View>
             <Text style={styles.beachAreaText}>
               West Toronto
             </Text>
@@ -110,6 +115,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     textAlign: 'left',
 
+  },
+  areaContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   greetingText: {
     fontSize: 25,

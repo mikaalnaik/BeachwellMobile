@@ -8,184 +8,131 @@ import {
   Dimensions,
   StatusBar,
   Image,
+  Animated,
   TouchableOpacity
 } from 'react-native';
 // import cherryBeach from './assets/cherry.jpg'
 import Images from '../assets/index';
 
-
-
-
 export default class BeachCard extends React.Component {
+
   static navigationOptions = {
     header: null,
     gesturesEnabled: false
   }
 
 
+
   beachFocus = (beach) => {
-    console.log('howdy Folks!');
     this.props.navigation.navigate('BeachView', {data: beach})
   }
 
   render() {
     return (
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
-
-
             <WhichImage beach={this.props.beachData.beachName}/>
-
-
-        <View style={styles.beachCardContents}>
           <View style={styles.beachCardBody}>
             <Text style={styles.beachCardText}>
               {this.props.beachData.beachName}
             </Text>
-            <Text style={styles.beachCardEcoli}>
+            <View style={[styles.beachBodyContent, styles.beachCardText]}>
+              {this.props.beachData.eColi < 100 && <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}/>}
+              {this.props.beachData.eColi > 100 && <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}/>}
               <Text styles={styles.eColiBold}>
-                {this.props.beachData.eColi}
+                {this.props.beachData.eColi} e.Coli / ppm
               </Text>
-              e.Coli / ppm
-            </Text>
-              {
-                this.props.beachData.eColi < 100 &&
-                <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}>
-
-                </View>
-              }
-              {
-                this.props.beachData.eColi > 100 &&
-                <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}>
-                </View>
-              }
-
-
+            </View>
           </View>
         </View>
-      </View>
     );
   }
 }
-
 
 class WhichImage extends React.Component {
   constructor(props) {
     super(props)
   }
+  render() {
+    let specificBeachImage;
+    let random = 0;
 
-  componentDidMount() {
-
-
-
-  }
-
-    render() {
-      let specificBeachImage;
-      let random = 0;
-      console.log('props', this.props);
-
-      if(this.props.beach === 'Sunnyside Beach') {
-        console.log('howdy!');
-        random = random + 1;
-        specificBeachImage = Images.sunnyside;
-      } else if(random === 3 || random === 11){
-        specificBeachImage = Images.cherry
-      } else {
-        random = random + 1;
-        specificBeachImage = Images.hanlans;
-      }
-      console.log('image,', specificBeachImage);
-
-        return (
-            <View>
-              <Image
-                style={styles.cardImage}
-                source={specificBeachImage}
-              />
-            </View>
-        );
+    if (this.props.beach === 'Sunnyside Beach') {
+      random = random + 1;
+      specificBeachImage = Images.sunnyside;
+    } else if (random === 3 || random === 11) {
+      specificBeachImage = Images.cherry
+    } else {
+      random = random + 1;
+      specificBeachImage = Images.hanlans;
     }
+    return (
+      <View>
+        <Image style={styles.cardImage} source={specificBeachImage}/>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: 'white',
-  //   alignItems: 'center',
-  //   justifyContent: 'center'
-  // },
-  mainText: {
-    // fontFamily: 'Chalkduster',
-    fontSize: 20,
-    marginBottom: 20,
-    marginTop: 20,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    color: 'grey'
-  },
+
   beachCard: {
     borderWidth: 1,
     borderRadius: 10,
     borderColor: 'rgb(185, 185, 185)',
-    width: 322,
+    width: 300,
     height: 320,
     marginBottom: 40,
     marginLeft: 20,
     marginRight: 20,
     backgroundColor: 'white',
     shadowColor: '#000',
-    shadowOffset:  { width: 2, height: 2 },
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
     shadowOpacity: 0.5,
     shadowRadius: 10,
-    elevation: 1,
+    elevation: 1
   },
-  beachCardEcoli: {
-    fontSize: 15,
+  beachBodyContent: {
     flex: 1,
     flexDirection: 'row',
-    marginLeft: 10,
-    marginTop: 5,
+    justifyContent: 'flex-start',
+    fontSize: 28,
+    fontWeight: 'bold',
   },
-  eColiBold : {
-    fontSize: 25,
+  eColiBold: {
+    fontSize: 35,
     marginRight: 4,
+    fontWeight: 'bold',
+    marginTop: 20,
   },
   beachConditionBlock: {
     height: 25,
     width: 25,
     borderRadius: 150,
-    marginLeft: 10,
+    marginLeft: 10
   },
   beachCardConditionUnsafe: {
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   beachCardConditionSafe: {
-    backgroundColor: 'green',
+    backgroundColor: 'green'
   },
   beachCardBody: {
     height: 90,
-    padding: 0,
+    padding: 0
   },
   cardImage: {
     height: 200,
-    width:322,
+    width: 300,
     borderTopLeftRadius: 10
   },
-  beachCardContents: {
-    shadowOpacity: 0,
-    elevation: 0
-  },
-  beachcardImage: {
-    backgroundColor: 'blue',
-    height: 200,
-
-  },
   beachCardText: {
-    // fontFamily: 'Baskerville-Bold',
     marginTop: 10,
     marginLeft: 10,
-    fontSize: 25,
+    fontSize: 30,
+    fontWeight: 'bold',
     color: 'rgb(43, 43, 43)'
   }
 });

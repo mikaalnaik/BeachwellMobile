@@ -127,7 +127,6 @@ export default class Splash extends React.Component {
           width: fullWidth,
         }}>
         <Box style={styles.box} pose={this.isVisible ? 'visible' : 'hidden'} />
-        <StatusBar hidden />
 
         <Animated.View
           style={{
