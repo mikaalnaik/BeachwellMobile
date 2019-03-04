@@ -55,15 +55,9 @@ let BeachCardDetails = (props) => {
   )
 }
 
-// Be
 let TopSection = (props) => {
   return (
     <View>
-      {/* <View>
-        <Text style={styles.beachLabel}>
-          {props.beachInfo.beachName}
-        </Text>
-      </View> */}
       <Image
         width={Dimensions.get('window').width}
         source={Images.hanlans}
@@ -86,10 +80,7 @@ let BodySection = (props) => {
 let BeachName = (props) => {
 
   goBack = () => {
-    console.log('propss', props);
-    console.log('Click Beach');
     props.nav.navigate('BeachList');
-    // props.nav.actions.navigate(' BeachList', { data: null })
   }
 
   return (
@@ -118,7 +109,6 @@ export default class BeachView extends React.Component {
 
 
   render() {
-    console.log('STYLES: ', styles);
     return (
       <View>
         <BeachName
@@ -138,17 +128,6 @@ export default class BeachView extends React.Component {
           <BodySection
             beachData={this.props.navigation.state.params.data}
           />
-        {/* <TopSection
-          beachInfo={this.props.navigation.state.params.data}
-          nav={this.props.navigation}
-        />
-
-          <View styles={styles.content}>
-            <WeatherCard/>
-            <BeachCardDetails
-              beachData={this.props.navigation.state.params.data}
-            />
-          </View> */}
         </View>
       </ScrollView>
       </View>
