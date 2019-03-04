@@ -2,7 +2,10 @@ const Images = {
     cherry: require('./cherry.jpg'),
     hanlans: require('./hanlans.jpg'),
     sunnyside: require('./sunnyside.jpg'),
-    logoMark: require('./beachLogoMark.png')
+    logoMark: require('./beachLogoMark.png'),
+    sunshine1: require('./sunshine.png'),
+    // sunshine2: require('./sunshine@2x.png'),
+    // sunshine3: require('./sunshine@3x.png'),
   };
 
 module.exports = Images;

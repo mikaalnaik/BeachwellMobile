@@ -6,75 +6,203 @@ import {
   Text,
   View,
   Dimensions,
-  Image,
+  // Image,
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
 import Images from '../assets/index';
+import Image from 'react-native-scalable-image';
 
 
+let WeatherCard = (props) => {
+  return (
+    <View style={[styles.beachViewCard, styles.cardShadow]}>
+      <Image
+        source={Images.sunshine1}
+      />
+      <Text styles={styles.temperatureCopy}>
+        23°C
+      </Text>
+      <Text>
+        8:53pm Sunset
+      </Text>
+    </View>
+  )
+}
+
+
+let BeachCardDetails = (props) => {
+  return (
+    <View style={[styles.cardShadow, styles.beachViewCard]}>
+      <Text>
+        Today's projected reading
+      </Text>
+      <Text>
+        {props.beachData.eColi} E.coli ppm -
+        the water is exeptionally clean
+      </Text>
+    </View>
+  )
+}
+
+// Be
+let TopSection = (props) => {
+  return (
+    <View>
+      {/* <View>
+        <Text style={styles.beachLabel}>
+          {props.beachInfo.beachName}
+        </Text>
+      </View> */}
+      <Image
+        width={Dimensions.get('window').width}
+        source={Images.hanlans}
+      />
+    </View>
+  )
+}
+
+let BodySection = (props) => {
+  return (
+    <View styles={styles.centerBlock}>
+      <WeatherCard />
+      <BeachCardDetails
+        beachData={props.beachData}
+      />
+    </View>
+  )
+}
+
+let BeachName = (props) => {
+
+  goBack = () => {
+    console.log('propss', props);
+    // this.props.nav.actions.goBack();
+  }
+
+  return (
+    <View>
+      <TouchableOpacity onPress={this.goBack}>
+        <Text style={styles.beachLabel}>
+          {props.name}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
 
 export default class BeachView extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      beachData: '',
+    }
+  }
   static navigationOptions = {
     header: null,
     gesturesEnabled: false
   }
 
-  goBack = () => {
-    this.props.navigation.navigate('BeachList')
-  }
+
 
   render() {
     console.log('STYLES: ', styles);
     return (
+      <View>
+        <BeachName
+          name={this.props.navigation.state.params.data.beachName}
+          nav={this.props.navigation}
+        />
       <ScrollView
         decelerationRate={0.99}
         showsVerticalScrollIndicator={true}
-        contentContainerStyle={styles.scrollContainer}
+        style={{height: '100%'}}
       >
-        {/* < View styles={styles.beachViewHeader}> */}
-          {/* <TouchableOpacity onPress={this.goBack}> */}
-            {/* <Text>
-              Go Back
-            </Text> */}
-          {/* </TouchableOpacity> */}
-          <Text style={styles.beachLabel}>
-          {'\<-'}  {this.props.navigation.state.params.data.beachName}
-          </Text>
-        {/* </View> */}
-        <Image
-          resizeMode={'contain'}
-          style={styles.beachHeaderImg}
-          source={Images.hanlans}
+        <View style={styles.componentBody}>
+          <TopSection
+            beachInfo={this.props.navigation.state.params.data}
+            nav={this.props.navigation}
+          />
+          <BodySection
+            beachData={this.props.navigation.state.params.data}
+          />
+        {/* <TopSection
+          beachInfo={this.props.navigation.state.params.data}
+          nav={this.props.navigation}
         />
+
+          <View styles={styles.content}>
+            <WeatherCard/>
+            <BeachCardDetails
+              beachData={this.props.navigation.state.params.data}
+            />
+          </View> */}
+        </View>
       </ScrollView>
+      </View>
     );
   }
 }
 
 
-
-
 const styles = StyleSheet.create({
-  scrollContainer: {
+  viewContainer: {
+    paddingTop: 35,
+  },
+  currentWeatherCard: {
+    width: '100%',
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 5,
+  },
+  componentBody: {
+    height: '100%',
+    flex: 1,
+    justifyContent: 'flex-start',
+    margin: 'auto',
+    flexDirection: 'column',
+  },
+  centerBlock: {
     flex: 1,
     alignItems: 'center',
-    flexDirection: 'column',
     justifyContent: 'flex-start',
-    paddingTop: 50,
-    paddingBottom: 20,
+    flexDirection: 'column',
+    paddingLeft: '10%',
+    paddingRight: '10%',
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  cardShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 1,
+  },
+  temperatureCopy: {
+    fontSize: 25,
+  },
+  beachViewCard : {
+    padding: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 20,
+    // width: '80%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    fontSize: 40,
   },
   beachLabel: {
     fontSize: 30,
     color: 'black',
     fontWeight: 'bold',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  beachHeaderImg: {
-    width: Dimensions.get('window').width,
-    // flex: 1  ,
-    // position: 'absolute',
+    textAlign: 'center',
+    paddingTop: 30,
+    paddingBottom: 10,
   },
 });
