@@ -16,15 +16,16 @@ import Image from 'react-native-scalable-image';
 
 let WeatherCard = (props) => {
   return (
-    <View style={[styles.beachViewCard, styles.cardShadow]}>
+    <View style={[styles.beachViewCard, styles.cardShadow, styles.row]}>
       <Image
         source={Images.sunshine1}
+        style={styles.marginRight10}
       />
-      <Text styles={styles.temperatureCopy}>
+      <Text style={[styles.boldStat, styles.marginRight10]}>
         23°C
       </Text>
       <Text>
-        8:53pm Sunset
+        Sunset at 8:53pm
       </Text>
     </View>
   )
@@ -32,14 +33,23 @@ let WeatherCard = (props) => {
 
 
 let BeachCardDetails = (props) => {
+
+  const eColiCardStyles = StyleSheet.create({
+    contentCardHeader: {
+      color: 'red'
+    }
+  })
+
   return (
     <View style={[styles.cardShadow, styles.beachViewCard]}>
-      <Text>
+      <Text style={eColiCardStyles.ccontentCardHeader}>
         Today's projected reading
       </Text>
+      <Text style={styles.boldStat}>
+        {props.beachData.eColi} E.coli ppm
+      </Text>
       <Text>
-        {props.beachData.eColi} E.coli ppm -
-        the water is exeptionally clean
+        The water is exeptionally clean
       </Text>
     </View>
   )
@@ -77,7 +87,9 @@ let BeachName = (props) => {
 
   goBack = () => {
     console.log('propss', props);
-    // this.props.nav.actions.goBack();
+    console.log('Click Beach');
+    props.nav.navigate('BeachList');
+    // props.nav.actions.navigate(' BeachList', { data: null })
   }
 
   return (
@@ -121,7 +133,7 @@ export default class BeachView extends React.Component {
         <View style={styles.componentBody}>
           <TopSection
             beachInfo={this.props.navigation.state.params.data}
-            nav={this.props.navigation}
+            nav={this.props}
           />
           <BodySection
             beachData={this.props.navigation.state.params.data}
@@ -182,13 +194,22 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 1,
   },
-  temperatureCopy: {
-    fontSize: 25,
+  marginRight10: {
+    marginRight: 10,
+  },
+  boldStat: {
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   beachViewCard : {
     padding: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 25,
+    marginRight: 25,
     marginTop: 20,
     // width: '80%',
     flexDirection: 'row',
