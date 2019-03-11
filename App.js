@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import Splash from './screens/Splash';
 import BeachList from './screens/BeachList';
 import BeachView from './screens/BeachView';
@@ -16,18 +15,8 @@ const config = {
 };
 firebase.initializeApp(config);
 
-// export default class App extends React.Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Main/>
-//       </View>
-//     );
-//   }
-// }
-
 const RootStack = createStackNavigator({
-  Home: { screen: BeachList },
+  Home: { screen: Splash },
   BeachList: { screen: BeachList },
   BeachView: { screen: BeachView },
 });

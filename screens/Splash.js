@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, ScrollView, StatusBar, Text, View, Dimensions,  Animated, Image, Easing } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Animated, Image, Easing } from 'react-native';
 import posed from 'react-native-pose';
 import Images from '../assets/index';
-let Firebase = require("firebase");
+const Firebase = require("firebase");
 require("firebase/functions");
 
 export default class Splash extends React.Component {
@@ -34,7 +34,7 @@ export default class Splash extends React.Component {
 
     let collectBeachData = Firebase.functions().httpsCallable('allBeachData');
     collectBeachData().then((result) => {
-      // console.log('result data', result);
+      console.log('result data', result);
 
       let sortedBeach = {
         'torontoIsland': [],
@@ -72,12 +72,9 @@ export default class Splash extends React.Component {
     this.animate()
      setTimeout(() => {
        if(!this.state.loading) {
-         console.log('loading done');
          this.props.navigation.navigate('BeachList' , {
            beachData: this.state.currentBeachData
          })
-       } else {
-         console.log('timed out');
        }
      }, 2200);
   }
@@ -140,14 +137,6 @@ export default class Splash extends React.Component {
           style={styles.images}
           source={Images.logoMark}
         />
-          {/* <Animated.Text style={{
-            opacity,
-            fontSize: 30,
-            marginTop: 10,
-            color: 'white'}}
-          >
-          Beachwell
-        </Animated.Text> */}
         </View>
     );
   }

@@ -151,14 +151,14 @@ export default class BeachView extends React.Component {
   }
   static navigationOptions = {
     header: null,
-    gesturesEnabled: false
+    gesturesEnabled: true
   }
 
 
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <BeachName
           name={this.props.navigation.state.params.data.beachName}
           nav={this.props.navigation}

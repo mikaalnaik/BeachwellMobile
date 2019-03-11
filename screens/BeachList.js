@@ -7,7 +7,7 @@ import {
   StatusBar,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableWithoutFeedback
 } from 'react-native';
 import BeachCard from './BeachCard';
 import posed from 'react-native-pose';
@@ -16,11 +16,6 @@ export default class BeachList extends React.Component {
   static navigationOptions = {
     header: null,
     gesturesEnabled: false
-  }
-
-
-  switchScreens(evt) {
-    // console.log('evvtt', evt);
   }
 
   beachFocus = (beach) => {
@@ -38,27 +33,32 @@ export default class BeachList extends React.Component {
         >
 
         <View style={[styles.container, {width:this.fullWidth}]}>
-          <Text style={styles.greetingText}>
-            Explore today's beach water quality for Toronto
-          </Text>
 
-        <Text style={styles.beachAreaText}>
-            Toronto Island
-          </Text>
+          <View style={styles.headerCopy}>
+            <Text style={[styles.greetingText, styles.areaContainer]}>
+              Explore today's beach water quality for Toronto
+            </Text>
+            <Text style={[styles.beachAreaText, styles.areaContainer]}>
+              Toronto Island
+            </Text>
+          </View>
+
           <View style={styles.areaContainer}>
             <FlatList
               data={data.torontoIsland}
               keyExtractor={(item) => item.beachId}
               renderItem={({item, index}) =>
-              <TouchableOpacity
-                onPress={() => this.beachFocus(item)}
-                key={item.beachId.toString()}
-              >
-                <BeachCard
-
-                  beachData={item}
-                />
-              </TouchableOpacity>}
+                <TouchableWithoutFeedback
+                  onPress={() => this.beachFocus(item)}
+                  key={item.beachId.toString()}
+                >
+                  <View>
+                    <BeachCard
+                      beachData={item}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              }
             />
           </View>
             <Text style={styles.beachAreaText}>
@@ -69,14 +69,16 @@ export default class BeachList extends React.Component {
                 data={data.westToronto}
                 keyExtractor={(item) => item.beachId}
                 renderItem={({item , index}) =>
-                <TouchableOpacity
+                <TouchableWithoutFeedback
                   onPress={() => this.beachFocus(item)}
                   key={item.beachId.toString()}
                  >
-                  <BeachCard
-                    beachData={item}
-                  />
-                </TouchableOpacity>}
+                   <View>
+                      <BeachCard
+                        beachData={item}
+                      />
+                  </View>
+                </TouchableWithoutFeedback>}
               />
             </View>
 
@@ -88,14 +90,16 @@ export default class BeachList extends React.Component {
                 data={data.eastToronto}
                 keyExtractor={(item) => item.beachId}
                 renderItem={({item, index}) =>
-                <TouchableOpacity
+                <TouchableWithoutFeedback
                   onPress={() => this.beachFocus(item)}
                   key={item.beachId.toString()}
                 >
-                  <BeachCard
-                    beachData={item}
-                  />
-                </TouchableOpacity>}
+                  <View>
+                    <BeachCard
+                      beachData={item}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>}
               />
             </View>
         </View>
@@ -108,10 +112,10 @@ const styles = StyleSheet.create({
   container: {
     // margin: 0,
     width: '100%',
-    // flex: 1,
+    flex: 1,
     // backgroundColor: 'white',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 15,
     textAlign: 'left',
 
@@ -123,24 +127,24 @@ const styles = StyleSheet.create({
   },
   greetingText: {
     fontSize: 25,
-    width: 300,
+    // width: 300,
     marginBottom: 20,
     marginTop: 20,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'flex-start',
     color: 'black',
   },
   beachAreaText: {
-    marginLeft: 10,
-    color: 'black',
     fontSize: 20,
-    flex: 2,
-    alignItems: 'center',
     justifyContent: 'flex-start',
     fontWeight: '300',
     marginTop: 20,
     marginBottom: 20,
+  },
+  headerCopy: {
+    flex: 1,
+    width: 300,
   },
 });
 
