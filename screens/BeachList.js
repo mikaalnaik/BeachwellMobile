@@ -18,15 +18,12 @@ export default class BeachList extends React.Component {
     gesturesEnabled: false
   }
 
-  handleScroll(evt) {
-    // console.log('scroll', evt);
-  }
+
   switchScreens(evt) {
     // console.log('evvtt', evt);
   }
 
   beachFocus = (beach) => {
-    console.log('Click Beach');
     this.props.navigation.navigate('BeachView', { data: beach })
   }
 
@@ -35,7 +32,7 @@ export default class BeachList extends React.Component {
     let fullWidth = Dimensions.get('window').width;
 
     return (
-      <ScrollView onScroll={this.handleScroll.bind(this)}
+      <ScrollView
         decelerationRate={0.99}
         showsVerticalScrollIndicator={true}
         >
@@ -67,37 +64,40 @@ export default class BeachList extends React.Component {
             <Text style={styles.beachAreaText}>
               West Toronto
             </Text>
-            <FlatList
-              data={data.westToronto}
-              keyExtractor={(item) => item.beachId}
-              renderItem={({item , index}) =>
-              <TouchableOpacity
-                onPress={() => this.beachFocus(item)}
-                key={item.beachId.toString()}
-               >
-                <BeachCard
-                  beachData={item}
-                />
-              </TouchableOpacity>}
-            />
-
+            <View style={styles.areaContainer}>
+              <FlatList
+                data={data.westToronto}
+                keyExtractor={(item) => item.beachId}
+                renderItem={({item , index}) =>
+                <TouchableOpacity
+                  onPress={() => this.beachFocus(item)}
+                  key={item.beachId.toString()}
+                 >
+                  <BeachCard
+                    beachData={item}
+                  />
+                </TouchableOpacity>}
+              />
+            </View>
 
             <Text style={styles.beachAreaText}>
               East Toronto
             </Text>
-          <FlatList
-            data={data.eastToronto}
-            keyExtractor={(item) => item.beachId}
-            renderItem={({item, index}) =>
-            <TouchableOpacity
-              onPress={() => this.beachFocus(item)}
-              key={item.beachId.toString()}
-            >
-              <BeachCard
-                beachData={item}
+            <View style={styles.areaContainer}>
+              <FlatList
+                data={data.eastToronto}
+                keyExtractor={(item) => item.beachId}
+                renderItem={({item, index}) =>
+                <TouchableOpacity
+                  onPress={() => this.beachFocus(item)}
+                  key={item.beachId.toString()}
+                >
+                  <BeachCard
+                    beachData={item}
+                  />
+                </TouchableOpacity>}
               />
-            </TouchableOpacity>}
-          />
+            </View>
         </View>
       </ScrollView>
     );

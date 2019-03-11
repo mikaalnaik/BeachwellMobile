@@ -12,7 +12,16 @@ import {
 } from 'react-native';
 import Images from '../assets/index';
 import Image from 'react-native-scalable-image';
+import BeachImageSelector from '../components/BeachImageSelector';
 import { BarChart, Grid } from 'react-native-svg-charts'
+
+
+// const beachMap = {
+//   "Hanlan's Point Beach" : 'hanlans',
+//   "Gibraltar Point Beach" : 'gibraltar',
+//   "Sunnyside Beach" : 'sunnyside',
+//   "Cherry Beach" : 'cherry',
+// }
 
 
 let WeatherCard = (props) => {
@@ -36,13 +45,14 @@ let WeatherCard = (props) => {
 
 let BarChartExample = () => {
   const fill = 'rgb(134, 65, 244)'
-  const data   = [ 50, 10, 40, 95, -4, -24, null, 85, undefined, 0, 35, 53, -53, 24, 50, -20, -80 ]
+  const data   = [ 50, 0 ]
 
   return (
       <BarChart
           style={{ height: 200 }}
           data={ data }
           svg={{ fill }}
+          horizontal={true}
           contentInset={{ top: 30, bottom: 30 }}
       >
           <Grid/>
@@ -69,10 +79,25 @@ let BeachCardDetails = (props) => {
       <Text>
         The water is exeptionally clean
       </Text>
-
+      <BarChartExample/>
     </View>
   )
 }
+
+
+// let BeachImage = (props) => {
+//
+//   console.log('beach image props', props);
+//   return (
+//     <View>
+//       <Image
+//         width={Dimensions.get('window').width}
+//         source={Images[beachMap[props.image.beachInfo.beachName]]}
+//       />
+//     </View>
+//   )
+//
+// }
 
 let TopSection = (props) => {
   return (
@@ -81,6 +106,10 @@ let TopSection = (props) => {
         width={Dimensions.get('window').width}
         source={Images.hanlans}
       />
+      {/* <BeachImageSelector
+        image={props}
+        specificBeachView={true}
+      /> */}
     </View>
   )
 }
@@ -147,7 +176,7 @@ export default class BeachView extends React.Component {
           <BodySection
             beachData={this.props.navigation.state.params.data}
           />
-          <BarChartExample/>
+
         </View>
       </ScrollView>
       </View>

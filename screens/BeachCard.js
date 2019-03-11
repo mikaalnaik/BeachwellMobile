@@ -12,6 +12,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 // import cherryBeach from './assets/cherry.jpg'
+import BeachImageSelector from '../components/BeachImageSelector';
+
 import Images from '../assets/index';
 
 export default class BeachCard extends React.Component {
@@ -30,6 +32,10 @@ export default class BeachCard extends React.Component {
   render() {
     return (
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
+          {/* <BeachImageSelector
+            image={this.props}
+            beachList={true}
+          /> */}
             <WhichImage beach={this.props.beachData.beachName}/>
           <View style={styles.beachCardBody}>
             <Text style={styles.beachCardText}>
@@ -53,21 +59,26 @@ class WhichImage extends React.Component {
     super(props)
   }
   render() {
-    let specificBeachImage;
-    let random = 0;
-
-    if (this.props.beach === 'Sunnyside Beach') {
-      random = random + 1;
-      specificBeachImage = Images.sunnyside;
-    } else if (random === 3 || random === 11) {
-      specificBeachImage = Images.cherry
-    } else {
-      random = random + 1;
-      specificBeachImage = Images.hanlans;
+    const beachMap = {
+      "Hanlan's Point Beach" : 'hanlans',
+      "Gibraltar Point Beach" : 'gibraltar',
+      "Sunnyside Beach" : 'sunnyside',
+      "Cherry Beach" : 'cherry',
+      "Woodbine Beaches" : 'hanlans',
+      "Marie Curtis Park East Beach" : 'gibraltar',
+      "Ward's Island Beach" : 'sunnyside',
+      "Centre Island Beach" : 'cherry',
+      "Kew Balmy Beach" : 'hanlans',
+       "Bluffer's Beach Park": 'gibraltar',
+      "Rouge Beach" : 'sunnyside',
     }
+
     return (
       <View>
-        <Image style={styles.cardImage} source={specificBeachImage}/>
+        <Image
+          style={styles.cardImage}
+          source={Images[beachMap[this.props.beach]]}
+        />
       </View>
     );
   }
@@ -84,6 +95,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginLeft: 20,
     marginRight: 20,
+    // overflow: 'hidden',
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
@@ -126,7 +138,8 @@ const styles = StyleSheet.create({
   cardImage: {
     height: 200,
     width: 300,
-    borderTopLeftRadius: 10
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   beachCardText: {
     marginTop: 10,
