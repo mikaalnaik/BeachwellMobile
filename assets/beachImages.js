@@ -5,6 +5,7 @@ const Images = {
     logoMark: require('./beachLogoMark.png'),
     sunshine1: require('./sunshine.png'),
     gibraltar: require('./gibraltar.png'),
+
     // sunshine2: require('./sunshine@2x.png'),
     // sunshine3: require('./sunshine@3x.png'),
   };

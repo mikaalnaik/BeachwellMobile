@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Animated, Image, Easing } from 'react-native';
 import posed from 'react-native-pose';
-import Images from '../assets/index';
+import Images from '../assets/beachImages';
 const Firebase = require("firebase");
 require("firebase/functions");
 

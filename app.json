@@ -14,6 +14,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "androidStatusBar": {
+     "backgroundColor": "#C2185B"
+   },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

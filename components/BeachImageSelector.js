@@ -4,7 +4,7 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import Images from '../assets/index';
+import Images from '../assets/beachImages';
 import Image from 'react-native-scalable-image';
 
 
