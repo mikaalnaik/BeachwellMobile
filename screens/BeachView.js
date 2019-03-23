@@ -14,13 +14,13 @@ import WeatherImages from '../assets/weatherImages.js';
 import Image from 'react-native-scalable-image';
 import BeachImageSelector from '../components/BeachImageSelector';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
-import * as scale from 'd3-scale'
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLabel, VictoryTheme } from "victory-native";
+import * as scale from 'd3-scale';
+import _ from 'lodash';
 
 let WeatherCard = (props) => {
   const temp = Math.floor(props.weatherData.data.main.temp - 273.15);
   const sunset = new Date(props.weatherData.data.sys.sunset).toLocaleTimeString("en-US")
-  console.log({temp});
-  console.log({sunset});
   return (<View style={[styles.beachViewCard, styles.cardShadow, styles.row]}>
     <WeatherIcon weatherType={props.weatherData.data.weather[0].description}/>
     <Text style={[styles.boldStat, styles.marginRight10]}>
@@ -46,8 +46,6 @@ let WeatherIcon = (props) => {
     'snow': 'storm',
     'mist': 'rain'
   }
-  console.log('weatherType', props.weatherType);
-  console.log('weather icon porops', WeatherImages[weatherTypes[props.weatherType]]);
   return (
     <Image
       source={WeatherImages[weatherTypes[props.weatherType]]}
@@ -57,22 +55,69 @@ let WeatherIcon = (props) => {
 }
 
 let PredictedEcoliChart = (props) => {
-  const fill = 'rgb(65, 174, 244)'
-  const data = [50]
 
-  return (<BarChart style={{
-      height: 100
-    }} data={data} svg={{
-      fill
-    }} xAccessor={(item) => {
-      console.log('howdy!');
-      return item;
-    }} yMax={500} animate={true} horizontal={true} contentInset={{
-      top: 30,
-      bottom: 30
-    }}>
-    <Grid/>
-  </BarChart>)
+
+  const eColiCardStyles = StyleSheet.create({
+    todayChartContainer: {
+      flex: .5,
+      height: 50,
+      display: 'flex',
+      marginRight: 0,
+      right: 20,
+      //left: 20,
+      paddingTop: 20,
+      paddingLeft: 40,
+      width: 80,
+      alignSelf: 'center',
+      alignContent: 'center',
+    },
+  })
+
+  const data = props.currentEcoliReading
+  let topOfDomain;
+  let xTickValues;
+
+  if (data < 100 ) {
+    topOfDomain = 120;
+  } else {
+    topOfDomain = Number(data) + 35;
+  }
+
+  xTickValues = _.range(0, topOfDomain , 10);
+
+  return (
+    <View>
+     <VictoryChart
+      height={100}
+      width={350}
+      horizontal={true}
+      containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
+     >
+      <VictoryBar
+        animate={{ duration: 2000 }}
+        data={[data]}
+        barWidth={40}
+        alignment="start"
+        height={100}
+        width={150}
+        style={{
+          data: {
+            fill: (data) => data._y > 100 ? "#c43a31" : "#21984F",
+          }
+        }}
+      />
+       <VictoryAxis
+          responsive={false}
+          dependentAxis
+          height={100}
+          width={150}
+          tickValues={xTickValues}
+          orientation={'bottom'}
+          padding={{left: 40, right: 40, bottom: 0, top: 0}}
+        />
+     </VictoryChart>
+   </View>
+)
 }
 
 let BeachCardDetails = (props) => {
@@ -92,23 +137,25 @@ let BeachCardDetails = (props) => {
     <Text>
       The water is exeptionally clean
     </Text>
-    {/* <PredictedEcoliChart currentEcoliReading={props.beachData.eColi}/> */}
+    <PredictedEcoliChart
+      currentEcoliReading={props.beachData.eColi}
+    />
   </View>)
 }
 
-// let BeachImage = (props) => {
-//
-//   console.log('beach image props', props);
-//   return (
-//     <View>
-//       <Image
-//         width={Dimensions.get('window').width}
-//         source={Images[beachMap[props.image.beachInfo.beachName]]}
-//       />
-//     </View>
-//   )
-//
-// }``
+let BeachImage = (props) => {
+
+  console.log('beach image props', props);
+  return (
+    <View>
+      <Image
+        width={Dimensions.get('window').width}
+        source={Images[beachMap[props.image.beachInfo.beachName]]}
+      />
+    </View>
+  )
+
+}
 
 let TopSection = (props) => {
   return (<View>
@@ -204,6 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 5
   },
+
   componentBody: {
     height: '100%',
     flex: 1,
@@ -245,6 +293,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   beachViewCard: {
+    flex: 1,
+    flexDirection: 'column',
     padding: 20,
     marginTop: 20,
     width: '80%',
