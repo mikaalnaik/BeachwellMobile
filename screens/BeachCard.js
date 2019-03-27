@@ -25,6 +25,7 @@ export default class BeachCard extends React.Component {
   }
 
   render() {
+    console.log('beach card is trying');
     return (
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
           <WhichImage beach={this.props.beachData.beachName}/>

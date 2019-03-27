@@ -16,7 +16,7 @@ const config = {
 firebase.initializeApp(config);
 
 const RootStack = createStackNavigator({
-  Home: { screen: BeachList },
+  Home: { screen: Splash },
   BeachList: { screen: BeachList },
   BeachView: { screen: BeachView },
 });

@@ -5,6 +5,36 @@ import Images from '../assets/beachImages';
 const Firebase = require("firebase");
 require("firebase/functions");
 
+
+const BEACH_NAMES = {
+  1: "Marie Curtis Park East Beach",
+  2: "Sunnyside Beach",
+  3: "Hanlan's Point Beach",
+  4: "Gibraltar Point Beach",
+  5: "Centre Island Beach",
+  6: "Ward's Island Beach",
+  7: "Woodbine Beaches",
+  8:"Kew Balmy Beach",
+  9:"Bluffer's Beach Park",
+  10:"Rouge Beach",
+  11:"Cherry Beach",
+}
+
+const BEACH_AREAS = {
+  1: "eastToronto",
+  2: "eastToronto",
+  3: "torontoIsland",
+  4: "torontoIsland",
+  5: "torontoIsland",
+  6: "torontoIsland",
+  7: "westToronto",
+  8: "westToronto",
+  9: "westToronto",
+  10: "westToronto",
+  11: "westToronto",
+}
+
+
 export default class Splash extends React.Component {
   static navigationOptions = {
      header: null
@@ -30,53 +60,45 @@ export default class Splash extends React.Component {
   }
 
   componentDidMount () {
-    const isVisible = false;
-
-    let collectBeachData = Firebase.functions().httpsCallable('allBeachData');
-    collectBeachData().then((result) => {
-      console.log('result data', result);
-
-      let sortedBeach = {
-        'torontoIsland': [],
-        'westToronto': [],
-        'eastToronto': [],
-      };
-      result.data.forEach(beach => {
-        switch (beach.beachId) {
-          case '1':
-          case '2':
-            sortedBeach['westToronto'].push(beach);
-            break;
-          case '3':
-          case '4':
-          case '5':
-          case '6':
-          case '7':
-            sortedBeach['torontoIsland'].push(beach);
-            break;
-          case '8':
-          case '9':
-          case '10':
-          case '11':
-            sortedBeach['eastToronto'].push(beach);
-          break;
+    let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
+    collectAllDataFromServer().then((result) => {
+      let formatedBeachData = result.data.beachToday.elements[0].elements[1].elements.map((beach, index) => {
+        if(index > 0) {
+          let beachData = {
+             beachId: beach.attributes.beachId,
+             beachName: BEACH_NAMES[beach.attributes.beachId],
+             condition: beach.elements[4].elements[0].text,
+             date: beach.elements[0].elements[0].text,
+             eColi: beach.elements[2].elements[0].text,
+          }
+          return beachData
         }
       })
-
+      formatedBeachData.shift()
+      let beachData = {
+        eastToronto: [],
+        torontoIsland: [],
+        westToronto: [],
+      }
+      formatedBeachData.forEach(beach => {
+        beachData[BEACH_AREAS[beach.beachId]].push(beach)
+      })
       this.setState({
-        currentBeachData: sortedBeach,
+        weatherData: result.data.weatherData,
+        beachToday: beachData,
+        beach14: result.data.beach14,
         loading: false,
       })
+      if(!this.state.loading) {
+        this.props.navigation.navigate('BeachList' , {
+          weatherData: this.state.weatherData,
+          beachToday: this.state.beachToday,
+          beach14: result.data.beach14,
+        })
+      }
     })
 
     this.animate()
-     setTimeout(() => {
-       if(!this.state.loading) {
-         this.props.navigation.navigate('BeachList' , {
-           beachData: this.state.currentBeachData
-         })
-       }
-     }, 2200);
   }
 
   render() {

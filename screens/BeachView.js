@@ -14,22 +14,22 @@ import WeatherImages from '../assets/weatherImages.js';
 import Image from 'react-native-scalable-image';
 import BeachImageSelector from '../components/BeachImageSelector';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLabel, VictoryTheme } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
 import * as scale from 'd3-scale';
 import _ from 'lodash';
 
 let WeatherCard = (props) => {
-  const temp = Math.floor(props.weatherData.data.main.temp - 273.15);
-  const sunset = new Date(props.weatherData.data.sys.sunset).toLocaleTimeString("en-US")
-  return (<View style={[styles.beachViewCard, styles.cardShadow, styles.row]}>
-    <WeatherIcon weatherType={props.weatherData.data.weather[0].description}/>
-    <Text style={[styles.boldStat, styles.marginRight10]}>
-      {temp}°C
-    </Text>
-    <Text style={styles.sunset}>
-      Sunset at {sunset}
-    </Text>
-  </View>)
+  return (
+    <View style={[styles.beachViewCard, styles.cardShadow, styles.row]}>
+      <WeatherIcon weatherType={props.weatherData.weather[0].description}/>
+      <Text style={[styles.boldStat, styles.marginRight10]}>
+        {Math.floor(props.weatherData.main.temp - 273.15)}°C
+      </Text>
+      <Text style={styles.sunset}>
+        Sunset at {new Date(props.weatherData.sys.sunset).toLocaleTimeString("en-US")}
+      </Text>
+    </View>
+  )
 }
 
 let WeatherIcon = (props) => {
@@ -54,8 +54,8 @@ let WeatherIcon = (props) => {
   )
 }
 
-let PredictedEcoliChart = (props) => {
 
+let PredictedEcoliChart = (props) => {
 
   const eColiCardStyles = StyleSheet.create({
     todayChartContainer: {
@@ -64,7 +64,6 @@ let PredictedEcoliChart = (props) => {
       display: 'flex',
       marginRight: 0,
       right: 20,
-      //left: 20,
       paddingTop: 20,
       paddingLeft: 40,
       width: 80,
@@ -79,11 +78,12 @@ let PredictedEcoliChart = (props) => {
 
   if (data < 100 ) {
     topOfDomain = 120;
+    xTickValues = _.range(0, topOfDomain , 10);
   } else {
     topOfDomain = Number(data) + 35;
+      xTickValues = _.range(0, topOfDomain , 25);
   }
 
-  xTickValues = _.range(0, topOfDomain , 10);
 
   return (
     <View>
@@ -94,7 +94,7 @@ let PredictedEcoliChart = (props) => {
       containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
      >
       <VictoryBar
-        animate={{ duration: 2000 }}
+        animate={{ duration: 1000 }}
         data={[data]}
         barWidth={40}
         alignment="start"
@@ -131,7 +131,7 @@ let BeachCardDetails = (props) => {
       Today's projected reading
     </Text>
     <Text style={styles.boldStat}>
-      {props.beachData.eColi}
+      {props.beachData.eColi} {' '}
       E.coli ppm
     </Text>
     <Text>
@@ -143,9 +143,46 @@ let BeachCardDetails = (props) => {
   </View>)
 }
 
-let BeachImage = (props) => {
 
-  console.log('beach image props', props);
+let PastFiveDays = (props) => {
+
+  return (
+    <View style={[styles.cardShadow, styles.beachViewCard]}>
+      <VictoryChart
+        height={200}
+        width={350}
+      >
+        <VictoryLine
+          height={200}
+          animate={{ duration: 1000 }}
+          interpolation="natural"
+          style={{
+            data: { stroke: "blue" },
+            parent: { border: "1px solid #ccc"}
+          }}
+          data={[
+            { x: '06/14', y: 12 },
+            { x: '06/15', y: 32 },
+            { x: '06/16', y: 15 },
+            { x: '06/17', y: 40 },
+            { x: '06/18', y: 70  },
+            { x: '06/19', y: 12 },
+            { x: '06/20', y: 32 },
+            { x: '06/21', y: 15 },
+            { x: '06/22', y: 40 },
+            { x: '06/23', y: 70  },
+            { x: '06/24', y: 32 },
+            { x: '06/25', y: 15 },
+            { x: '06/26', y: 40 },
+            { x: '06/27', y: 70  },
+          ]}
+        />
+      </VictoryChart>
+    </View>
+  )
+}
+
+let BeachImage = (props) => {
   return (
     <View>
       <Image
@@ -158,17 +195,15 @@ let BeachImage = (props) => {
 }
 
 let TopSection = (props) => {
-  return (<View>
-    <Image width={Dimensions.get('window').width} source={Images.hanlans}/>
-     {/* <BeachImageSelector
-        image={props}
-        specificBeachView={true}
-      /> */
-    }
-  </View>)
+  return (
+    <View>
+      <Image width={Dimensions.get('window').width} source={Images.hanlans}/>
+    </View>
+  )
 }
 
 let BodySection = (props) => {
+  console.log('body section props', props);
   return (<View style={styles.centerBlock}>
     <WeatherCard weatherData={props.weatherData}/>
     <BeachCardDetails beachData={props.beachData}/>
@@ -203,12 +238,8 @@ export default class BeachView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('beach view', this.state);
-    // console.log('beach props', this.props);
-  }
-
-  componentWillUnmount() {
-    console.log('Unmount Beach View');
+    console.log('beachViewState', this.state);
+    console.log('BeachViewProps', this.props);
   }
 
   render() {
@@ -230,6 +261,8 @@ export default class BeachView extends React.Component {
           <BodySection
             beachData={this.props.navigation.state.params.data}
             weatherData={this.props.navigation.state.params.weather}
+          />
+          <PastFiveDays
           />
         </View>
       </ScrollView>
