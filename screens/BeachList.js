@@ -72,7 +72,7 @@ export default class BeachList extends React.Component {
   }
 
   componentDidMount() {
-    console.log('HOWdy folks please work');
+    // console.log('HOWdy folks please work');
     this.setState({
       position: 'LEFT',
       visible: true,
@@ -83,7 +83,8 @@ export default class BeachList extends React.Component {
   beachFocus = (beach) => {
     this.props.navigation.navigate('BeachView', {
       data: beach,
-      weather: this.props.navigation.state.params.weatherData
+      weather: this.props.navigation.state.params.weatherData,
+      pastResults: this.props.navigation.state.params.beach14[beach.beachId],
     })
   }
 

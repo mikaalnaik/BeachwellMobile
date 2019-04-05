@@ -5,7 +5,13 @@ const Images = {
     logoMark: require('./beachLogoMark.png'),
     sunshine1: require('./sunshine.png'),
     gibraltar: require('./gibraltar.png'),
-
+    kewbalmy: require('./kewbalmy.jpg'),
+    mariecurtis: require('./mariecurtis.jpg'),
+    rouge: require('./rouge.jpg'),
+    wards: require('./wards.jpg'),
+    woodbine: require('./woodbine.jpg'),
+    center: require('./centre-island.jpg'),
+    bluffs: require('./bluffs.jpg'),
     // sunshine2: require('./sunshine@2x.png'),
     // sunshine3: require('./sunshine@3x.png'),
   };

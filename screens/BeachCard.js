@@ -25,14 +25,25 @@ export default class BeachCard extends React.Component {
   }
 
   render() {
-    console.log('beach card is trying');
+
+    console.log('beach name', this.props.beachData.beachName);
     return (
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
           <WhichImage beach={this.props.beachData.beachName}/>
           <View style={styles.beachCardBody}>
-            <Text style={styles.beachCardText}>
-              {this.props.beachData.beachName}
-            </Text>
+
+              {
+                this.props.beachData.beachName === 'Marie Curtis Park East Beach' &&
+                  <Text style={styles.beachCardText}>
+                    Marie Curtis Park
+                  </Text>
+              }
+              {
+                this.props.beachData.beachName !== 'Marie Curtis Park East Beach' &&
+                <Text style={styles.beachCardText}>
+                  {this.props.beachData.beachName}
+                </Text>
+              }
             <View style={styles.beachBodyContent}>
               {this.props.beachData.eColi < 100 && <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}/>}
               {this.props.beachData.eColi > 100 && <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}/>}
@@ -56,17 +67,17 @@ class WhichImage extends React.Component {
       "Gibraltar Point Beach" : 'gibraltar',
       "Sunnyside Beach" : 'sunnyside',
       "Cherry Beach" : 'cherry',
-      "Woodbine Beaches" : 'hanlans',
-      "Marie Curtis Park East Beach" : 'gibraltar',
-      "Ward's Island Beach" : 'sunnyside',
-      "Centre Island Beach" : 'cherry',
-      "Kew Balmy Beach" : 'hanlans',
-       "Bluffer's Beach Park": 'gibraltar',
-      "Rouge Beach" : 'sunnyside',
+      "Woodbine Beaches" : 'woodbine',
+      "Marie Curtis Park East Beach" : 'mariecurtis',
+      "Ward's Island Beach" : 'wards',
+      "Centre Island Beach" : 'center',
+      "Kew Balmy Beach" : 'kewbalmy',
+      "Bluffer's Beach Park": 'bluffs',
+      "Rouge Beach" : 'rouge',
     }
 
     return (
-      <View>
+      <View style={styles.cardImageBorder}>
         <Image
           style={styles.cardImage}
           source={Images[beachMap[this.props.beach]]}
@@ -79,40 +90,42 @@ class WhichImage extends React.Component {
 const styles = StyleSheet.create({
 
   beachCard: {
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 10,
-    borderColor: 'rgb(185, 185, 185)',
+    // borderColor: 'rgb(185, 185, 185)',
     width: 300,
-    height: 320,
+    height: 290,
     marginBottom: 40,
     marginLeft: 20,
     marginRight: 20,
     // overflow: 'hidden',
     backgroundColor: 'white',
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
-      width: 2,
-      height: 2
+    	width: 0,
+    	height: 3,
     },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 1
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
+  },
+  cardImageBorder: {
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    overflow: 'hidden',
   },
   beachBodyContent: {
     flex: 1,
-    // backgroundColor: 'red',
     flexDirection: 'row',
-    // justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    // fontSize: 28,
     fontWeight: 'bold',
   },
   eColiBold: {
     fontSize: 23,
     marginLeft: 4,
     fontWeight: 'bold',
-    // marginTop: 20,
   },
   beachConditionBlock: {
     height: 25,
@@ -126,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green'
   },
   beachCardBody: {
-    height: 120,
+    height: 90,
     padding: 15,
     paddingTop: 5,
   },
@@ -138,8 +151,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   beachCardText: {
-    // marginTop: 10,
-    // marginLeft: 10,
     fontSize: 31,
     fontWeight: 'bold',
     color: 'rgb(43, 43, 43)'

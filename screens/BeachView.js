@@ -86,11 +86,12 @@ let PredictedEcoliChart = (props) => {
 
 
   return (
-    <View>
+    <View pointerEvents="none">
      <VictoryChart
       height={100}
       width={350}
       horizontal={true}
+      theme={VictoryTheme.material}
       containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
      >
       <VictoryBar
@@ -122,9 +123,20 @@ let PredictedEcoliChart = (props) => {
 
 let BeachCardDetails = (props) => {
 
-  const eColiCardStyles = StyleSheet.create({contentCardHeader: {
-      // color: 'red'
-    }})
+  const eColiCardStyles = StyleSheet.create({
+    todayChartContainer: {
+      flex: .5,
+      height: 50,
+      display: 'flex',
+      marginRight: 0,
+      right: 20,
+      paddingTop: 20,
+      paddingLeft: 40,
+      width: 80,
+      alignSelf: 'center',
+      alignContent: 'center',
+    },
+  })
 
   return (<View style={[styles.cardShadow, styles.beachViewCard]}>
     <Text style={eColiCardStyles.contentCardHeader}>
@@ -146,67 +158,120 @@ let BeachCardDetails = (props) => {
 
 let PastFiveDays = (props) => {
 
+  const eColiCardStyles = StyleSheet.create({
+    todayChartContainer: {
+      flex: .5,
+      height: 50,
+      display: 'flex',
+      marginRight: 0,
+      right: 20,
+      paddingTop: 20,
+      paddingLeft: 40,
+      width: 80,
+      alignSelf: 'center',
+      alignContent: 'center',
+    },
+  })
+
+  console.log('past14', props.pastResults);
+  let dataForChart = [];
+  props.pastResults.forEach(day => {
+    dataForChart.push({x: day.sampleDate, y: Number(day.eColiCount)})
+  })
+  dataForChart = dataForChart.reverse();
+
+  const latestReadingFromCity = props.pastResults[0].eColiCount
   return (
-    <View style={[styles.cardShadow, styles.beachViewCard]}>
-      <VictoryChart
-        height={200}
-        width={350}
-      >
-        <VictoryLine
+    <View style={[styles.cardShadow, styles.beachViewCard]} pointerEvents="none">
+      <Text style={eColiCardStyles.contentCardHeader}>
+        LATEST READING FROM THE CITY
+      </Text>
+      <Text style={styles.boldStat}>
+        Sampled Yesterday
+      </Text>
+      <Text style={styles.boldStat}>
+        {latestReadingFromCity}{' '}
+        E.coli ppm
+      </Text>
+      <View style={styles.chartContainer}>
+        <VictoryChart
           height={200}
-          animate={{ duration: 1000 }}
-          interpolation="natural"
-          style={{
-            data: { stroke: "blue" },
-            parent: { border: "1px solid #ccc"}
-          }}
-          data={[
-            { x: '06/14', y: 12 },
-            { x: '06/15', y: 32 },
-            { x: '06/16', y: 15 },
-            { x: '06/17', y: 40 },
-            { x: '06/18', y: 70  },
-            { x: '06/19', y: 12 },
-            { x: '06/20', y: 32 },
-            { x: '06/21', y: 15 },
-            { x: '06/22', y: 40 },
-            { x: '06/23', y: 70  },
-            { x: '06/24', y: 32 },
-            { x: '06/25', y: 15 },
-            { x: '06/26', y: 40 },
-            { x: '06/27', y: 70  },
-          ]}
-        />
-      </VictoryChart>
+          width={300}
+          padding={40}
+          theme={VictoryTheme.material}
+          domainPadding={20}
+          animate={{ duration: 2000,  }}
+          containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
+        >
+          <VictoryLine
+            height={200}
+            interpolation="natural"
+            style={{
+              data: { stroke: "rgb(19, 55, 116)" },
+              parent: { border: "1px solid #ccc"}
+            }}
+            data={dataForChart}
+          />
+          <VictoryAxis
+            style={{
+              tickLabels: {
+                fontSize: 10,
+                paddingTop: 45,
+                paddingLeft: 15,
+                angle: 45,
+                marginTop: 90,
+              }
+            }}
+            // padding={{left: 40, right: 40, top: 180}}
+            // offsetY={20}
+            tickCount={7}
+          />
+          <VictoryAxis
+            dependentAxis
+          />
+        </VictoryChart>
+      </View>
     </View>
   )
-}
-
-let BeachImage = (props) => {
-  return (
-    <View>
-      <Image
-        width={Dimensions.get('window').width}
-        source={Images[beachMap[props.image.beachInfo.beachName]]}
-      />
-    </View>
-  )
-
 }
 
 let TopSection = (props) => {
-  return (
-    <View>
-      <Image width={Dimensions.get('window').width} source={Images.hanlans}/>
-    </View>
-  )
-}
+  console.log('top section props', props);
+      const beachMap = {
+        "Hanlan's Point Beach" : 'hanlans',
+        "Gibraltar Point Beach" : 'gibraltar',
+        "Sunnyside Beach" : 'sunnyside',
+        "Cherry Beach" : 'cherry',
+        "Woodbine Beaches" : 'woodbine',
+        "Marie Curtis Park East Beach" : 'mariecurtis',
+        "Ward's Island Beach" : 'wards',
+        "Centre Island Beach" : 'center',
+        "Kew Balmy Beach" : 'kewbalmy',
+        "Bluffer's Beach Park": 'bluffs',
+        "Rouge Beach" : 'rouge',
+
+      }
+
+      return (
+        <View>
+          <Image
+            style={styles.cardImage}
+            width={Dimensions.get('window').width}
+            source={Images[beachMap[props.nav.navigation.state.params.data.beachName]]}
+          />
+        </View>
+      );
+    }
+
 
 let BodySection = (props) => {
-  console.log('body section props', props);
+  // console.log('body section props', props);
   return (<View style={styles.centerBlock}>
     <WeatherCard weatherData={props.weatherData}/>
     <BeachCardDetails beachData={props.beachData}/>
+    <PastFiveDays
+      pastResults={props.pastResults}
+    />
   </View>)
 }
 
@@ -216,13 +281,15 @@ let BeachName = (props) => {
     props.nav.goBack();
   }
 
-  return (<View>
-    <TouchableOpacity onPress={this.goBack}>
-      <Text style={styles.beachLabel}>
-        {props.name}
-      </Text>
-    </TouchableOpacity>
-  </View>)
+  return (
+    <View>
+      <TouchableOpacity onPress={this.goBack}>
+        <Text style={styles.beachLabel}>
+          {props.name}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 export default class BeachView extends React.Component {
@@ -235,11 +302,6 @@ export default class BeachView extends React.Component {
   static navigationOptions = {
     header: null,
     gesturesEnabled: true
-  }
-
-  componentDidMount() {
-    console.log('beachViewState', this.state);
-    console.log('BeachViewProps', this.props);
   }
 
   render() {
@@ -261,8 +323,7 @@ export default class BeachView extends React.Component {
           <BodySection
             beachData={this.props.navigation.state.params.data}
             weatherData={this.props.navigation.state.params.weather}
-          />
-          <PastFiveDays
+            pastResults={this.props.navigation.state.params.pastResults}
           />
         </View>
       </ScrollView>
@@ -298,6 +359,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column'
+  },
+  chartContainer: {
+    marginTop: -40,
   },
   weatherImage: {
     width: 10,
