@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "My New Project",
-    "description": "This project is really great.",
+    "name": "Beachwell",
+    "description": "Discover Toronto's beaches with E.coli levels predicted by machine learning.",
     "slug": "my-new-project",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/beachwell-icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": false,
+      "bundleIdentifier": "com.mikaalnaik.mikaalnaik"
+    },
+    "android": {
+     "package": "com.mikaalnaik.mikaalnaik"
+   }
   }
 }
