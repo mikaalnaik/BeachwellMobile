@@ -30,7 +30,7 @@
     "android": {
      "package": "com.mikaalnaik.mikaalnaik",
      "permissions": [],
-     "versionCode": 4,
+     "versionCode": 6,
    }
   }
 }
