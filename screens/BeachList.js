@@ -56,6 +56,8 @@ const Overlay = posed.View({
 
 
 
+
+
 export default class BeachList extends React.Component {
   constructor(props) {
     animationInterval : false,
@@ -87,6 +89,11 @@ export default class BeachList extends React.Component {
       pastResults: this.props.navigation.state.params.beach14[beach.beachId],
     })
   }
+
+  aboutUsNav = () => {
+    this.props.navigation.navigate('AboutUs');
+  }
+
 
   render() {
     let fullWidth = Dimensions.get('window').width;
@@ -178,7 +185,13 @@ export default class BeachList extends React.Component {
               }
             />
           </View>
-
+          <TouchableWithoutFeedback onPress={() => this.aboutUsNav()}>
+            <View style={styles.aboutUsContainer}>
+              <Text>
+                About The Project
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </ScrollView>
     );
@@ -198,6 +211,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center'
+  },
+  aboutUsContainer: {
+    flex: 1,
+    height: 70,
+    width: 300,
   },
   greetingText: {
     fontSize: 25,

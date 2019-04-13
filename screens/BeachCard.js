@@ -25,13 +25,11 @@ export default class BeachCard extends React.Component {
   }
 
   render() {
-
-    console.log('beach name', this.props.beachData.beachName);
     return (
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
           <WhichImage beach={this.props.beachData.beachName}/>
           <View style={styles.beachCardBody}>
-
+            {/* This is to shorten the name of Marie Curtis Park */}
               {
                 this.props.beachData.beachName === 'Marie Curtis Park East Beach' &&
                   <Text style={styles.beachCardText}>
