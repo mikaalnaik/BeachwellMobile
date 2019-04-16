@@ -12,6 +12,7 @@ import {
 import Images from '../assets/beachImages.js';
 import WeatherImages from '../assets/weatherImages.js';
 import Image from 'react-native-scalable-image';
+import { Font } from 'expo';
 import BeachImageSelector from '../components/BeachImageSelector';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
@@ -41,11 +42,13 @@ let WeatherIcon = (props) => {
     'overcast clouds': 'partlycloudy',
     'broken clouds': 'partlycloudy',
     'shower rain': 'rain',
+    'light rain': 'rain',
     'rain': 'rain',
     'thunder storm': 'storm',
     'snow': 'storm',
     'mist': 'rain'
   }
+  console.log('weather icon props', props);
   return (
     <Image
       source={WeatherImages[weatherTypes[props.weatherType]]}
@@ -296,13 +299,14 @@ export default class BeachView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      beachData: ''
+      beachData: '',
     }
   }
   static navigationOptions = {
     header: null,
     gesturesEnabled: true
   }
+
 
   render() {
     return (<View style={styles.viewContainer}>
@@ -408,6 +412,7 @@ const styles = StyleSheet.create({
   },
   beachLabel: {
     fontSize: 30,
+    fontFamily: 'Nunito',
     color: 'black',
     fontWeight: 'bold',
     textAlign: 'center',

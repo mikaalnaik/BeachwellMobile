@@ -20,7 +20,7 @@ const RootStack = createStackNavigator({
   Home: { screen: Splash },
   BeachList: { screen: BeachList },
   BeachView: { screen: BeachView },
-  AboutUs: {screen: AboutUsScreen},
+  AboutUs: { screen: AboutUsScreen },
 });
 
 const App = createAppContainer(RootStack);

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Animated, Image, Easing, ImageBackground } from 'react-native';
 import posed from 'react-native-pose';
 import Images from '../assets/beachImages';
+import { Font } from 'expo';
 const Firebase = require("firebase");
 require("firebase/functions");
 
@@ -43,11 +44,20 @@ export default class Splash extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      fontLoaded: false,
     };
   }
 
 
-  componentDidMount () {
+  async componentDidMount () {
+    await Font.loadAsync({
+      'Nunito': require('../assets/fonts/Nunito/Nunito-Regular.ttf'),
+      'Nunito-Bold': require('../assets/fonts/Nunito/Nunito-Bold.ttf'),
+      'Nunito-Italic': require('../assets/fonts/Nunito/Nunito-Italic.ttf'),
+      'Nunito-Light': require('../assets/fonts/Nunito/Nunito-Light.ttf'),
+    })
+    this.setState({ fontLoaded: true });
+    console.log('stat changed', this.state);
     let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
     collectAllDataFromServer().then((result) => {
       let formatedBeachData = result.data.beachToday.elements[0].elements[1].elements.map((beach, index) => {
@@ -77,6 +87,7 @@ export default class Splash extends React.Component {
         beach14: result.data.beach14,
         loading: false,
       })
+      console.log('yeah just about to load');
       if(!this.state.loading) {
         this.props.navigation.navigate('BeachList' , {
           weatherData: this.state.weatherData,
@@ -90,18 +101,26 @@ export default class Splash extends React.Component {
   render() {
 
     return (
-
       <View style={ styles.container }>
+
+
         <ImageBackground source={require('../assets/beachSplash.jpg')} style={styles.backgroundImage} >
-           <View style={ styles.loginForm }>
+
+        {
+          this.state.fontLoaded &&
+          <View style={ styles.loginForm }>
              <Image
                style={styles.logoMark}
                source={require('../assets/beachLogoMark.png')}
              />
              <Text style={ styles.text }>Beachwell</Text>
            </View>
+         }
+
          </ImageBackground>
+
        </View>
+
     );
   }
 }
@@ -129,6 +148,7 @@ var styles = StyleSheet.create({
   },
   text: {
     fontSize: 30,
+    fontFamily: 'Nunito',
     fontWeight: 'bold',
     color: 'white',
   }
