@@ -3,6 +3,7 @@ import Splash from './screens/Splash';
 import BeachList from './screens/BeachList';
 import BeachView from './screens/BeachView';
 import AboutUsScreen from './screens/AboutUsScreen';
+import FerrySchedule from './screens/FerrySchedule';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import firebase from "firebase";
 
@@ -21,6 +22,7 @@ const RootStack = createStackNavigator({
   BeachList: { screen: BeachList },
   BeachView: { screen: BeachView },
   AboutUs: { screen: AboutUsScreen },
+  FerrySchedule: { screen: FerrySchedule },
 });
 
 const App = createAppContainer(RootStack);

@@ -56,7 +56,17 @@ const Overlay = posed.View({
 });
 
 
-
+let FerryCard = () => {
+  // render() {
+    return (
+      <View>
+        <Text>
+          Ferry Schedule
+        </Text>
+      </View>
+    )
+  // }
+}
 
 
 export default class BeachList extends React.Component {
@@ -99,6 +109,9 @@ export default class BeachList extends React.Component {
     this.props.navigation.navigate('AboutUs');
   }
 
+  ferrySchedule = () => {
+    this.props.navigation.navigate('FerrySchedule');
+  }
 
   render() {
     let fullWidth = Dimensions.get('window').width;
@@ -117,17 +130,19 @@ export default class BeachList extends React.Component {
             }
           ]}>
           <View style={styles.headerCopy}>
-            <AnimatedHeader1 pose={this.state.visible}>
-              <Text style={[styles.greetingText, styles.areaContainer]}>
-                Explore today's beach water quality for Toronto
-              </Text>
-            </AnimatedHeader1>
-            <AnimatedHeader1 pose={this.state.visible}>
-              <Text style={[styles.beachAreaText, styles.areaContainer]}>
-                Toronto Island
-              </Text>
-            </AnimatedHeader1>
+            <Text style={[styles.greetingText, styles.areaContainer]}>
+              Explore today's beach water quality for Toronto
+            </Text>
+            <Text style={[styles.beachAreaText, styles.areaContainer]}>
+              Toronto Island
+            </Text>
           </View>
+
+          <TouchableWithoutFeedback onPress={() => this.ferrySchedule()}>
+            <View>
+              <FerryCard/>
+            </View>
+          </TouchableWithoutFeedback>
 
           <View style={styles.areaContainer}>
             <Overlay pose={this.state.overlay}>
@@ -190,6 +205,9 @@ export default class BeachList extends React.Component {
               }
             />
           </View>
+
+
+
           <TouchableWithoutFeedback onPress={() => this.aboutUsNav()}>
             <View style={styles.aboutUsContainer}>
               <Text>

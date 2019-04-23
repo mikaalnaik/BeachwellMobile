@@ -34,6 +34,7 @@ let WeatherCard = (props) => {
 }
 
 let WeatherIcon = (props) => {
+  console.log('weather tpe', props.weatherType);
 
   const weatherTypes = {
     'clear sky': 'sunshine',
@@ -42,6 +43,7 @@ let WeatherIcon = (props) => {
     'overcast clouds': 'partlycloudy',
     'broken clouds': 'partlycloudy',
     'shower rain': 'rain',
+    'light intensity shower rain': 'rain',
     'light rain': 'rain',
     'rain': 'rain',
     'thunder storm': 'storm',
