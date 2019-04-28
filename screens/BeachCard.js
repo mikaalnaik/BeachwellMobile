@@ -121,9 +121,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   eColiBold: {
-    fontSize: 23,
+    fontFamily: 'Nunito-Bold',
+    fontSize: 20,
+    color: '#464646',
     marginLeft: 4,
-    fontWeight: 'bold',
   },
   beachConditionBlock: {
     height: 25,
@@ -149,8 +150,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   beachCardText: {
-    fontSize: 31,
-    fontWeight: 'bold',
-    color: 'rgb(43, 43, 43)'
+    fontFamily: 'Nunito-Bold',
+    fontSize: 30,
+    color:'#464646',
   }
 });

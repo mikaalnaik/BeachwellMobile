@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import BeachCard from './BeachCard';
-import { Font } from 'expo';
 import posed, {Transition} from 'react-native-pose';
 const Firebase = require("firebase");
 require("firebase/functions");
@@ -86,9 +85,6 @@ export default class BeachList extends React.Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync({
-      'Nunito': require('../assets/fonts/Nunito/Nunito-Bold.ttf'),
-    })
     this.setState({
       position: 'LEFT',
       visible: true,
@@ -241,18 +237,20 @@ const styles = StyleSheet.create({
     width: 300,
   },
   greetingText: {
-    fontSize: 25,
+    fontFamily: 'Nunito-SemiBold',
+    fontSize: 20,
     marginBottom: 20,
-    marginTop: 20,
-    color: 'black'
+    marginTop: 30,
+    color:'#464646',
   },
   beachAreaText: {
-    fontFamily: 'Nunito-Italic',
-    fontSize: 20,
+    fontFamily: 'Nunito-SemiBold',
+    fontSize: 16,
     justifyContent: 'flex-start',
     fontWeight: '300',
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    color:'#464646',
   },
   headerCopy: {
     flex: 1,
