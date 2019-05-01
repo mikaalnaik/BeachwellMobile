@@ -2,12 +2,20 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
+  TextInput,
   View,
+  Dimensions,
+  FlatList,
+  ScrollView,
+  Linking,
+  Button,
   TouchableWithoutFeedback,
 } from 'react-native';
 import BeachImageSelector from '../components/BeachImageSelector';
 import Images from '../assets/beachImages.js';
+import Image from 'react-native-scalable-image';
 import moment from 'moment';
+import _ from 'lodash';
 
 
 const WARDS_FROM_CITY_MON_FRI = [
@@ -27,7 +35,7 @@ const WARDS_FROM_ISLAND_MON_FRI = [
   '8:00pm', '8:45pm','9:30pm', '10:15pm', '11:30pm'
 ];
 
-const WARDS_FROM_CITY_WEEKENDS = [
+const WARDS_FROM_CITY_WEEKEND = [
   '8:00am', '8:45am', '9:30am', '10:15am', '11:00am', '11:30am',
   '12:00pm', '12:30pm','1:00pm', '1:30pm', '2:00pm', '2:30pm',
   '3:00pm', '3:30pm','4:00pm', '4:30pm','5:00pm', '5:30pm',
@@ -35,7 +43,7 @@ const WARDS_FROM_CITY_WEEKENDS = [
   '10:00pm', '10:45pm', '11:30pm',
 ]
 
-const WARDS_FROM_ISLAND_WEEKENDS = [
+const WARDS_FROM_ISLAND_WEEKEND = [
   '8:30am', '9:15am', '10:00am', '10:45am', '11:15am', '11:45am',
   '12:15pm', '12:45pm', '1:15pm', '1:45pm', '2:15pm', '2:45pm',
   '3:15pm', '3:45pm', '4:15pm', '4:45pm', '5:15pm', '5:45pm',
@@ -60,7 +68,7 @@ const CENTRE_FROM_CITY_MON_FRI = [
   '9:15pm', '9:45pm', '10:15pm', '11:00pm', '11:45pm'
 ]
 
-const CENTRE_FROM_CITY_WEEKENDS = [
+const CENTRE_FROM_CITY_WEEKEND = [
   '8:00am', '8:30am', '9:00am' , '9:15am', '9:30am', '9:45am', '10:00am',
   '10:15am', '10:30am', '10:45am', '11:00am', '11:15am', '11:30am', '11:45am',
   '12:00pm', '12:15pm', '12:30pm', '12:45pm','1:00pm', '1:15pm', '1:30pm', '1:45pm',
@@ -71,7 +79,7 @@ const CENTRE_FROM_CITY_WEEKENDS = [
   '10:30pm', '11:00pm', '11:30pm',
 ]
 
-const CENTRE_FROM_ISLAND_WEEKENDS = [
+const CENTRE_FROM_ISLAND_WEEKEND = [
   '8:15am', '8:45am', '9:15am', '9:30am', '9:45am', '10:00am', '10:15am',
   '10:30am', '10:45am' ,'11:00am', '11:15am', '11:30am', '11:45am', '12:00pm', '12:15pm', '12:30pm', '12:45pm',
   '1:00pm', '1:15pm', '1:30pm', '1:45pm', '2:00pm', '2:15pm', '2:30pm', '2:45pm',
@@ -97,20 +105,130 @@ const HANLANS_FROM_ISLAND_MON_FRI = [
   '10:30pm',
 ]
 
-const HANLANS_FROM_CITY_WEEKENDS = [
+const HANLANS_FROM_CITY_WEEKEND = [
   '8:00am', '8:45am', '9:30am', '10:15am', '10:45am', '11:15am', '11:45am',
   '12:15pm', '12:45pm', '1:15pm', '1:45pm', '2:15pm', '2:45pm', '3:15pm', '3:45pm',
   '4:15pm', '4:45pm', '5:15pm', '5:45pm', '6:15pm', '7:00pm', '7:45pm', '8:30pm',
   '9:15pm', '10:00pm', '10:45pm',
 ]
 
-const HANLANS_FROM_ISLAND_WEEKENDS = [
+const HANLANS_FROM_ISLAND_WEEKEND = [
   '8:15am', '9:00am', '9:45am', '10:30am', '11:00am', '11:30am', '12:00pm', '12:30pm',
   '1:00pm', '1:30pm', '2:00pm', '2:30pm',  '3:00pm', '3:30pm',  '4:00pm', '4:30pm',
   '5:00pm', '5:30pm',  '6:00pm', '6:30pm', '7:30pm', '8:15pm', '9:00pm', '9:45pm', '10:30pm',
   '11:15pm'
 ]
 
+class Ferry extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      upcomingTimes: [],
+    }
+  }
+
+  componentDidMount() {
+    this.determineSchedule();
+  }
+
+  componentWillReceiveProps() {
+    console.log('howdy folks', this.props);
+    this.determineSchedule()
+  }
+
+
+  determineSchedule() {
+    let schedule;
+      let currentTime = '9:43am'
+      if(this.props.port === 'hanlans') {
+         schedule = {
+          MON_FRI: {
+            city: HANLANS_FROM_CITY_MON_FRI,
+            island: HANLANS_FROM_ISLAND_MON_FRI,
+          },
+          WEEKEND: {
+            city: HANLANS_FROM_CITY_WEEKEND,
+            island: HANLANS_FROM_ISLAND_WEEKEND,
+          }
+        }
+      } else if (this.props.port === 'center') {
+        schedule = {
+         MON_FRI: {
+           city: CENTRE_FROM_CITY_MON_FRI,
+           island: CENTRE_FROM_ISLAND_MON_FRI,
+         },
+         WEEKEND: {
+           city: CENTRE_FROM_CITY_WEEKEND,
+           island: CENTRE_FROM_ISLAND_WEEKEND,
+         }
+       }
+     } else if (this.props.port === 'wards') {
+       schedule = {
+        MON_FRI: {
+          city: WARDS_FROM_CITY_MON_FRI,
+          island: WARDS_FROM_ISLAND_MON_FRI,
+        },
+        WEEKEND: {
+          city: WARDS_FROM_CITY_WEEKEND,
+          island: WARDS_FROM_ISLAND_WEEKEND,
+        }
+      }
+     }
+
+
+      let displayedSchedule = schedule[this.props.dayOfWeek][this.props.directionOfTravel]
+
+      this.setState({
+        lastFerryFromIsland: displayedSchedule[displayedSchedule.length - 1]
+
+      })
+
+
+
+      let differenceInTime = displayedSchedule.map(time => {
+        let duration = moment(currentTime, 'h:mm:a').diff(moment(time, 'h:mm:a'))
+        return {time: time, duration: duration}
+      })
+      let sortedTime = [];
+      _.sortBy(differenceInTime, 'duration').forEach((entry, index) => {
+        if(entry.duration < 0 && index < 4) {
+          sortedTime.push(entry.time)
+        }
+      })
+      this.setState({
+        upcomingTimes: sortedTime
+      })
+  }
+
+  buyTicket = () => {
+     Linking.openURL('https://secure.toronto.ca/FerryTicketOnline/tickets/index.jsp')
+  }
+
+  render() {
+    return (
+        <View>
+          <Text style={styles.portName}>
+            {this.props.label}
+          </Text>
+          <FlatList
+            data={this.state.upcomingTimes.reverse()}
+            keyExtractor={(item, index) => item}
+            renderItem={({item}) =>
+              <TextInput   editable={false} style={styles.listItem}>{item}</TextInput>
+            }
+          />
+          <Text>
+            Last ferry from island is: {this.state.lastFerryFromIsland}
+          </Text>
+          <Button
+            onPress={this.buyTicket}
+            title='Buy Ticket'
+            color="#841584"
+          />
+        </View>
+    )
+  }
+}
 
 
 export default class FerrySchedule extends React.Component {
@@ -119,52 +237,141 @@ export default class FerrySchedule extends React.Component {
     gesturesEnabled: false
   }
 
+  constructor(props){
+    super(props)
+    this.state = {
+      dayOfWeek: 'MON_FRI',
+      directionOfTravel: 'island',
+      ferryImage: 'ferryIsland',
+    }
+  }
+
+  componentDidMount() {
+
+    let day = moment().days();
+    if(day === 0 || day === 6) {
+      day = 'WEEKEND'
+    } else {
+      day = 'MON_FRI'
+    }
+    console.log('day', day);
+    this.setState({
+      dayOfWeek: day,
+    })
+  }
+
+ directionOfTravel = (direction) => {
+    if(direction === 'city') {
+      this.setState({
+        ferryImage: 'ferryCity',
+        directionOfTravel: 'city',
+      })
+    } else {
+      this.setState({
+        ferryImage: 'ferryIsland',
+        directionOfTravel: 'island',
+      })
+    }
+  }
+
 
   render() {
-    console.log('moment', moment().format());
+    const options = [
+      "Option 1",
+      "Option 2"
+    ];
     return (
-        <View style={[styles.beachBodyContent, styles.beachCard]}>
-          <Text style={styles.eColiBold}>
-            About the project
-          </Text>
+      <ScrollView  showsVerticalScrollIndicator={true}>
+
+        <View style={styles.screen}>
+          <View style={styles.buttonContainer}>
+            <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
+              <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
+                From City
+              </Text>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
+              <Text style={styles.directionPicker}>
+                From Island
+              </Text>
+            </TouchableWithoutFeedback>
+          </View>
+          <Image
+            style={styles.cardImage}
+            width={Dimensions.get('window').width}
+            source={Images[this.state.ferryImage]}
+          />
+
+          <View>
+          </View>
+          {
+            this.state.dayOfWeek &&
+            <View style={styles.scheduleContainer}>
+
+              <Ferry directionOfTravel={this.state.directionOfTravel}
+                port={'hanlans'}
+                label={'Hanlan\s Point'}
+                dayOfWeek={this.state.dayOfWeek}
+                time={this.state.time}
+              />
+              <Ferry directionOfTravel={this.state.directionOfTravel}
+                port={'center'}
+                label={'Centre Island'}
+                dayOfWeek={this.state.dayOfWeek}
+                time={this.state.time}
+              />
+              <Ferry directionOfTravel={this.state.directionOfTravel}
+                port={'wards'}
+                label={'Wards Island'}
+                dayOfWeek={this.state.dayOfWeek}
+                time={this.state.time}
+              />
+
+          </View>
+          }
         </View>
+      </ScrollView>
+
     );
   }
 }
 
 
 const styles = StyleSheet.create({
-
-  beachCard: {
-    borderRadius: 10,
-    width: 300,
-    height: 70,
+  screen: {
+    marginTop: 40,
     marginBottom: 40,
-    marginLeft: 20,
-    marginRight: 20,
+    height: '100%',
+  },
+  active: {
+    backgroundColor: 'orange',
+  },
+  buttonContainer: {
     flex: 1,
-    alignContent: 'center',
-    backgroundColor: 'white',
-    shadowColor: "#000",
-    shadowOffset: {
-    	width: 0,
-    	height: 5,
-    },
-    shadowOpacity: 0.10,
-    shadowRadius: 4.65,
-    elevation: 6,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
-  beachBodyContent: {
+  directionPicker: {
+    height: 20,
+    backgroundColor: 'blue',
+    color: 'white',
+  },
+  scheduleContainer: {
+    height: '100%',
     flex: 1,
-    color: 'black',
-    // alignItems: 'center',
-    marginTop: 20,
-    marginLeft: 15,
-    alignContent: 'center',
-    // textAlign: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'beige',
   },
-  eColiBold: {
-    fontSize: 23,
-    fontWeight: 'bold',
+  listItem: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 0.8,
+    borderTopWidth: 0,
+    fontSize: 20,
+    width: '50%',
   },
+  portName: {
+    fontSize: 30,
+  }
+
 });

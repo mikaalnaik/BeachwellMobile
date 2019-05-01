@@ -12,6 +12,8 @@ const Images = {
     woodbine: require('./woodbine.jpg'),
     center: require('./centre-island.jpg'),
     bluffs: require('./bluffs.jpg'),
+    ferryCity: require('./ferry-to-city.jpg'),
+    ferryIsland: require('./ferry-to-island.jpg'),
     // sunshine2: require('./sunshine@2x.png'),
     // sunshine3: require('./sunshine@3x.png'),
   };
