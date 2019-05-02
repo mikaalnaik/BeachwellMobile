@@ -119,6 +119,19 @@ const HANLANS_FROM_ISLAND_WEEKEND = [
   '11:15pm'
 ]
 
+
+let LineBreak = () => {
+  return (
+    <View
+      style={{
+        borderBottomColor: '#BFBFBF',
+        borderBottomWidth: 1,
+      }}
+    />
+  )
+}
+
+
 class Ferry extends React.Component {
   constructor(props) {
     super(props)
@@ -132,14 +145,13 @@ class Ferry extends React.Component {
   }
 
   componentWillReceiveProps() {
-    console.log('howdy folks', this.props);
     this.determineSchedule()
   }
 
 
   determineSchedule() {
     let schedule;
-      let currentTime = '9:43am'
+      let currentTime = moment().format('h:mm:a ');
       if(this.props.port === 'hanlans') {
          schedule = {
           MON_FRI: {
@@ -190,13 +202,22 @@ class Ferry extends React.Component {
         return {time: time, duration: duration}
       })
       let sortedTime = [];
-      _.sortBy(differenceInTime, 'duration').forEach((entry, index) => {
-        if(entry.duration < 0 && index < 4) {
+      let sortedSchedule = _.sortBy(differenceInTime, 'duration');
+      let filteredSchedule = _.filter(sortedSchedule, (i) => {
+        return i.duration < 0;
+      });
+      filteredSchedule.reverse()
+      filteredSchedule.forEach(entry => {
+        if(entry.duration < 0 && sortedTime.length < 4) {
           sortedTime.push(entry.time)
         }
       })
+
+      // sortedTime.reverse();
+      let nextTime = sortedTime.shift();
       this.setState({
-        upcomingTimes: sortedTime
+        nextTime: nextTime,
+        upcomingTimes: sortedTime,
       })
   }
 
@@ -206,25 +227,53 @@ class Ferry extends React.Component {
 
   render() {
     return (
-        <View>
+        <View style={styles.specificSchedule}>
           <Text style={styles.portName}>
             {this.props.label}
           </Text>
+          <Text style={styles.nextFerrySubheader}>
+            Next Ferry
+          </Text>
+          <LineBreak/>
+          <View>
+            <TextInput
+              editable={false}
+              style={[styles.listItem, styles.nextTime]}
+            >
+              {this.state.nextTime}
+            </TextInput>
+            <LineBreak/>
           <FlatList
-            data={this.state.upcomingTimes.reverse()}
+            data={this.state.upcomingTimes}
             keyExtractor={(item, index) => item}
             renderItem={({item}) =>
-              <TextInput   editable={false} style={styles.listItem}>{item}</TextInput>
+            <View>
+              <TextInput
+                editable={false}
+                style={styles.listItem}
+              >
+                {item}
+              </TextInput>
+              <LineBreak/>
+              </View>
             }
           />
-          <Text>
-            Last ferry from island is: {this.state.lastFerryFromIsland}
-          </Text>
-          <Button
-            onPress={this.buyTicket}
-            title='Buy Ticket'
-            color="#841584"
-          />
+        </View>
+          <View style={styles.ferryInfo}>
+            <View style={styles.ticketBlock}>
+              <Text>
+                Last ferry from island is:
+              </Text>
+              <Text>
+                {this.state.lastFerryFromIsland}
+              </Text>
+            </View>
+            <Button
+              onPress={this.buyTicket}
+              title='Buy Ticket'
+              color="#841584"
+            />
+          </View>
         </View>
     )
   }
@@ -254,7 +303,6 @@ export default class FerrySchedule extends React.Component {
     } else {
       day = 'MON_FRI'
     }
-    console.log('day', day);
     this.setState({
       dayOfWeek: day,
     })
@@ -281,57 +329,58 @@ export default class FerrySchedule extends React.Component {
       "Option 2"
     ];
     return (
-      <ScrollView  showsVerticalScrollIndicator={true}>
-
-        <View style={styles.screen}>
-          <View style={styles.buttonContainer}>
-            <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
-              <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
-                From City
-              </Text>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
-              <Text style={styles.directionPicker}>
-                From Island
-              </Text>
-            </TouchableWithoutFeedback>
-          </View>
-          <Image
-            style={styles.cardImage}
-            width={Dimensions.get('window').width}
-            source={Images[this.state.ferryImage]}
-          />
-
-          <View>
-          </View>
-          {
-            this.state.dayOfWeek &&
-            <View style={styles.scheduleContainer}>
-
-              <Ferry directionOfTravel={this.state.directionOfTravel}
-                port={'hanlans'}
-                label={'Hanlan\s Point'}
-                dayOfWeek={this.state.dayOfWeek}
-                time={this.state.time}
-              />
-              <Ferry directionOfTravel={this.state.directionOfTravel}
-                port={'center'}
-                label={'Centre Island'}
-                dayOfWeek={this.state.dayOfWeek}
-                time={this.state.time}
-              />
-              <Ferry directionOfTravel={this.state.directionOfTravel}
-                port={'wards'}
-                label={'Wards Island'}
-                dayOfWeek={this.state.dayOfWeek}
-                time={this.state.time}
-              />
-
-          </View>
-          }
+      <View style={{flex: 1, zIndex: 1000}}>
+        <View style={styles.buttonContainer}>
+          <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
+            <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
+              From City
+            </Text>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
+            <Text style={styles.directionPicker}>
+              From Island
+            </Text>
+          </TouchableWithoutFeedback>
         </View>
-      </ScrollView>
+        <ScrollView  showsVerticalScrollIndicator={true}>
 
+          <View style={styles.screen}>
+            <Image
+              style={styles.cardImage}
+              width={Dimensions.get('window').width}
+              source={Images[this.state.ferryImage]}
+            />
+
+            <View>
+            </View>
+            {
+              this.state.dayOfWeek &&
+              <View
+                style={styles.scheduleContainer}
+              >
+                <Ferry directionOfTravel={this.state.directionOfTravel}
+                  port={'hanlans'}
+                  label={'Hanlan\s Point'}
+                  dayOfWeek={this.state.dayOfWeek}
+                  time={this.state.time}
+                />
+                {/* <Ferry directionOfTravel={this.state.directionOfTravel}
+                  port={'center'}
+                  label={'Centre Island'}
+                  dayOfWeek={this.state.dayOfWeek}
+                  time={this.state.time}
+                />
+                <Ferry directionOfTravel={this.state.directionOfTravel}
+                  port={'wards'}
+                  label={'Wards Island'}
+                  dayOfWeek={this.state.dayOfWeek}
+                  time={this.state.time}
+                /> */}
+              </View>
+            }
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -347,6 +396,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
   },
   buttonContainer: {
+    height: 50,
+    backgroundColor: 'white',
     flex: 1,
     flexDirection: 'row',
     width: '100%',
@@ -361,17 +412,42 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'beige',
+  },
+  ferryTimeList: {
+    height: '100%',
+  },
+  ferryInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  ticketBlock: {
+    flex: 1,
+    flexDirection: 'column',
+    height: '100%',
   },
   listItem: {
+    fontSize: 20,
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  nextFerrySubheader: {
     borderBottomColor: 'black',
     borderBottomWidth: 0.8,
     borderTopWidth: 0,
-    fontSize: 20,
+    fontSize: 15,
     width: '50%',
+  },
+  nextTime: {
+    fontSize: 25,
   },
   portName: {
     fontSize: 30,
-  }
+    marginBottom: 10,
+  },
+  specificSchedule: {
+    padding: '5%',
+  },
 
 });
