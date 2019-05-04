@@ -256,7 +256,7 @@ let BeachName = (props) => {
     <View style={[styles.beachViewHeader]}>
       <TouchableOpacity onPress={this.goBack}>
         <Image
-          width={10}
+          width={20}
           style={styles.arrow}
           source={require('../assets/arrow.png')}
         />
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     lineHeight: 40
   },
   arrow: {
-    marginTop: 14,
+    marginTop: 10,
     marginLeft: 10,
     height: 10,
     position: 'absolute',

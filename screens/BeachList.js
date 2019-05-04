@@ -14,36 +14,6 @@ import posed, {Transition} from 'react-native-pose';
 const Firebase = require("firebase");
 require("firebase/functions");
 
-const AnimatedCard = posed.View({
-  RIGHT: {
-    y: 150,
-    opacity: '0',
-    transition: {
-      type: 'spring',
-      stiffness: 80
-    }
-  },
-  LEFT: {
-    y: 0,
-    opacity: '1',
-    transition: {
-      type: 'spring',
-      stiffness: 80
-    }
-  }
-})
-
-const AnimatedHeader1 = posed.View({
-  false: {
-    opacity: '0',
-    transition: {
-      duration: 600
-    }
-  },
-  true: {
-    opacity: '1'
-  }
-})
 
 const Overlay = posed.View({
   open: {
@@ -116,7 +86,14 @@ export default class BeachList extends React.Component {
     const position = this.state.position;
     const visible = this.state.visible
     return (
-      <ScrollView decelerationRate={0.50} showsVerticalScrollIndicator={true}>
+      <View>
+        <View style={styles.headerCopy}>
+          <Text style={[styles.greetingText ]}>
+            Explore today's beach water quality for Toronto
+          </Text>
+
+        </View>
+      <ScrollView  showsVerticalScrollIndicator={true}>
         <View style={styles.statusBar}>
           <StatusBar barStyle={'default'} backgroundColor={'white'}/>
         </View>
@@ -125,14 +102,6 @@ export default class BeachList extends React.Component {
               width: this.fullWidth
             }
           ]}>
-          <View style={styles.headerCopy}>
-            <Text style={[styles.greetingText, styles.areaContainer]}>
-              Explore today's beach water quality for Toronto
-            </Text>
-            <Text style={[styles.beachAreaText, styles.areaContainer]}>
-              Toronto Island
-            </Text>
-          </View>
 
           <TouchableWithoutFeedback onPress={() => this.ferrySchedule()}>
             <View>
@@ -141,6 +110,9 @@ export default class BeachList extends React.Component {
           </TouchableWithoutFeedback>
 
           <View style={styles.areaContainer}>
+            <Text style={[styles.beachAreaText  ]}>
+              Toronto Island
+            </Text>
             <Overlay pose={this.state.overlay}>
               <FlatList
                 data={this.props.navigation.state.params.beachToday.torontoIsland}
@@ -213,6 +185,7 @@ export default class BeachList extends React.Component {
           </TouchableWithoutFeedback>
         </View>
       </ScrollView>
+    </View>
     );
   }
 }
@@ -253,8 +226,11 @@ const styles = StyleSheet.create({
     color:'#464646',
   },
   headerCopy: {
-    flex: 1,
-    width: 300
+    // flex: 1,
+    // width: 300,
+    height: 100,
+    // backgroundColor: 'beige',
+    // position: 'absolute',
   },
   statusBar: {
     backgroundColor: 'white'
