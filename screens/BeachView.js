@@ -7,10 +7,23 @@ import  Image  from 'react-native-scalable-image';
 import { Font } from 'expo';
 import moment from 'moment';
 import BeachImageSelector from '../components/BeachImageSelector';
+import posed from 'react-native-pose';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
 import * as scale from 'd3-scale';
 import _ from 'lodash';
+
+const Box = posed.View({
+  visible: {
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 20,  },
+    y: 0,
+  },
+  hidden: {
+    opacity: 0,
+    y: 400,
+   }
+});
 
 let WeatherCard = (props) => {
   return (
@@ -55,6 +68,37 @@ let PredictedEcoliChart = (props) => {
       xTickValues = _.range(0, topOfDomain , 25);
   }
 
+  const yellow200 = "#FFF59D";
+const deepOrange600 = "#F4511E";
+const lime300 = "#DCE775";
+const lightGreen500 = "#8BC34A";
+const teal700 = "#00796B";
+const cyan900 = "#006064";
+const colors = [
+  deepOrange600,
+  yellow200,
+  lime300,
+  lightGreen500,
+  teal700,
+  cyan900
+];
+const blueGrey50 = "#ECEFF1";
+const blueGrey300 = "#90A4AE";
+const blueGrey700 = "#455A64";
+const grey900 = "#212121";
+const letterSpacing = "normal";
+const fontSize = 12;
+const padding = 8;
+const baseProps = {
+  width: 350,
+  height: 350,
+  padding: 50
+};
+// Strokes
+const strokeDasharray = "10, 5";
+const strokeLinecap = "round";
+const strokeLinejoin = "round";
+
 
   return (
     <View pointerEvents="none">
@@ -62,8 +106,24 @@ let PredictedEcoliChart = (props) => {
       height={100}
       width={350}
       horizontal={true}
+      style={styles.past14ChartStyles}
       theme={VictoryTheme.material}
-      containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
+      containerComponent={
+        <VictoryContainer
+          style={{
+            flex: .5,
+            height: 50,
+            display: 'flex',
+            marginRight: 0,
+            right: 20,
+            paddingTop: 20,
+            paddingLeft: 40,
+            width: 80,
+            alignSelf: 'center',
+            alignContent: 'center',
+          }}
+        />
+        }
      >
       <VictoryBar
         animate={{ duration: 1000 }}
@@ -71,11 +131,34 @@ let PredictedEcoliChart = (props) => {
         barWidth={40}
         alignment="start"
         height={100}
+        // theme={VictoryTheme.material}
         width={150}
         style={{
           data: {
             fill: (data) => data._y > 100 ? "#c43a31" : "#21984F",
-          }
+          },
+          grid: {
+        fill: "none",
+        stroke: 'black',
+        pointerEvents: "painted"
+      },
+        //   grid: {
+        //     fill: "red",
+        //     stroke: "red",
+        //     pointerEvents: "painted"
+        //   },
+        //   axis: {
+        //     grid: {
+        //     fill: "none",
+        //     stroke: 'black',
+        //     pointerEvents: "painted"
+        //   },
+        //   axis: {stroke: "#756f6a"},
+        //   axisLabel: {fontSize: 20, padding: 30},
+        //   grid: {stroke: (t) => t > 0.5 ? "red" : "grey"},
+        //   ticks: {stroke: "grey", size: 5},
+        //   tickLabels: {fontSize: 15, padding: 5},
+        //   }
         }}
       />
        <VictoryAxis
@@ -83,9 +166,36 @@ let PredictedEcoliChart = (props) => {
           dependentAxis
           height={100}
           width={150}
+          style={{
+            tickLabels: {
+              fontSize: 10,
+              paddingTop: 45,
+              paddingLeft: 15,
+              angle: 45,
+              marginTop: 90,
+            },
+            axis: {
+              stroke: 'none'
+            },
+          // axis: {stroke: "#756f6a"},
+          // axisLabel: {fontSize: 20, padding: 30},
+          // grid: {stroke: (t) => t > 0.5 ? "red" : "grey"},
+          // ticks: {stroke: "grey", size: 5},
+          // tickLabels: {fontSize: 15, padding: 5},
+            ticks: {
+              stroke: 'none',
+
+            },
+            grid: {
+              fill: "red",
+              stroke: "red",
+              pointerEvents: "painted"
+            },
+          }}
           tickValues={xTickValues}
           orientation={'bottom'}
           padding={{left: 40, right: 40, bottom: 0, top: 0}}
+          standAlone={true}
         />
      </VictoryChart>
    </View>
@@ -177,8 +287,7 @@ let PastFiveDays = (props) => {
           height={200}
           width={300}
           padding={40}
-          theme={ VictoryTheme.material }
-          domainPadding={20}
+          domainPadding={5}
           animate={{ duration: 2000,  }}
           containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
         >
@@ -187,10 +296,10 @@ let PastFiveDays = (props) => {
             interpolation="natural"
             style={{
               data: { stroke: "rgb(19, 55, 116)" },
-              parent: { border: "1px solid #ccc"}
-            }}
-            data={dataForChart}
-          />
+                parent: { border: "1px solid #ccc"}
+              }}
+              data={dataForChart}
+            />
           <VictoryAxis
             style={{
               tickLabels: {
@@ -199,10 +308,8 @@ let PastFiveDays = (props) => {
                 paddingLeft: 15,
                 angle: 45,
                 marginTop: 90,
-              }
+              },
             }}
-            // padding={{left: 40, right: 40, top: 180}}
-            // offsetY={20}
             tickCount={7}
           />
           <VictoryAxis
@@ -244,11 +351,13 @@ let TopSection = (props) => {
 
 let BodySection = (props) => {
   return (
+    <Box pose={props.isVisible ? 'visible' : 'hidden'} >
     <View style={ styles.centerBlock }>
-      <WeatherCard weatherData={ props.weatherData }/>
-      <BeachCardDetails beachData={ props.beachData }/>
-      <PastFiveDays pastResults={ props.pastResults } />
+        <WeatherCard weatherData={ props.weatherData }/>
+        <BeachCardDetails beachData={ props.beachData }/>
+        <PastFiveDays pastResults={ props.pastResults } />
     </View>
+  </Box>
   )
 }
 
@@ -279,6 +388,7 @@ export default class BeachView extends React.Component {
     super(props)
     this.state = {
       beachData: '',
+      isVisible: false,
     }
   }
   static navigationOptions = {
@@ -286,6 +396,12 @@ export default class BeachView extends React.Component {
     gesturesEnabled: true
   }
 
+
+  componentDidMount() {
+    this.setState({
+      isVisible: true,
+    })
+  }
 
   render() {
     return (<View style={styles.viewContainer}>
@@ -298,15 +414,19 @@ export default class BeachView extends React.Component {
         showsVerticalScrollIndicator={true}
         style={styles.scrollContainer}
         >
-          <TopSection
-            beachInfo={this.props.navigation.state.params.data}
-            nav={this.props}
-          />
+
+            <TopSection
+              beachInfo={this.props.navigation.state.params.data}
+              nav={this.props}
+            />
+            <View style={{backgroundColor: '#EFEFEF'}}>
           <BodySection
             beachData={this.props.navigation.state.params.data}
+            isVisible={this.state.isVisible}
             weatherData={this.props.navigation.state.params.weather}
             pastResults={this.props.navigation.state.params.pastResults}
           />
+        </View>
       </ScrollView>
     </View>);
   }
@@ -355,6 +475,9 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
   },
+  past14ChartStyles: {
+
+  },
   temperature: {
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
@@ -372,6 +495,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 20,
     width: '80%',
+    height: '100%',
     backgroundColor: 'white',
     borderRadius: 5,
     fontSize: 40
@@ -398,7 +522,6 @@ const styles = StyleSheet.create({
   beachViewHeader: {
     paddingTop: 30,
     paddingBottom: 10,
-    // backgroundColor: 'beige',
   },
   contentCardHeader: {
     fontSize: 12,

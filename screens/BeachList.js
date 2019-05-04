@@ -10,19 +10,11 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import BeachCard from './BeachCard';
-import posed, {Transition} from 'react-native-pose';
+import posed from 'react-native-pose';
 const Firebase = require("firebase");
 require("firebase/functions");
 
 
-const Overlay = posed.View({
-  open: {
-    y: 0
-  },
-  closed: {
-    y: '100vh'
-  }
-});
 
 
 let FerryCard = () => {
@@ -113,7 +105,6 @@ export default class BeachList extends React.Component {
             <Text style={[styles.beachAreaText  ]}>
               Toronto Island
             </Text>
-            <Overlay pose={this.state.overlay}>
               <FlatList
                 data={this.props.navigation.state.params.beachToday.torontoIsland}
                 animation={this.state.position}
@@ -129,7 +120,6 @@ export default class BeachList extends React.Component {
                     </TouchableWithoutFeedback>
                 }
               />
-            </Overlay>
           </View>
 
           <Text style={styles.beachAreaText}>
