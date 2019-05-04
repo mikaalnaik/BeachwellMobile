@@ -11,8 +11,10 @@ import {
 } from 'react-native';
 import Images from '../assets/beachImages.js';
 import WeatherImages from '../assets/weatherImages.js';
-import Image from 'react-native-scalable-image';
+import WeatherIcon from '../components/WeatherIcon.js';
+import  Image  from 'react-native-scalable-image';
 import { Font } from 'expo';
+import moment from 'moment';
 import BeachImageSelector from '../components/BeachImageSelector';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
@@ -20,44 +22,48 @@ import * as scale from 'd3-scale';
 import _ from 'lodash';
 
 let WeatherCard = (props) => {
+  console.log('time', props.weatherData.sys.sunset);
   return (
     <View style={[styles.beachViewCard, styles.cardShadow, styles.row]}>
       <WeatherIcon weatherType={props.weatherData.weather[0].description}/>
-      <Text style={[styles.boldStat, styles.marginRight10]}>
+      <Text style={[styles.temperature]}>
         {Math.floor(props.weatherData.main.temp - 273.15)}°C
       </Text>
-      <Text style={styles.sunset}>
-        Sunset at {new Date(props.weatherData.sys.sunset).toLocaleTimeString("en-US")}
+      <Text>
+        Sunset at {moment.unix(props.weatherData.sys.sunset).format('h:mm A')}
       </Text>
     </View>
   )
 }
 
-let WeatherIcon = (props) => {
-  console.log('weather tpe', props.weatherType);
-
-  const weatherTypes = {
-    'clear sky': 'sunshine',
-    'few clouds': 'sunshine',
-    'scattered clouds': 'partlycloudy',
-    'overcast clouds': 'partlycloudy',
-    'broken clouds': 'partlycloudy',
-    'shower rain': 'rain',
-    'light intensity shower rain': 'rain',
-    'light rain': 'rain',
-    'rain': 'rain',
-    'thunder storm': 'storm',
-    'snow': 'storm',
-    'mist': 'rain'
-  }
-  console.log('weather icon props', props);
-  return (
-    <Image
-      source={WeatherImages[weatherTypes[props.weatherType]]}
-      style={[styles.weatherImage]}
-    />
-  )
-}
+// let WeatherIcon = (props) => {
+//   console.log('weather tpe', props.weatherType);
+//
+//   const weatherTypes = {
+//     'clear sky': 'sunshine',
+//     'few clouds': 'sunshine',
+//     'scattered clouds': 'partlycloudy',
+//     'overcast clouds': 'partlycloudy',
+//     'broken clouds': 'partlycloudy',
+//     'shower rain': 'rain',
+//     'light intensity shower rain': 'rain',
+//     'light intensity drizzle': 'rain',
+//     'light rain': 'rain',
+//     'rain': 'rain',
+//     'thunder storm': 'storm',
+//     'snow': 'storm',
+//     'mist': 'rain'
+//   }
+//   console.log('weather icon props', props);
+//   return (
+//     <View style={styles.weatherImageContainer}>
+//       <Image
+//         source={WeatherImages[weatherTypes[props.weatherType]]}
+//         style={[styles.weatherImage]}
+//       />
+//     </View>
+//   )
+// }
 
 
 let PredictedEcoliChart = (props) => {
@@ -369,9 +375,15 @@ const styles = StyleSheet.create({
   chartContainer: {
     marginTop: -40,
   },
-  weatherImage: {
+  weatherImageContainer: {
+    height: 50,
     width: 10,
-    height: 10
+  },
+  weatherImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
   },
   cardShadow: {
     shadowColor: '#000',
@@ -390,10 +402,17 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold'
   },
+  temperature: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginLeft: '4%',
+    marginRight: '4%',
+  },
   row: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    // 'justifyContent': 'space-between',
   },
   beachViewCard: {
     flex: 1,
@@ -407,10 +426,6 @@ const styles = StyleSheet.create({
   },
   superScript: {
     lineHeight: 40
-  },
-  sunset: {
-    flex: 1,
-    alignItems: 'flex-end'
   },
   beachLabel: {
     fontSize: 30,
