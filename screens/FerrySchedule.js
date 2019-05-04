@@ -192,10 +192,7 @@ class Ferry extends React.Component {
 
       this.setState({
         lastFerryFromIsland: displayedSchedule[displayedSchedule.length - 1]
-
       })
-
-
 
       let differenceInTime = displayedSchedule.map(time => {
         let duration = moment(currentTime, 'h:mm:a').diff(moment(time, 'h:mm:a'))
@@ -213,7 +210,6 @@ class Ferry extends React.Component {
         }
       })
 
-      // sortedTime.reverse();
       let nextTime = sortedTime.shift();
       this.setState({
         nextTime: nextTime,
@@ -222,8 +218,8 @@ class Ferry extends React.Component {
   }
 
   buyTicket = () => {
-     Linking.openURL('https://secure.toronto.ca/FerryTicketOnline/tickets/index.jsp')
-  }
+    Linking.openURL('https://secure.toronto.ca/FerryTicketOnline/tickets/index.jsp');
+  };
 
   render() {
     return (
@@ -309,6 +305,9 @@ export default class FerrySchedule extends React.Component {
   }
 
  directionOfTravel = (direction) => {
+   if(direction === this.state.directionOfTravel) {
+     return;
+   }
     if(direction === 'city') {
       this.setState({
         ferryImage: 'ferryCity',
@@ -329,20 +328,19 @@ export default class FerrySchedule extends React.Component {
       "Option 2"
     ];
     return (
-      <View style={{flex: 1, zIndex: 1000}}>
-        <View style={styles.buttonContainer}>
-          <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
-            <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
-              From City
-            </Text>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
-            <Text style={styles.directionPicker}>
-              From Island
-            </Text>
-          </TouchableWithoutFeedback>
-        </View>
         <ScrollView  showsVerticalScrollIndicator={true}>
+            <View style={styles.buttonContainer}>
+              <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
+                <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
+                  From City
+                </Text>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
+                <Text style={[styles.directionPicker, this.state.directionOfTravel === 'island' && styles.active]}>
+                  From Island
+                </Text>
+              </TouchableWithoutFeedback>
+            </View>
 
           <View style={styles.screen}>
             <Image
@@ -364,7 +362,7 @@ export default class FerrySchedule extends React.Component {
                   dayOfWeek={this.state.dayOfWeek}
                   time={this.state.time}
                 />
-                {/* <Ferry directionOfTravel={this.state.directionOfTravel}
+                <Ferry directionOfTravel={this.state.directionOfTravel}
                   port={'center'}
                   label={'Centre Island'}
                   dayOfWeek={this.state.dayOfWeek}
@@ -375,12 +373,11 @@ export default class FerrySchedule extends React.Component {
                   label={'Wards Island'}
                   dayOfWeek={this.state.dayOfWeek}
                   time={this.state.time}
-                /> */}
+                />
               </View>
             }
           </View>
         </ScrollView>
-      </View>
     );
   }
 }
@@ -391,17 +388,23 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 40,
     height: '100%',
+    flex: 1,
   },
   active: {
     backgroundColor: 'orange',
   },
   buttonContainer: {
-    height: 50,
     backgroundColor: 'white',
     flex: 1,
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
+    backgroundColor: 'beige',
+    marginTop: 50,
+    width: '100%',
+    height: 40,
+  },
+  buttonWrapper: {
   },
   directionPicker: {
     height: 20,
@@ -423,6 +426,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   ticketBlock: {
+    marginTop:0,
     flex: 1,
     flexDirection: 'column',
     height: '100%',
@@ -447,7 +451,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   specificSchedule: {
-    padding: '5%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingBottom: '10%',
   },
 
 });
