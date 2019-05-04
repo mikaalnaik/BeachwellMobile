@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   beachConditionBlock: {
-    height: 25,
-    width: 25,
+    height: 20,
+    width: 20,
     borderRadius: 150,
   },
   beachCardConditionUnsafe: {
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   beachCardText: {
     fontFamily: 'Nunito-Bold',
-    fontSize: 30,
+    fontSize: 26,
     color:'#464646',
   }
 });

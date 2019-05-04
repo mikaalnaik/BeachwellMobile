@@ -228,7 +228,7 @@ class Ferry extends React.Component {
             {this.props.label}
           </Text>
           <Text style={styles.nextFerrySubheader}>
-            Next Ferry
+            NEXT FERRY
           </Text>
           <LineBreak/>
           <View>
@@ -257,10 +257,10 @@ class Ferry extends React.Component {
         </View>
           <View style={styles.ferryInfo}>
             <View style={styles.ticketBlock}>
-              <Text>
-                Last ferry from island is:
+              <Text style={styles.lastFerrytext}>
+                Last ferry from island is
               </Text>
-              <Text>
+              <Text style={styles.lastFerrytime}>
                 {this.state.lastFerryFromIsland}
               </Text>
             </View>
@@ -332,12 +332,12 @@ export default class FerrySchedule extends React.Component {
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
                 <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
-                  From City
+                  TO THE ISLAND
                 </Text>
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
                 <Text style={[styles.directionPicker, this.state.directionOfTravel === 'island' && styles.active]}>
-                  From Island
+                  BACK TO CITY
                 </Text>
               </TouchableWithoutFeedback>
             </View>
@@ -391,7 +391,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   active: {
-    backgroundColor: 'orange',
+    backgroundColor: 'white',
+    color: '#2342A2',
   },
   buttonContainer: {
     backgroundColor: 'white',
@@ -407,9 +408,12 @@ const styles = StyleSheet.create({
   buttonWrapper: {
   },
   directionPicker: {
-    height: 20,
-    backgroundColor: 'blue',
+    height: 30,
+    fontSize: 12,
+    backgroundColor: '#2342A2',
     color: 'white',
+    fontFamily: 'Nunito-Bold',
+    letterSpacing: .5,
   },
   scheduleContainer: {
     height: '100%',
@@ -435,13 +439,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 5,
     marginBottom: 5,
+    fontFamily: 'Nunito-Bold',
   },
   nextFerrySubheader: {
-    borderBottomColor: 'black',
+    borderBottomColor: '#919191',
     borderBottomWidth: 0.8,
     borderTopWidth: 0,
-    fontSize: 15,
+    fontSize: 12,
     width: '50%',
+    color: '#919191',
+    letterSpacing: .5,
   },
   nextTime: {
     fontSize: 25,
@@ -449,11 +456,20 @@ const styles = StyleSheet.create({
   portName: {
     fontSize: 30,
     marginBottom: 10,
+    fontFamily: 'Nunito-Bold',
   },
   specificSchedule: {
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '10%',
+  },
+  lastFerrytext:{
+    fontFamily: 'Nunito-SemiBoldItalic',
+    fontSize: 14,
+  },
+  lastFerrytime: {
+    fontFamily: 'Nunito-SemiBoldItalic',
+    fontSize: 14,
   },
 
 });

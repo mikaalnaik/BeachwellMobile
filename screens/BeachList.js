@@ -89,7 +89,7 @@ export default class BeachList extends React.Component {
       <View>
         <View style={styles.headerCopy}>
           <Text style={[styles.greetingText ]}>
-            Explore today's beach water quality for Toronto
+            Explore today's water quality
           </Text>
 
         </View>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   greetingText: {
-    fontFamily: 'Nunito-SemiBold',
+    fontFamily: 'Nunito-Bold',
     fontSize: 20,
     marginBottom: 20,
     marginTop: 30,
