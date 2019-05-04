@@ -7,10 +7,23 @@ import  Image  from 'react-native-scalable-image';
 import { Font } from 'expo';
 import moment from 'moment';
 import BeachImageSelector from '../components/BeachImageSelector';
+import posed from 'react-native-pose';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
 import * as scale from 'd3-scale';
 import _ from 'lodash';
+
+const Box = posed.View({
+  visible: {
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 20,  },
+    y: 0,
+  },
+  hidden: {
+    opacity: 0,
+    y: 400,
+   }
+});
 
 let WeatherCard = (props) => {
   return (
@@ -59,7 +72,7 @@ let PredictedEcoliChart = (props) => {
   return (
     <View pointerEvents="none">
      <VictoryChart
-      height={100}
+      height={100}  q
       width={350}
       horizontal={true}
       theme={VictoryTheme.material}
@@ -238,11 +251,13 @@ let TopSection = (props) => {
 
 let BodySection = (props) => {
   return (
+    <Box pose={props.isVisible ? 'visible' : 'hidden'} >
     <View style={ styles.centerBlock }>
-      <WeatherCard weatherData={ props.weatherData }/>
-      <BeachCardDetails beachData={ props.beachData }/>
-      <PastFiveDays pastResults={ props.pastResults } />
+        <WeatherCard weatherData={ props.weatherData }/>
+        <BeachCardDetails beachData={ props.beachData }/>
+        <PastFiveDays pastResults={ props.pastResults } />
     </View>
+  </Box>
   )
 }
 
@@ -273,6 +288,7 @@ export default class BeachView extends React.Component {
     super(props)
     this.state = {
       beachData: '',
+      isVisible: false,
     }
   }
   static navigationOptions = {
@@ -280,6 +296,12 @@ export default class BeachView extends React.Component {
     gesturesEnabled: true
   }
 
+
+  componentDidMount() {
+    this.setState({
+      isVisible: true,
+    })
+  }
 
   render() {
     return (<View style={styles.viewContainer}>
@@ -292,15 +314,19 @@ export default class BeachView extends React.Component {
         showsVerticalScrollIndicator={true}
         style={styles.scrollContainer}
         >
-          <TopSection
-            beachInfo={this.props.navigation.state.params.data}
-            nav={this.props}
-          />
+
+            <TopSection
+              beachInfo={this.props.navigation.state.params.data}
+              nav={this.props}
+            />
+            <View style={{backgroundColor: '#EFEFEF'}}>
           <BodySection
             beachData={this.props.navigation.state.params.data}
+            isVisible={this.state.isVisible}
             weatherData={this.props.navigation.state.params.weather}
             pastResults={this.props.navigation.state.params.pastResults}
           />
+        </View>
       </ScrollView>
     </View>);
   }
@@ -366,6 +392,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 20,
     width: '80%',
+    height: '100%',
     backgroundColor: 'white',
     borderRadius: 5,
     fontSize: 40
