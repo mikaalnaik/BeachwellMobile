@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  ScrollView,
-  Text,
-  View,
-  Dimensions,
-  StatusBar,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, FlatList, ScrollView, Text, View, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import Images from '../assets/beachImages.js';
 import WeatherImages from '../assets/weatherImages.js';
 import WeatherIcon from '../components/WeatherIcon.js';
@@ -22,9 +13,8 @@ import * as scale from 'd3-scale';
 import _ from 'lodash';
 
 let WeatherCard = (props) => {
-  console.log('time', props.weatherData.sys.sunset);
   return (
-    <View style={[styles.beachViewCard, styles.cardShadow, styles.row]}>
+    <View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
       <WeatherIcon weatherType={props.weatherData.weather[0].description}/>
       <Text style={[styles.temperature]}>
         {Math.floor(props.weatherData.main.temp - 273.15)}°C
@@ -35,36 +25,6 @@ let WeatherCard = (props) => {
     </View>
   )
 }
-
-// let WeatherIcon = (props) => {
-//   console.log('weather tpe', props.weatherType);
-//
-//   const weatherTypes = {
-//     'clear sky': 'sunshine',
-//     'few clouds': 'sunshine',
-//     'scattered clouds': 'partlycloudy',
-//     'overcast clouds': 'partlycloudy',
-//     'broken clouds': 'partlycloudy',
-//     'shower rain': 'rain',
-//     'light intensity shower rain': 'rain',
-//     'light intensity drizzle': 'rain',
-//     'light rain': 'rain',
-//     'rain': 'rain',
-//     'thunder storm': 'storm',
-//     'snow': 'storm',
-//     'mist': 'rain'
-//   }
-//   console.log('weather icon props', props);
-//   return (
-//     <View style={styles.weatherImageContainer}>
-//       <Image
-//         source={WeatherImages[weatherTypes[props.weatherType]]}
-//         style={[styles.weatherImage]}
-//       />
-//     </View>
-//   )
-// }
-
 
 let PredictedEcoliChart = (props) => {
 
@@ -149,7 +109,7 @@ let BeachCardDetails = (props) => {
     },
   })
 
-  return (<View style={[styles.cardShadow, styles.beachViewCard]}>
+  return (<View style={[styles.beachViewCard]}>
     <Text style={eColiCardStyles.contentCardHeader}>
       Today's projected reading
     </Text>
@@ -182,34 +142,36 @@ let PastFiveDays = (props) => {
       alignSelf: 'center',
       alignContent: 'center',
     },
+    bottomMargin: {
+      marginBottom: 40,
+    }
   })
 
-  console.log('past14', props.pastResults);
   let dataForChart = [];
   props.pastResults.forEach(day => {
-    dataForChart.push({x: day.sampleDate, y: Number(day.eColiCount)})
+    dataForChart.push({ x: day.sampleDate, y: Number(day.eColiCount) })
   })
   dataForChart = dataForChart.reverse();
 
   const latestReadingFromCity = props.pastResults[0].eColiCount
   return (
-    <View style={[styles.cardShadow, styles.beachViewCard]} pointerEvents="none">
-      <Text style={eColiCardStyles.contentCardHeader}>
+    <View style={ [styles.beachViewCard, eColiCardStyles.bottomMargin] } pointerEvents="none">
+      <Text style={ eColiCardStyles.contentCardHeader }>
         LATEST READING FROM THE CITY
       </Text>
-      <Text style={styles.boldStat}>
+      <Text style={ styles.boldStat }>
         Sampled Yesterday
       </Text>
-      <Text style={styles.boldStat}>
+      <Text style={ styles.boldStat }>
         {latestReadingFromCity}{' '}
         E.coli ppm
       </Text>
-      <View style={styles.chartContainer}>
+      <View style={ styles.chartContainer }>
         <VictoryChart
           height={200}
           width={300}
           padding={40}
-          theme={VictoryTheme.material}
+          theme={ VictoryTheme.material }
           domainPadding={20}
           animate={{ duration: 2000,  }}
           containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
@@ -266,9 +228,8 @@ let TopSection = (props) => {
       return (
         <View>
           <Image
-            style={styles.cardImage}
-            width={Dimensions.get('window').width}
-            source={Images[beachMap[props.nav.navigation.state.params.data.beachName]]}
+            width={ Dimensions.get('window').width }
+            source={ Images[beachMap[props.nav.navigation.state.params.data.beachName]] }
           />
         </View>
       );
@@ -276,14 +237,13 @@ let TopSection = (props) => {
 
 
 let BodySection = (props) => {
-  // console.log('body section props', props);
-  return (<View style={styles.centerBlock}>
-    <WeatherCard weatherData={props.weatherData}/>
-    <BeachCardDetails beachData={props.beachData}/>
-    <PastFiveDays
-      pastResults={props.pastResults}
-    />
-  </View>)
+  return (
+    <View style={ styles.centerBlock }>
+      <WeatherCard weatherData={ props.weatherData }/>
+      <BeachCardDetails beachData={ props.beachData }/>
+      <PastFiveDays pastResults={ props.pastResults } />
+    </View>
+  )
 }
 
 let BeachName = (props) => {
@@ -293,8 +253,13 @@ let BeachName = (props) => {
   }
 
   return (
-    <View>
+    <View style={[styles.beachViewHeader]}>
       <TouchableOpacity onPress={this.goBack}>
+        <Image
+          width={10}
+          style={styles.arrow}
+          source={require('../assets/arrow.png')}
+        />
         <Text style={styles.beachLabel}>
           {props.name}
         </Text>
@@ -327,7 +292,6 @@ export default class BeachView extends React.Component {
         showsVerticalScrollIndicator={true}
         style={styles.scrollContainer}
         >
-        <View style={styles.componentBody}>
           <TopSection
             beachInfo={this.props.navigation.state.params.data}
             nav={this.props}
@@ -337,7 +301,6 @@ export default class BeachView extends React.Component {
             weatherData={this.props.navigation.state.params.weather}
             pastResults={this.props.navigation.state.params.pastResults}
           />
-        </View>
       </ScrollView>
     </View>);
   }
@@ -345,11 +308,12 @@ export default class BeachView extends React.Component {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
+
   },
   scrollContainer: {
     height: '100%',
-    paddingBottom: 20
   },
   currentWeatherCard: {
     width: '100%',
@@ -357,20 +321,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 5
   },
-
-  componentBody: {
-    height: '100%',
-    flex: 1,
-    justifyContent: 'flex-start',
-    margin: 'auto',
-    flexDirection: 'column',
-    paddingBottom: 30
-  },
   centerBlock: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: '#EFEFEF',
   },
   chartContainer: {
     marginTop: -40,
@@ -385,16 +341,7 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'contain'
   },
-  cardShadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 1
-  },
+
   marginRight10: {
     marginRight: 10
   },
@@ -412,7 +359,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    // 'justifyContent': 'space-between',
   },
   beachViewCard: {
     flex: 1,
@@ -424,16 +370,28 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 40
   },
+  firstCard: {
+    marginTop: -14,
+  },
   superScript: {
     lineHeight: 40
   },
+  arrow: {
+    marginTop: 14,
+    marginLeft: 10,
+    height: 10,
+    position: 'absolute',
+  },
   beachLabel: {
     fontSize: 30,
-    fontFamily: 'Nunito',
+    fontFamily: 'Nunito-SemiBold',
     color: 'black',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  beachViewHeader: {
     paddingTop: 30,
-    paddingBottom: 10
-  }
+    paddingBottom: 10,
+    // backgroundColor: 'beige',
+  },
 });
