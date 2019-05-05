@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import BeachCard from './BeachCard';
+import NavFooter from '../components/NavFooter';
 import posed from 'react-native-pose';
 const Firebase = require("firebase");
 require("firebase/functions");
@@ -78,7 +79,7 @@ export default class BeachList extends React.Component {
     const position = this.state.position;
     const visible = this.state.visible
     return (
-      <View>
+      <View style={{flex: 1}}>
         <View style={styles.headerCopy}>
           <Text style={[styles.greetingText ]}>
             Explore today's beach water quality for Toronto
@@ -175,6 +176,9 @@ export default class BeachList extends React.Component {
           </TouchableWithoutFeedback>
         </View>
       </ScrollView>
+      <NavFooter
+        nav={this.props.navigation}
+      />
     </View>
     );
   }
@@ -193,6 +197,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center'
+  },
+  footerNav: {
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: '5%',
+    width: '100%',
+    backgroundColor: 'white',
   },
   aboutUsContainer: {
     flex: 1,
