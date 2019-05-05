@@ -332,15 +332,20 @@ export default class FerrySchedule extends React.Component {
       <View style={{flex: 1}}>
         <ScrollView  showsVerticalScrollIndicator={true}>
             <View style={styles.buttonContainer}>
-              <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
-                <Text style={[styles.directionPicker, this.state.directionOfTravel === 'city' && styles.active]}>
-                  TO THE ISLAND
-                </Text>
-              </TouchableWithoutFeedback>
+
               <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
-                <Text style={[styles.directionPicker, this.state.directionOfTravel === 'island' && styles.active]}>
-                  BACK TO CITY
-                </Text>
+                <View style={[styles.directionPicker,styles.directionButton,  styles.directionIsland, this.state.directionOfTravel === 'island' && styles.active]}>
+                  <Text style={this.state.directionOfTravel === 'island' && styles.textActive}>
+                    TO THE ISLAND
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
+                <View style={[styles.directionPicker, styles.directionButton, styles.directionCity, this.state.directionOfTravel === 'city' && styles.active]}>
+                  <Text style={this.state.directionOfTravel === 'city' && styles.textActive}>
+                    TO THE CITY
+                  </Text>
+                </View>
               </TouchableWithoutFeedback>
             </View>
 
@@ -397,8 +402,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   active: {
-    backgroundColor: 'white',
-    color: '#2342A2',
+    backgroundColor: '#2342A2',
+  },
+  textActive : {
+    color: 'white',
   },
   buttonContainer: {
     backgroundColor: 'white',
@@ -406,25 +413,44 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-    backgroundColor: 'beige',
     marginTop: 50,
     width: '100%',
+
+  },
+  directionButton: {
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
     height: 40,
+    color: '#464646',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  directionCity: {
+    borderTopRightRadius:5,
+    borderBottomRightRadius:5,
+  },
+  directionIsland: {
+    borderTopLeftRadius:5,
+    borderBottomLeftRadius:5,
   },
   buttonWrapper: {
   },
   directionPicker: {
-    height: 30,
-    fontSize: 12,
-    backgroundColor: '#2342A2',
-    color: 'white',
-    fontFamily: 'Nunito-Bold',
-    letterSpacing: .5,
+    padding: 5,
+    // height: 30,
+    // fontSize: 12,
+    // backgroundColor: '#2342A2',
+    // color: 'white',
+    // fontFamily: 'Nunito-Bold',
+    // letterSpacing: .5,
   },
   scheduleContainer: {
     height: '100%',
     flex: 1,
     justifyContent: 'center',
+    marginTop: 20,
   },
   ferryTimeList: {
     height: '100%',
