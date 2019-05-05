@@ -77,7 +77,7 @@ export default class BeachCard extends React.Component {
               {this.props.beachData.eColi < 100 && <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}/>}
               {this.props.beachData.eColi > 100 && <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}/>}
               <Text style={styles.eColiBold}>
-                {this.props.beachData.eColi} E.coli / ppm
+                {this.props.beachData.eColi} E. coli ppm
               </Text>
             </View>
           </View>
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   beachConditionBlock: {
-    height: 25,
-    width: 25,
+    height: 20,
+    width: 20,
     borderRadius: 150,
   },
   beachCardConditionUnsafe: {
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   beachCardText: {
     fontFamily: 'Nunito-Bold',
-    fontSize: 30,
+    fontSize: 26,
     color:'#464646',
   }
 });

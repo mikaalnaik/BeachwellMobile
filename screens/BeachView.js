@@ -32,7 +32,7 @@ let WeatherCard = (props) => {
       <Text style={[styles.temperature]}>
         {Math.floor(props.weatherData.main.temp - 273.15)}°C
       </Text>
-      <Text>
+      <Text style={styles.sunsetText}>
         Sunset at {moment.unix(props.weatherData.sys.sunset).format('h:mm A')}
       </Text>
     </View>
@@ -217,17 +217,23 @@ let BeachCardDetails = (props) => {
       alignSelf: 'center',
       alignContent: 'center',
     },
+    contentCardHeader: {
+      fontSize: 12,
+      color: '#919191',
+      letterSpacing: .5,
+
+      }
   })
 
   return (<View style={[styles.beachViewCard]}>
-    <Text style={eColiCardStyles.contentCardHeader}>
-      Today's projected reading
+    <Text style={styles.contentCardHeader}>
+      TODAY'S PROJECTED READING
     </Text>
     <Text style={styles.boldStat}>
       {props.beachData.eColi} {' '}
-      E.coli ppm
+      E. coli ppm
     </Text>
-    <Text>
+    <Text style={styles.waterComment}>
       The water is exeptionally clean
     </Text>
     <PredictedEcoliChart
@@ -266,7 +272,7 @@ let PastFiveDays = (props) => {
   const latestReadingFromCity = props.pastResults[0].eColiCount
   return (
     <View style={ [styles.beachViewCard, eColiCardStyles.bottomMargin] } pointerEvents="none">
-      <Text style={ eColiCardStyles.contentCardHeader }>
+      <Text style={ styles.contentCardHeader }>
         LATEST READING FROM THE CITY
       </Text>
       <Text style={ styles.boldStat }>
@@ -274,7 +280,7 @@ let PastFiveDays = (props) => {
       </Text>
       <Text style={ styles.boldStat }>
         {latestReadingFromCity}{' '}
-        E.coli ppm
+        E. coli ppm
       </Text>
       <View style={ styles.chartContainer }>
         <VictoryChart
@@ -466,15 +472,17 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   boldStat: {
-    fontSize: 32,
-    fontWeight: 'bold'
+    fontSize: 26,
+    fontFamily: 'Nunito-Bold',
+    color: '#464646',
   },
   past14ChartStyles: {
 
   },
   temperature: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontFamily: 'Nunito-Bold',
+    color: '#464646',
     marginLeft: '4%',
     marginRight: '4%',
   },
@@ -507,9 +515,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   beachLabel: {
-    fontSize: 30,
+    fontSize: 20,
     fontFamily: 'Nunito-SemiBold',
-    color: 'black',
+    color: '#464646',
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -517,4 +525,20 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 10,
   },
+  contentCardHeader: {
+    fontSize: 12,
+    color: '#919191',
+    letterSpacing: .5,
+  },
+  waterComment: {
+    fontFamily: 'Nunito-SemiBoldItalic',
+    color: '#464646',
+    fontSize: 14,
+  },
+  sunsetText:{
+    fontFamily: 'Nunito-Bold',
+    color: '#464646',
+    fontSize: 14,
+  },
+
 });
