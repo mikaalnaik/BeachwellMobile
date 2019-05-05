@@ -231,7 +231,7 @@ let BeachCardDetails = (props) => {
     </Text>
     <Text style={styles.boldStat}>
       {props.beachData.eColi} {' '}
-      E.coli ppm
+      E. coli ppm
     </Text>
     <Text style={styles.waterComment}>
       The water is exeptionally clean
@@ -280,7 +280,7 @@ let PastFiveDays = (props) => {
       </Text>
       <Text style={ styles.boldStat }>
         {latestReadingFromCity}{' '}
-        E.coli ppm
+        E. coli ppm
       </Text>
       <View style={ styles.chartContainer }>
         <VictoryChart
@@ -474,6 +474,7 @@ const styles = StyleSheet.create({
   boldStat: {
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
+    color: '#464646',
   },
   past14ChartStyles: {
 
@@ -481,6 +482,7 @@ const styles = StyleSheet.create({
   temperature: {
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
+    color: '#464646',
     marginLeft: '4%',
     marginRight: '4%',
   },

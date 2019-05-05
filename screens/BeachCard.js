@@ -77,7 +77,7 @@ export default class BeachCard extends React.Component {
               {this.props.beachData.eColi < 100 && <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}/>}
               {this.props.beachData.eColi > 100 && <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}/>}
               <Text style={styles.eColiBold}>
-                {this.props.beachData.eColi} E.coli / ppm
+                {this.props.beachData.eColi} E. coli ppm
               </Text>
             </View>
           </View>

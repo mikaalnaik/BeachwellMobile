@@ -258,7 +258,7 @@ class Ferry extends React.Component {
           <View style={styles.ferryInfo}>
             <View style={styles.ticketBlock}>
               <Text style={styles.lastFerrytext}>
-                Last ferry from island is
+                Last ferry from island:
               </Text>
               <Text style={styles.lastFerrytime}>
                 {this.state.lastFerryFromIsland}
@@ -440,6 +440,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     fontFamily: 'Nunito-Bold',
+    color: '#464646',
   },
   nextFerrySubheader: {
     borderBottomColor: '#919191',
@@ -457,6 +458,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 10,
     fontFamily: 'Nunito-Bold',
+    color: '#464646',
   },
   specificSchedule: {
     paddingLeft: '5%',
@@ -466,10 +468,12 @@ const styles = StyleSheet.create({
   lastFerrytext:{
     fontFamily: 'Nunito-SemiBoldItalic',
     fontSize: 14,
+    color: '#464646',
   },
   lastFerrytime: {
-    fontFamily: 'Nunito-SemiBoldItalic',
-    fontSize: 14,
+    fontFamily: 'Nunito-Bold',
+    fontSize: 20,
+    color: '#464646',
   },
 
 });
