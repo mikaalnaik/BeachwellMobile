@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
   },
   beachLabel: {
     fontSize: 20,
-    fontFamily: 'Nunito-SemiBold',
+    fontFamily: 'Nunito-Bold',
     color: '#464646',
     fontWeight: 'bold',
     textAlign: 'center',
