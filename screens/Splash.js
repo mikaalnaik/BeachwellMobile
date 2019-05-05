@@ -112,9 +112,7 @@ export default class Splash extends React.Component {
                style={styles.logoMark}
                source={require('../assets/beachLogoMark.png')}
              />
-             <Text style={ styles.text } allowFontScaling={false}>
-               Beachwell
-             </Text>
+
            </View>
          }
 
@@ -143,14 +141,9 @@ var styles = StyleSheet.create({
     marginTop: -20,
   },
   logoMark: {
-    height: 50,
+    height: 160,
     resizeMode: 'contain',
     marginBottom: 20,
   },
-  text: {
-    fontSize: 30,
-    fontFamily: 'Nunito-SemiBold',
-    fontWeight: 'bold',
-    color: 'white',
-  }
+
 });

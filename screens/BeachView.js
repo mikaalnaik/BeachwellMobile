@@ -277,11 +277,11 @@ let PastFiveDays = (props) => {
         LATEST READING FROM THE CITY
       </Text>
       <Text style={ styles.boldStat } allowFontScaling={false}>
-        Sampled Yesterday
-      </Text>
-      <Text style={ styles.boldStat } allowFontScaling={false}>
         {latestReadingFromCity}{' '}
         E. coli ppm
+      </Text>
+      <Text style={ styles.waterComment } allowFontScaling={false}>
+        Sampled Yesterday
       </Text>
       <View style={ styles.chartContainer }>
         <VictoryChart
