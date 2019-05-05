@@ -12,11 +12,22 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import BeachImageSelector from '../components/BeachImageSelector';
+import posed from 'react-native-pose';
+
 import NavFooter from '../components/NavFooter';
 import Images from '../assets/beachImages.js';
 import Image from 'react-native-scalable-image';
 import moment from 'moment';
 import _ from 'lodash';
+
+const Box = posed.View({
+  enter: { y: 0, opacity: 1, delay: 300 },
+  exit: {
+    y: 50,
+    opacity: 0,
+    transition: { duration: 200 }
+  }
+});
 
 
 const WARDS_FROM_CITY_MON_FRI = [
@@ -138,10 +149,12 @@ class Ferry extends React.Component {
     super(props)
     this.state = {
       upcomingTimes: [],
+      isVisible: false,
     }
   }
 
   componentDidMount() {
+    this.setState({isVisible: true});
     this.determineSchedule();
   }
 
@@ -224,6 +237,8 @@ class Ferry extends React.Component {
 
   render() {
     return (
+      <Box style={styles.box} pose={this.state.isVisible ? 'enter' : 'exit'} >
+
         <View style={styles.specificSchedule}>
           <Text style={styles.portName}>
             {this.props.label}
@@ -272,6 +287,7 @@ class Ferry extends React.Component {
             />
           </View>
         </View>
+      </Box>
     )
   }
 }
@@ -329,7 +345,7 @@ export default class FerrySchedule extends React.Component {
       "Option 2"
     ];
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, justifyContent: 'center',}}>
         <ScrollView  showsVerticalScrollIndicator={true}>
             <View style={styles.buttonContainer}>
 
@@ -398,8 +414,11 @@ const styles = StyleSheet.create({
   screen: {
     marginTop: 40,
     marginBottom: 40,
+    justifyContent: 'space-between',
     height: '100%',
     flex: 1,
+    // flexDirection: 'row',
+    width: '100%',
   },
   active: {
     backgroundColor: '#2342A2',
@@ -439,17 +458,13 @@ const styles = StyleSheet.create({
   },
   directionPicker: {
     padding: 5,
-    // height: 30,
-    // fontSize: 12,
-    // backgroundColor: '#2342A2',
-    // color: 'white',
-    // fontFamily: 'Nunito-Bold',
-    // letterSpacing: .5,
   },
   scheduleContainer: {
     height: '100%',
+    width: '86%',
     flex: 1,
     justifyContent: 'center',
+    alignContent: 'center',
     marginTop: 20,
   },
   ferryTimeList: {
@@ -493,9 +508,17 @@ const styles = StyleSheet.create({
     color: '#464646',
   },
   specificSchedule: {
-    paddingLeft: '5%',
-    paddingRight: '5%',
-    paddingBottom: '10%',
+    flex: 1,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 1,
   },
   lastFerrytext:{
     fontFamily: 'Nunito-SemiBoldItalic',
