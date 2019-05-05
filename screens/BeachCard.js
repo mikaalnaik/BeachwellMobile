@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
     	width: 0,
-    	height: 3,
+    	height: 5,
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito-Bold',
     fontSize: 20,
     color: '#464646',
-    marginLeft: 4,
+    marginLeft: 8,
   },
   beachConditionBlock: {
     height: 20,

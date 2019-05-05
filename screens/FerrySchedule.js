@@ -335,14 +335,14 @@ export default class FerrySchedule extends React.Component {
 
               <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
                 <View style={[styles.directionPicker,styles.directionButton,  styles.directionIsland, this.state.directionOfTravel === 'island' && styles.active]}>
-                  <Text style={this.state.directionOfTravel === 'island' && styles.textActive}>
+                  <Text style={[styles.directionText, this.state.directionOfTravel === 'island' && styles.textActive]}>
                     TO THE ISLAND
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
                 <View style={[styles.directionPicker, styles.directionButton, styles.directionCity, this.state.directionOfTravel === 'city' && styles.active]}>
-                  <Text style={this.state.directionOfTravel === 'city' && styles.textActive}>
+                  <Text style={[styles.directionText, this.state.directionOfTravel === 'city' && styles.textActive]}>
                     TO THE CITY
                   </Text>
                 </View>
@@ -437,14 +437,20 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
   },
+
+  directionText: {
+    fontFamily: 'Nunito-Bold',
+    letterSpacing: .5,
+    fontSize: 12,
+  },
+
   directionPicker: {
     padding: 5,
     // height: 30,
     // fontSize: 12,
     // backgroundColor: '#2342A2',
     // color: 'white',
-    // fontFamily: 'Nunito-Bold',
-    // letterSpacing: .5,
+
   },
   scheduleContainer: {
     height: '100%',

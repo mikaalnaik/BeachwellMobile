@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     color:'#464646',
   },
   beachAreaText: {
-    fontFamily: 'Nunito-SemiBold',
+    fontFamily: 'Nunito-Bold',
     fontSize: 16,
     justifyContent: 'flex-start',
     fontWeight: '300',
