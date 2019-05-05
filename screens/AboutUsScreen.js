@@ -1,20 +1,13 @@
 import React from 'react';
 import {
   StyleSheet,
-  FlatList,
   ScrollView,
   Text,
   View,
-  Dimensions,
   StatusBar,
   TouchableOpacity
 } from 'react-native';
-import Images from '../assets/beachImages.js';
-import WeatherImages from '../assets/weatherImages.js';
-import Image from 'react-native-scalable-image';
-import BeachImageSelector from '../components/BeachImageSelector';
-import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
+import NavFooter from '../components/NavFooter';
 import * as scale from 'd3-scale';
 import _ from 'lodash';
 
@@ -49,6 +42,9 @@ export default class AboutUsScreen extends React.Component {
               </Text>
             </View>
         </ScrollView>
+        <NavFooter
+          nav={this.props.navigation}
+        />
       </View>
     );
   }

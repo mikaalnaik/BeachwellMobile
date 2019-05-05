@@ -96,11 +96,7 @@ export default class BeachList extends React.Component {
             }
           ]}>
 
-          <TouchableWithoutFeedback onPress={() => this.ferrySchedule()}>
-            <View>
-              <FerryCard/>
-            </View>
-          </TouchableWithoutFeedback>
+
 
           <View style={styles.areaContainer}>
             <Text style={[styles.beachAreaText  ]}>
@@ -164,16 +160,6 @@ export default class BeachList extends React.Component {
               }
             />
           </View>
-
-
-
-          <TouchableWithoutFeedback onPress={() => this.aboutUsNav()}>
-            <View style={styles.aboutUsContainer}>
-              <Text>
-                About The Project
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
         </View>
       </ScrollView>
       <NavFooter

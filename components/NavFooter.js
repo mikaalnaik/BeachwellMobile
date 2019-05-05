@@ -1,14 +1,12 @@
 import React from 'react';
 import {
   View,
-  Dimensions,
   TouchableWithoutFeedback,
   Text,
   Image,
   StyleSheet,
 } from 'react-native';
 import Images from '../assets/beachImages';
-import WeatherImages from '../assets/weatherImages.js';
 
 
 
@@ -21,39 +19,82 @@ export default class NavFooter extends React.Component {
   }
 
   aboutUsNav = () => {
-    this.props.navigation.navigate('AboutUs');
+    if(this.props.nav.state.routeName === 'AboutUs') {
+      return;
+    }
+    this.props.nav.navigate('AboutUs');
   }
 
   ferrySchedule = () => {
-    console.log('this navigation', this.props.nav);
+    if(this.props.nav.state.routeName === 'FerrySchedule') {
+      return;
+    }
     this.props.nav.navigate('FerrySchedule');
   }
 
-render() {
- // onPress={() => this.aboutUsNav()}
-  // console.log('nav footer props', this.props);
+  beachList = () => {
+    if(this.props.nav.state.routeName === 'BeachList') {
+      return;
+    }
+    this.props.nav.navigate('BeachList');
+  }
 
+render() {
   return (
     <View style={styles.footerNav}>
-      <TouchableWithoutFeedback onPress={this.ferrySchedule}>
+      <TouchableWithoutFeedback onPress={this.aboutUsNav}>
         <View style={styles.aboutUsContainer}>
-          <Text>
-            About
-          </Text>
+          {
+            this.props.nav.state.routeName === 'AboutUsScreen' &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/aboutUsBlue.png')}
+            />
+          }
+          {
+            this.props.nav.state.routeName !== 'AboutUsScreen' &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/aboutUsGrey.png')}
+            />
+          }
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
-        <View style={styles.aboutUsContainer}>
-          <Text>
-            About
-          </Text>
+      <TouchableWithoutFeedback onPress={this.beachList}>
+        <View style={styles.navImageContainer}>
+          {
+            this.props.nav.state.routeName === 'BeachList' &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/beachwellBlue.png')}
+            />
+          }
+          {
+            this.props.nav.state.routeName !== 'BeachList' &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/beachwellGrey.png')}
+            />
+          }
+
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback >
-        <View style={styles.aboutUsContainer}>
-          <Text>
-            Ferry
-          </Text>
+      <TouchableWithoutFeedback  onPress={this.ferrySchedule} >
+        <View style={styles.navImageContainer}>
+          {
+            this.props.nav.state.routeName === 'FerrySchedule' &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/ferryBlue.png')}
+            />
+          }
+          {
+            this.props.nav.state.routeName !== 'FerrySchedule' &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/ferryGrey.png')}
+            />
+          }
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -64,19 +105,25 @@ render() {
 
 const styles = StyleSheet.create({
   footerNav: {
+    paddingLeft: 40,
+    paddingRight: 40,
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
-    height: '5%',
+    height: 64,
     width: '100%',
     backgroundColor: 'white',
   },
-  aboutUsContainer: {
+  navImageContainer: {
+  },
+  navImage: {
     flex: 1,
-    height: 70,
-    width: 300,
+    width: 34,
+    height: 34,
+    resizeMode: 'contain',
   },
 });

@@ -9,6 +9,7 @@ import moment from 'moment';
 import BeachImageSelector from '../components/BeachImageSelector';
 import posed from 'react-native-pose';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
+import NavFooter from '../components/NavFooter';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
 import * as scale from 'd3-scale';
 import _ from 'lodash';
@@ -428,6 +429,9 @@ export default class BeachView extends React.Component {
           />
         </View>
       </ScrollView>
+      <NavFooter
+        nav={this.props.navigation}
+      />
     </View>);
   }
 }

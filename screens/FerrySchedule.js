@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import BeachImageSelector from '../components/BeachImageSelector';
+import NavFooter from '../components/NavFooter';
 import Images from '../assets/beachImages.js';
 import Image from 'react-native-scalable-image';
 import moment from 'moment';
@@ -328,6 +329,7 @@ export default class FerrySchedule extends React.Component {
       "Option 2"
     ];
     return (
+      <View style={{flex: 1}}>
         <ScrollView  showsVerticalScrollIndicator={true}>
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
@@ -378,6 +380,10 @@ export default class FerrySchedule extends React.Component {
             }
           </View>
         </ScrollView>
+        <NavFooter
+          nav={this.props.navigation}
+        />
+      </View>
     );
   }
 }
