@@ -21,11 +21,18 @@ import moment from 'moment';
 import _ from 'lodash';
 
 const Box = posed.View({
-  enter: { y: 0, opacity: 1, delay: 300 },
+  enter: {
+     y: 0,
+     opacity: 1,
+    delay: 300,
+    transition: {
+      duration: 400,
+    }
+   },
   exit: {
     y: 50,
     opacity: 0,
-    transition: { duration: 200 }
+    transition: { duration: 900 }
   }
 });
 
@@ -237,7 +244,7 @@ class Ferry extends React.Component {
 
   render() {
     return (
-      <Box style={styles.box} pose={this.state.isVisible ? 'enter' : 'exit'} >
+      <Box style={{flex: 1, width: '80%',}} pose={this.state.isVisible ? 'enter' : 'exit'} >
 
         <View style={styles.specificSchedule}>
           <Text style={styles.portName}>
@@ -296,7 +303,7 @@ class Ferry extends React.Component {
 export default class FerrySchedule extends React.Component {
   static navigationOptions = {
     header: null,
-    gesturesEnabled: false
+    gesturesEnabled: true,
   }
 
   constructor(props){
@@ -376,9 +383,7 @@ export default class FerrySchedule extends React.Component {
             </View>
             {
               this.state.dayOfWeek &&
-              <View
-                style={styles.scheduleContainer}
-              >
+              <View style={styles.scheduleContainer} >
                 <Ferry directionOfTravel={this.state.directionOfTravel}
                   port={'hanlans'}
                   label={'Hanlan\s Point'}
@@ -414,10 +419,9 @@ const styles = StyleSheet.create({
   screen: {
     marginTop: 40,
     marginBottom: 40,
-    justifyContent: 'space-between',
     height: '100%',
     flex: 1,
-    // flexDirection: 'row',
+    justifyContent: 'center',
     width: '100%',
   },
   active: {
@@ -472,12 +476,12 @@ const styles = StyleSheet.create({
 
   },
   scheduleContainer: {
-    height: '100%',
-    width: '86%',
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    marginTop: 20,
+    height: '100%',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: -14,
+    paddingBottom: 34,
   },
   ferryTimeList: {
     height: '100%',
@@ -522,6 +526,9 @@ const styles = StyleSheet.create({
   specificSchedule: {
     flex: 1,
     borderRadius: 10,
+    width: '100%',
+    height: '100%',
+    padding: 15,
     backgroundColor: 'white',
     shadowColor: "#000",
     shadowOffset: {
@@ -531,6 +538,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 1,
+    marginBottom: 20,
   },
   lastFerrytext:{
     fontFamily: 'Nunito-SemiBoldItalic',

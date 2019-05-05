@@ -15,19 +15,15 @@ import posed from 'react-native-pose';
 import BeachImageSelector from '../components/BeachImageSelector';
 import Images from '../assets/beachImages.js';
 
-
 const Box = posed.View({
-  visible: {
-    opacity: 1,
-    scaleY: 1,
-    transition: { type: 'spring', stiffness: 60,  },
-    y: 0,
-  },
-  hidden: {
+  enter: { y: 0, opacity: 1, delay: 300 },
+  exit: {
+    y: 50,
     opacity: 0,
-    y: 400,
-   }
+    transition: { duration: 200 }
+  }
 });
+
 
 export default class BeachCard extends React.Component {
   constructor(props) {
@@ -55,7 +51,7 @@ export default class BeachCard extends React.Component {
 
   render() {
     return (
-      <Box style={styles.box} pose={this.state.isVisible ? 'visible' : 'hidden'} >
+      <Box style={styles.box} pose={this.state.isVisible ? 'enter' : 'exit'} >
 
         <View style={styles.beachCard} key={this.props.beachData.beachId}>
           <WhichImage beach={this.props.beachData.beachName}/>
