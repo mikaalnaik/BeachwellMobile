@@ -16,21 +16,6 @@ const Firebase = require("firebase");
 require("firebase/functions");
 
 
-
-
-let FerryCard = () => {
-  // render() {
-    return (
-      <View>
-        <Text>
-          Ferry Schedule
-        </Text>
-      </View>
-    )
-  // }
-}
-
-
 export default class BeachList extends React.Component {
   constructor(props) {
     animationInterval : false,
@@ -81,7 +66,7 @@ export default class BeachList extends React.Component {
     return (
       <View style={{flex: 1}}>
         <View style={styles.headerCopy}>
-          <Text style={[styles.greetingText ]}>
+          <Text style={[styles.greetingText ]} allowFontScaling={false}>
             Explore today's water quality
           </Text>
 
@@ -99,7 +84,7 @@ export default class BeachList extends React.Component {
 
 
           <View style={styles.areaContainer}>
-            <Text style={[styles.beachAreaText  ]}>
+            <Text style={[styles.beachAreaText  ]} allowFontScaling={false}>
               Toronto Island
             </Text>
               <FlatList
@@ -119,7 +104,7 @@ export default class BeachList extends React.Component {
               />
           </View>
 
-          <Text style={styles.beachAreaText}>
+          <Text style={styles.beachAreaText} allowFontScaling={false}>
             West Toronto
           </Text>
 
@@ -140,7 +125,7 @@ export default class BeachList extends React.Component {
               />
           </View>
 
-          <Text style={styles.beachAreaText}>
+          <Text style={styles.beachAreaText} allowFontScaling={false}>
             East Toronto
           </Text>
 

@@ -112,7 +112,9 @@ export default class Splash extends React.Component {
                style={styles.logoMark}
                source={require('../assets/beachLogoMark.png')}
              />
-             <Text style={ styles.text }>Beachwell</Text>
+             <Text style={ styles.text } allowFontScaling={false}>
+               Beachwell
+             </Text>
            </View>
          }
 

@@ -30,10 +30,10 @@ let WeatherCard = (props) => {
   return (
     <View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
       <WeatherIcon weatherType={props.weatherData.weather[0].description}/>
-      <Text style={[styles.temperature]}>
+      <Text style={[styles.temperature]} allowFontScaling={false}>
         {Math.floor(props.weatherData.main.temp - 273.15)}°C
       </Text>
-      <Text style={styles.sunsetText}>
+      <Text style={styles.sunsetText} allowFontScaling={false}>
         Sunset at {moment.unix(props.weatherData.sys.sunset).format('h:mm A')}
       </Text>
     </View>
@@ -227,14 +227,14 @@ let BeachCardDetails = (props) => {
   })
 
   return (<View style={[styles.beachViewCard]}>
-    <Text style={styles.contentCardHeader}>
+    <Text style={styles.contentCardHeader} allowFontScaling={false}>
       TODAY'S PROJECTED READING
     </Text>
-    <Text style={styles.boldStat}>
+    <Text style={styles.boldStat} allowFontScaling={false}>
       {props.beachData.eColi} {' '}
       E. coli ppm
     </Text>
-    <Text style={styles.waterComment}>
+    <Text style={styles.waterComment} allowFontScaling={false}>
       The water is exeptionally clean
     </Text>
     <PredictedEcoliChart
@@ -273,13 +273,13 @@ let PastFiveDays = (props) => {
   const latestReadingFromCity = props.pastResults[0].eColiCount
   return (
     <View style={ [styles.beachViewCard, eColiCardStyles.bottomMargin] } pointerEvents="none">
-      <Text style={ styles.contentCardHeader }>
+      <Text style={ styles.contentCardHeader } allowFontScaling={false}>
         LATEST READING FROM THE CITY
       </Text>
-      <Text style={ styles.boldStat }>
+      <Text style={ styles.boldStat } allowFontScaling={false}>
         Sampled Yesterday
       </Text>
-      <Text style={ styles.boldStat }>
+      <Text style={ styles.boldStat } allowFontScaling={false}>
         {latestReadingFromCity}{' '}
         E. coli ppm
       </Text>
@@ -376,7 +376,7 @@ let BeachName = (props) => {
           style={styles.arrow}
           source={require('../assets/arrow.png')}
         />
-        <Text style={styles.beachLabel}>
+        <Text style={styles.beachLabel} allowFontScaling={false}>
           {props.name}
         </Text>
       </TouchableOpacity>

@@ -63,20 +63,20 @@ export default class BeachCard extends React.Component {
             {/* This is to shorten the name of Marie Curtis Park */}
               {
                 this.props.beachData.beachName === 'Marie Curtis Park East Beach' &&
-                  <Text style={styles.beachCardText}>
+                  <Text style={styles.beachCardText} allowFontScaling={false}>
                     Marie Curtis Park
                   </Text>
               }
               {
                 this.props.beachData.beachName !== 'Marie Curtis Park East Beach' &&
-                <Text style={styles.beachCardText}>
+                <Text style={styles.beachCardText} allowFontScaling={false}>
                   {this.props.beachData.beachName}
                 </Text>
               }
             <View style={styles.beachBodyContent}>
               {this.props.beachData.eColi < 100 && <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}/>}
               {this.props.beachData.eColi > 100 && <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}/>}
-              <Text style={styles.eColiBold}>
+              <Text style={styles.eColiBold} allowFontScaling={false}>
                 {this.props.beachData.eColi} E. coli ppm
               </Text>
             </View>
