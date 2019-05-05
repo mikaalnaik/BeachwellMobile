@@ -287,11 +287,13 @@ class Ferry extends React.Component {
                 {this.state.lastFerryFromIsland}
               </Text>
             </View>
-            <Button
-              onPress={this.buyTicket}
-              title='Buy Ticket'
-              color="#841584"
-            />
+            <TouchableWithoutFeedback onPress={this.buyTicket}>
+              <View style={styles.buyButtonStyle}>
+                <Text style={[styles.buybuttonText,]}>
+                  BUY TICKET
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </Box>
@@ -465,6 +467,31 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito-Bold',
     letterSpacing: .5,
     fontSize: 12,
+  },
+  buybuttonText: {
+    fontFamily: 'Nunito-Bold',
+    letterSpacing: .5,
+    color: 'white',
+    fontSize: 14,
+  },
+
+  buyButtonStyle: {
+    alignItems:'center',
+    justifyContent:'center',
+    height: 40,
+    backgroundColor: '#2342A2',
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+    	width: 0,
+    	height: 5,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
   },
 
   directionPicker: {
