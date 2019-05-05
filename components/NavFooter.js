@@ -63,14 +63,24 @@ render() {
       <TouchableWithoutFeedback onPress={this.beachList}>
         <View style={styles.navImageContainer}>
           {
-            this.props.nav.state.routeName === 'BeachList' &&
+            this.props.nav.state.routeName === 'BeachList'
+            &&
             <Image
               style={[styles.navImage,]}
               source={require('../assets/beachwellBlue.png')}
             />
           }
           {
-            this.props.nav.state.routeName !== 'BeachList' &&
+            this.props.nav.state.routeName === 'BeachView'
+            &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/beachwellBlue.png')}
+            />
+          }
+          {
+            (this.props.nav.state.routeName !== 'BeachList' && this.props.nav.state.routeName !== 'BeachView')
+            &&
             <Image
               style={[styles.navImage,]}
               source={require('../assets/beachwellGrey.png')}
