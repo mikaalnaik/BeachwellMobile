@@ -94,6 +94,8 @@ export default class Splash extends React.Component {
           beach14: result.data.beach14,
         })
       }
+    }).catch(err => {
+      console.log(err)
     })
   }
 

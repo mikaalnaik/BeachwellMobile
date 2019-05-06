@@ -1,16 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  ScrollView,
-  Text,
-  View,
-  Dimensions,
-  StatusBar,
-  Image,
-  Animated,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Dimensions, } from 'react-native';
+import  Image  from 'react-native-scalable-image';
 import posed from 'react-native-pose';
 import BeachImageSelector from '../components/BeachImageSelector';
 import Images from '../assets/beachImages.js';
@@ -23,6 +13,8 @@ const Box = posed.View({
     transition: { duration: 200 }
   }
 });
+
+const win = Dimensions.get('window');
 
 
 export default class BeachCard extends React.Component {
@@ -88,6 +80,7 @@ class WhichImage extends React.Component {
     super(props)
   }
   render() {
+    console.log('width ', Dimensions.get('window').width);
     const beachMap = {
       "Hanlan's Point Beach" : 'hanlans',
       "Gibraltar Point Beach" : 'gibraltar',
@@ -105,7 +98,7 @@ class WhichImage extends React.Component {
     return (
       <View style={styles.cardImageBorder}>
         <Image
-          style={styles.cardImage}
+          width={Dimensions.get('window').width * 0.8} // height will be calculated automatically
           source={Images[beachMap[this.props.beach]]}
         />
       </View>
@@ -116,15 +109,10 @@ class WhichImage extends React.Component {
 const styles = StyleSheet.create({
 
   beachCard: {
-    // borderWidth: 1,
     borderRadius: 10,
-    // borderColor: 'rgb(185, 185, 185)',
-    width: 300,
-    height: 290,
     marginBottom: 40,
     marginLeft: 20,
     marginRight: 20,
-    // overflow: 'hidden',
     backgroundColor: 'white',
     shadowColor: "#000",
     shadowOffset: {
@@ -171,9 +159,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   cardImage: {
-    height: 200,
-    width: 300,
-    overflow: 'hidden',
+    flex: 1,
+    height: undefined,
+    height: undefined,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
