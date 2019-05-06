@@ -20,7 +20,7 @@ const Box = posed.View({
      opacity: 1,
     delay: 300,
     transition: {
-      duration: 400,
+      duration: 1000,
     }
    },
   exit: {

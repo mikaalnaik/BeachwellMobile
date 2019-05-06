@@ -45,14 +45,14 @@ render() {
       <TouchableWithoutFeedback onPress={this.aboutUsNav}>
         <View style={styles.aboutUsContainer}>
           {
-            this.props.nav.state.routeName === 'AboutUsScreen' &&
+            this.props.nav.state.routeName === 'AboutUs' &&
             <Image
               style={[styles.navImage,]}
               source={require('../assets/aboutUsBlue.png')}
             />
           }
           {
-            this.props.nav.state.routeName !== 'AboutUsScreen' &&
+            this.props.nav.state.routeName !== 'AboutUs' &&
             <Image
               style={[styles.navImage,]}
               source={require('../assets/aboutUsGrey.png')}
