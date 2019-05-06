@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 20,
     marginTop: 20,
-    width: '80%',
+    width: '86%',
     height: '100%',
     backgroundColor: 'white',
     borderRadius: 5,
@@ -463,13 +463,14 @@ const styles = StyleSheet.create({
     lineHeight: 40
   },
   arrow: {
-    marginTop: 10,
+    marginTop: 30,
     marginLeft: 10,
     height: 10,
     position: 'absolute',
   },
   beachLabel: {
-    fontSize: 20,
+    fontSize: 30,
+    marginTop: 20,
     fontFamily: 'Nunito-Bold',
     color: '#464646',
     fontWeight: 'bold',
@@ -477,7 +478,7 @@ const styles = StyleSheet.create({
   },
   beachViewHeader: {
     paddingTop: 30,
-    paddingBottom: 10,
+    height: 100,
   },
   contentCardHeader: {
     fontSize: 12,

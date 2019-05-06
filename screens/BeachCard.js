@@ -105,7 +105,7 @@ class WhichImage extends React.Component {
     return (
       <View style={styles.cardImageBorder}>
         <Image
-          width={Dimensions.get('window').width * 0.8} // height will be calculated automatically
+          width={Dimensions.get('window').width * 0.86} // height will be calculated automatically
           source={Images[beachMap[this.props.beach]]}
         />
       </View>
