@@ -173,6 +173,7 @@ class Ferry extends React.Component {
   determineSchedule() {
     let schedule;
       let currentTime = moment().format('h:mm:a ');
+      console.log({currentTime});
       if(this.props.port === 'hanlans') {
          schedule = {
           MON_FRI: {
@@ -320,6 +321,7 @@ export default class FerrySchedule extends React.Component {
   componentDidMount() {
 
     let day = moment().days();
+    console.log({day});
     if(day === 0 || day === 6) {
       day = 'WEEKEND'
     } else {

@@ -6,11 +6,18 @@ import BeachImageSelector from '../components/BeachImageSelector';
 import Images from '../assets/beachImages.js';
 
 const Box = posed.View({
-  enter: { y: 0, opacity: 1, delay: 300 },
+  enter: {
+     y: 0,
+     opacity: 1,
+    delay: 300,
+    transition: {
+      duration: 400,
+    }
+   },
   exit: {
     y: 50,
     opacity: 0,
-    transition: { duration: 200 }
+    transition: { duration: 900 }
   }
 });
 

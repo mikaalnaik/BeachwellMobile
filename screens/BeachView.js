@@ -15,17 +15,20 @@ import * as scale from 'd3-scale';
 import _ from 'lodash';
 
 const Box = posed.View({
-  visible: {
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 20,  },
-    y: 0,
-  },
-  hidden: {
+  enter: {
+     y: 0,
+     opacity: 1,
+    delay: 300,
+    transition: {
+      duration: 400,
+    }
+   },
+  exit: {
+    y: 50,
     opacity: 0,
-    y: 400,
-   }
+    transition: { duration: 900 }
+  }
 });
-
 let WeatherCard = (props) => {
   return (
     <View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
@@ -352,7 +355,7 @@ let TopSection = (props) => {
 
 let BodySection = (props) => {
   return (
-    <Box pose={props.isVisible ? 'visible' : 'hidden'} >
+    <Box pose={props.isVisible ? 'enter' : 'exit'} >
     <View style={ styles.centerBlock }>
         <WeatherCard weatherData={ props.weatherData }/>
         <BeachCardDetails beachData={ props.beachData }/>

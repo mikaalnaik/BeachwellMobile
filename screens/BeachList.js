@@ -66,7 +66,7 @@ export default class BeachList extends React.Component {
     return (
       <View style={{flex: 1}}>
         <View style={styles.headerCopy}>
-          <Text style={[styles.greetingText ]} allowFontScaling={false}>
+          <Text style={styles.greetingText } allowFontScaling={false}>
             Explore today's water quality
           </Text>
 
@@ -170,27 +170,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  footerNav: {
-    flex: 1,
-    flexDirection: 'row',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: '5%',
-    width: '100%',
-    backgroundColor: 'white',
-  },
-  aboutUsContainer: {
-    flex: 1,
-    height: 70,
-    width: 300,
-  },
+
   greetingText: {
     fontFamily: 'Nunito-Bold',
     fontSize: 20,
     marginBottom: 20,
-    marginTop: 30,
+    marginTop: 50,
+    marginLeft: '10%',
     color:'#464646',
   },
   beachAreaText: {
@@ -204,11 +190,7 @@ const styles = StyleSheet.create({
     color:'#464646',
   },
   headerCopy: {
-    // flex: 1,
-    // width: 300,
     height: 100,
-    // backgroundColor: 'beige',
-    // position: 'absolute',
   },
   statusBar: {
     backgroundColor: 'white'

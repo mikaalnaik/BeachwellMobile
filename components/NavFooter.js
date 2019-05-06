@@ -129,12 +129,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     shadowColor: "#000",
     shadowOffset: {
-    width: 0,
-    height: -3,
-},
-shadowOpacity: 0.10,
-shadowRadius: 4.65,
-elevation: 1,
+      width: 0,
+      height: -3,
+    },
+    shadowOpacity: 0.10,
+    shadowRadius: 4.65,
+    elevation: 1,
   },
   navImageContainer: {
   },
