@@ -77,16 +77,17 @@ export default class BeachList extends React.Component {
         </View>
         <View style={[
             styles.container, {
-              width: this.fullWidth
+              width: this.fullWidth,
+              marginBottom: 60,
             }
           ]}>
 
 
 
+          <Text style={[styles.beachAreaText]} allowFontScaling={false}>
+            Toronto Island
+          </Text>
           <View style={styles.areaContainer}>
-            <Text style={[styles.beachAreaText  ]} allowFontScaling={false}>
-              Toronto Island
-            </Text>
               <FlatList
                 data={this.props.navigation.state.params.beachToday.torontoIsland}
                 animation={this.state.position}
@@ -193,9 +194,10 @@ const styles = StyleSheet.create({
     color:'#464646',
   },
   beachAreaText: {
+    marginRight: 'auto',
+    marginLeft: '10%',
     fontFamily: 'Nunito-Bold',
     fontSize: 16,
-    justifyContent: 'flex-start',
     fontWeight: '300',
     marginTop: 20,
     marginBottom: 20,
