@@ -273,7 +273,6 @@ let PastFiveDays = (props) => {
 }
 
 let TopSection = (props) => {
-  console.log('top section props', props);
       const beachMap = {
         "Hanlan's Point Beach" : 'hanlans',
         "Gibraltar Point Beach" : 'gibraltar',

@@ -14,7 +14,6 @@ import WeatherImages from '../assets/weatherImages.js';
 
 
 let WeatherIcon = (props) => {
-  console.log('weather tpe', props.weatherType);
 
   const weatherTypes = {
     'clear sky': 'sunshine',
@@ -31,7 +30,6 @@ let WeatherIcon = (props) => {
     'snow': 'storm',
     'mist': 'rain'
   }
-  console.log('weather icon props', props);
   return (
     <View style={styles.weatherImageContainer}>
       <Image

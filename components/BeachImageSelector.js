@@ -37,7 +37,6 @@ let BeachImageSelector = (props) => {
 
 
   return (
-    // console.log('beah props', props.image.beachInfo.beachName)
     <View>
       <Image
         width={Dimensions.get('window').width}

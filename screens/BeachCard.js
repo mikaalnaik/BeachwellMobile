@@ -87,7 +87,6 @@ class WhichImage extends React.Component {
     super(props)
   }
   render() {
-    console.log('width ', Dimensions.get('window').width);
     const beachMap = {
       "Hanlan's Point Beach" : 'hanlans',
       "Gibraltar Point Beach" : 'gibraltar',
@@ -105,8 +104,7 @@ class WhichImage extends React.Component {
     return (
       <View style={styles.cardImageBorder}>
         <Image
-          width={Dimensions.get('window').width * 0.86} // height will be calculated automatically
-          // height={Dimensions.get('window').width * 0.86}
+          width={Dimensions.get('window').width * 0.86}
           background={true}
           source={Images[beachMap[this.props.beach]]}
         />

@@ -56,7 +56,6 @@ export default class Splash extends React.Component {
       'Nunito-Bold': require('../assets/fonts/Nunito/Nunito-Bold.ttf'),
     });
     this.setState({ fontLoaded: true });
-    console.log('stat changed', this.state);
     let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
     collectAllDataFromServer().then((result) => {
       let formatedBeachData = result.data.beachToday.elements[0].elements[1].elements.map((beach, index) => {
@@ -86,7 +85,7 @@ export default class Splash extends React.Component {
         beach14: result.data.beach14,
         loading: false,
       })
-      console.log('yeah just about to load');
+
       if(!this.state.loading) {
         this.props.navigation.navigate('BeachList' , {
           weatherData: this.state.weatherData,
