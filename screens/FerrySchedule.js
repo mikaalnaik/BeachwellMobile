@@ -162,81 +162,83 @@ class Ferry extends React.Component {
 
   componentDidMount() {
     this.setState({isVisible: true});
-    this.determineSchedule();
+    // this.determineSchedule();
+    this.setState(this.determineSchedule())
+
   }
 
-  componentWillReceiveProps() {
-    this.determineSchedule()
+  componentDidUpdate(prevProps) {
+    if(this.props !== prevProps) {
+      let schedule = this.determineSchedule()
+      this.setState(schedule)
+
+    }
   }
 
 
   determineSchedule() {
     let schedule;
-      let currentTime = moment().format('h:mm:a ');
-      console.log({currentTime});
-      if(this.props.port === 'hanlans') {
-         schedule = {
-          MON_FRI: {
-            city: HANLANS_FROM_CITY_MON_FRI,
-            island: HANLANS_FROM_ISLAND_MON_FRI,
-          },
-          WEEKEND: {
-            city: HANLANS_FROM_CITY_WEEKEND,
-            island: HANLANS_FROM_ISLAND_WEEKEND,
-          }
-        }
-      } else if (this.props.port === 'center') {
-        schedule = {
-         MON_FRI: {
-           city: CENTRE_FROM_CITY_MON_FRI,
-           island: CENTRE_FROM_ISLAND_MON_FRI,
-         },
-         WEEKEND: {
-           city: CENTRE_FROM_CITY_WEEKEND,
-           island: CENTRE_FROM_ISLAND_WEEKEND,
-         }
-       }
-     } else if (this.props.port === 'wards') {
-       schedule = {
+    let currentTime = moment().format('h:mm:a');
+    if(this.props.port === 'hanlans') {
+      schedule = {
         MON_FRI: {
-          city: WARDS_FROM_CITY_MON_FRI,
-          island: WARDS_FROM_ISLAND_MON_FRI,
+          city: HANLANS_FROM_ISLAND_MON_FRI,
+          island: HANLANS_FROM_CITY_MON_FRI,
         },
         WEEKEND: {
-          city: WARDS_FROM_CITY_WEEKEND,
-          island: WARDS_FROM_ISLAND_WEEKEND,
+          city: HANLANS_FROM_ISLAND_WEEKEND,
+          island: HANLANS_FROM_CITY_WEEKEND,
         }
       }
-     }
-
-
-      let displayedSchedule = schedule[this.props.dayOfWeek][this.props.directionOfTravel]
-
-      this.setState({
-        lastFerryFromIsland: displayedSchedule[displayedSchedule.length - 1]
-      })
-
-      let differenceInTime = displayedSchedule.map(time => {
-        let duration = moment(currentTime, 'h:mm:a').diff(moment(time, 'h:mm:a'))
-        return {time: time, duration: duration}
-      })
-      let sortedTime = [];
-      let sortedSchedule = _.sortBy(differenceInTime, 'duration');
-      let filteredSchedule = _.filter(sortedSchedule, (i) => {
-        return i.duration < 0;
-      });
-      filteredSchedule.reverse()
-      filteredSchedule.forEach(entry => {
-        if(entry.duration < 0 && sortedTime.length < 4) {
-          sortedTime.push(entry.time)
+    } else if (this.props.port === 'center') {
+      schedule = {
+        MON_FRI: {
+          city: CENTRE_FROM_ISLAND_MON_FRI,
+          island: CENTRE_FROM_CITY_MON_FRI,
+        },
+        WEEKEND: {
+          city: CENTRE_FROM_ISLAND_WEEKEND,
+          island: CENTRE_FROM_CITY_WEEKEND,
         }
-      })
+      }
+    } else if (this.props.port === 'wards') {
+      schedule = {
+        MON_FRI: {
+          city: WARDS_FROM_ISLAND_MON_FRI,
+          island: WARDS_FROM_CITY_MON_FRI,
+        },
+        WEEKEND: {
+          city: WARDS_FROM_ISLAND_WEEKEND,
+          island: WARDS_FROM_CITY_WEEKEND,
+        }
+      }
+    }
 
-      let nextTime = sortedTime.shift();
-      this.setState({
-        nextTime: nextTime,
-        upcomingTimes: sortedTime,
-      })
+    let displayedSchedule = schedule[this.props.dayOfWeek][this.props.directionOfTravel];
+
+
+    let differenceInTime = displayedSchedule.map(time => {
+      let duration = moment(currentTime, 'h:mm:a').diff(moment(time, 'h:mm:a'))
+      return {time: time, duration: duration}
+    })
+    let sortedTime = [];
+    let sortedSchedule = _.sortBy(differenceInTime, 'duration');
+    let filteredSchedule = _.filter(sortedSchedule, (i) => {
+      return i.duration < 0;
+    });
+    filteredSchedule.reverse()
+    filteredSchedule.forEach(entry => {
+      if(entry.duration < 0 && sortedTime.length < 4) {
+        sortedTime.push(entry.time)
+      }
+    })
+
+    let nextTime = sortedTime.shift();
+    return {
+      nextTime: nextTime,
+      upcomingTimes: sortedTime,
+      lastFerryFromIsland: displayedSchedule[displayedSchedule.length - 1]
+    }
   }
 
   buyTicket = () => {
@@ -282,7 +284,7 @@ class Ferry extends React.Component {
           <View style={styles.ferryInfo}>
             <View style={styles.ticketBlock}>
               <Text style={styles.lastFerrytext}>
-                Last ferry from island:
+                Last ferry leaves:
               </Text>
               <Text style={styles.lastFerrytime}>
                 {this.state.lastFerryFromIsland}
@@ -321,7 +323,6 @@ export default class FerrySchedule extends React.Component {
   componentDidMount() {
 
     let day = moment().days();
-    console.log({day});
     if(day === 0 || day === 6) {
       day = 'WEEKEND'
     } else {
@@ -341,20 +342,18 @@ export default class FerrySchedule extends React.Component {
         ferryImage: 'ferryCity',
         directionOfTravel: 'city',
       })
-    } else {
+    }
+    if(direction === 'island') {
       this.setState({
         ferryImage: 'ferryIsland',
         directionOfTravel: 'island',
       })
     }
+    return;
   }
 
 
   render() {
-    const options = [
-      "Option 1",
-      "Option 2"
-    ];
     return (
       <View style={{flex: 1, justifyContent: 'center',}}>
         <ScrollView  showsVerticalScrollIndicator={true}>
@@ -388,13 +387,14 @@ export default class FerrySchedule extends React.Component {
             {
               this.state.dayOfWeek &&
               <View style={styles.scheduleContainer} >
-                <Ferry directionOfTravel={this.state.directionOfTravel}
+                <Ferry
+                  directionOfTravel={this.state.directionOfTravel}
                   port={'hanlans'}
                   label={'Hanlan\s Point'}
                   dayOfWeek={this.state.dayOfWeek}
                   time={this.state.time}
                 />
-                <Ferry directionOfTravel={this.state.directionOfTravel}
+                {/* <Ferry directionOfTravel={this.state.directionOfTravel}
                   port={'center'}
                   label={'Centre Island'}
                   dayOfWeek={this.state.dayOfWeek}
@@ -405,7 +405,7 @@ export default class FerrySchedule extends React.Component {
                   label={'Wards Island'}
                   dayOfWeek={this.state.dayOfWeek}
                   time={this.state.time}
-                />
+                /> */}
               </View>
             }
           </View>
@@ -498,11 +498,6 @@ const styles = StyleSheet.create({
 
   directionPicker: {
     padding: 5,
-    // height: 30,
-    // fontSize: 12,
-    // backgroundColor: '#2342A2',
-    // color: 'white',
-
   },
   scheduleContainer: {
     flex: 1,
