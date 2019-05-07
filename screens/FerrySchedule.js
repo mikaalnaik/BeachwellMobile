@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     borderColor:'rgba(0,0,0,0.2)',
     alignItems:'center',
     justifyContent:'center',
-    height: 40,
+    height: 36,
     color: '#464646',
     paddingLeft: 10,
     paddingRight: 10,
@@ -497,8 +497,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: -14,
     paddingBottom: 34,
-    backgroundColor: '#EFEFEF',
-
+    backgroundColor: '#EFEFEF'
   },
   ferryTimeList: {
     height: '100%',
@@ -530,6 +529,7 @@ const styles = StyleSheet.create({
     width: '50%',
     color: '#919191',
     letterSpacing: .5,
+    paddingBottom: 5,
   },
   nextTime: {
     fontSize: 25,

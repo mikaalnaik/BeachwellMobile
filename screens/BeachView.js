@@ -231,7 +231,7 @@ let PastFiveDays = (props) => {
         E. coli ppm
       </Text>
       <Text style={ styles.waterComment } allowFontScaling={false}>
-        Sampled Yesterday
+        Sampled yesterday
       </Text>
       <View style={ styles.chartContainer }>
         <VictoryChart
@@ -483,6 +483,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#919191',
     letterSpacing: .5,
+    marginBottom: 5,
   },
   waterComment: {
     fontFamily: 'Nunito-SemiBoldItalic',
@@ -490,7 +491,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   sunsetText:{
-    fontFamily: 'Nunito-Bold',
+    fontFamily: 'Nunito-SemiBold',
     color: '#464646',
     fontSize: 14,
   },
