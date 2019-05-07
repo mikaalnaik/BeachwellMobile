@@ -106,6 +106,8 @@ class WhichImage extends React.Component {
       <View style={styles.cardImageBorder}>
         <Image
           width={Dimensions.get('window').width * 0.86} // height will be calculated automatically
+          // height={Dimensions.get('window').width * 0.86}
+          background={true}
           source={Images[beachMap[this.props.beach]]}
         />
       </View>
@@ -135,6 +137,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     overflow: 'hidden',
+    height: 190,
   },
   beachBodyContent: {
     flex: 1,
