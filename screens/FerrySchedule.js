@@ -249,7 +249,7 @@ class Ferry extends React.Component {
     return (
       <Box style={{flex: 1, width: '80%',}} pose={this.state.isVisible ? 'enter' : 'exit'} >
 
-        <View style={styles.specificSchedule}>
+        <View style={[styles.specificSchedule, this.props.port === 'hanlans' && styles.firstCard ]}>
           <Text style={styles.portName}>
             {this.props.label}
           </Text>
@@ -394,7 +394,7 @@ export default class FerrySchedule extends React.Component {
                   dayOfWeek={this.state.dayOfWeek}
                   time={this.state.time}
                 />
-                {/* <Ferry directionOfTravel={this.state.directionOfTravel}
+                <Ferry directionOfTravel={this.state.directionOfTravel}
                   port={'center'}
                   label={'Centre Island'}
                   dayOfWeek={this.state.dayOfWeek}
@@ -405,7 +405,7 @@ export default class FerrySchedule extends React.Component {
                   label={'Wards Island'}
                   dayOfWeek={this.state.dayOfWeek}
                   time={this.state.time}
-                /> */}
+                />
               </View>
             }
           </View>
@@ -485,15 +485,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: {
-    	width: 0,
-    	height: 5,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-
-    elevation: 6,
   },
 
   directionPicker: {
@@ -506,6 +497,8 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: -14,
     paddingBottom: 34,
+    backgroundColor: '#EFEFEF',
+
   },
   ferryTimeList: {
     height: '100%',
@@ -549,20 +542,12 @@ const styles = StyleSheet.create({
   },
   specificSchedule: {
     flex: 1,
-    borderRadius: 10,
+    borderRadius: 5,
+    marginBottom: 20,
     width: '100%',
     height: '100%',
     padding: 15,
     backgroundColor: 'white',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 1,
-    marginBottom: 20,
   },
   lastFerrytext:{
     fontFamily: 'Nunito-SemiBoldItalic',
@@ -574,5 +559,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#464646',
   },
-
+  firstCard: {
+    marginTop: -14  ,
+  },
 });
