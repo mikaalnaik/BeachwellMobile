@@ -103,6 +103,7 @@ let PredictedEcoliChart = (props) => {
         animate={{ duration: 1000 }}
         data={[data]}
         barWidth={40}
+        cornerRadius={5}
         alignment="start"
         height={100}
         width={150}
