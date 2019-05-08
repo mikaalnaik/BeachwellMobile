@@ -247,7 +247,7 @@ class Ferry extends React.Component {
 
   render() {
     return (
-      <Box style={{flex: 1, width: '80%',}} pose={this.state.isVisible ? 'enter' : 'exit'} >
+      <Box style={{flex: 1, width: '100%',}} pose={this.state.isVisible ? 'enter' : 'exit'} >
 
         <View style={[styles.specificSchedule, this.props.port === 'hanlans' && styles.firstCard ]}>
           <Text style={styles.portName}>
@@ -381,9 +381,6 @@ export default class FerrySchedule extends React.Component {
               width={Dimensions.get('window').width}
               source={Images[this.state.ferryImage]}
             />
-
-            <View>
-            </View>
             {
               this.state.dayOfWeek &&
               <View style={styles.scheduleContainer} >
@@ -494,6 +491,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     marginTop: -14,
     paddingBottom: 34,
@@ -544,8 +542,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     marginBottom: 20,
-    width: '100%',
-    height: '100%',
+    width: '86%',
+    marginLeft: '7%',
     padding: 15,
     backgroundColor: 'white',
   },
