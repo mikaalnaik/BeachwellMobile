@@ -91,7 +91,6 @@ let PredictedEcoliChart = (props) => {
             marginRight: 0,
             right: 20,
             paddingTop: 20,
-            paddingLeft: 40,
             width: 80,
             alignSelf: 'center',
             alignContent: 'center',
@@ -111,11 +110,11 @@ let PredictedEcoliChart = (props) => {
           data: {
             fill: (data) => data._y > 100 ? "#c43a31" : "#21984F",
           },
-          grid: {
-        fill: "none",
-        stroke: 'black',
-        pointerEvents: "painted"
-      },
+      //     grid: {
+      //   fill: "none",
+      //   stroke: 'black',
+      //   pointerEvents: "painted"
+      // },
         }}
       />
        <VictoryAxis
@@ -236,10 +235,12 @@ let PastFiveDays = (props) => {
       </Text>
       <View style={ styles.chartContainer }>
         <VictoryChart
+          style={styles.past14ChartStyles}
+          theme={VictoryTheme.material}
           height={200}
-          width={300}
-          padding={40}
-          domainPadding={5}
+          width={ Dimensions.get('window').width / 1.1 }
+          //padding={40}
+          domainPadding={15}
           animate={{ duration: 2000,  }}
           containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
         >
@@ -254,6 +255,9 @@ let PastFiveDays = (props) => {
             />
           <VictoryAxis
             style={{
+              axis: {stroke: "none"},
+              ticks: {stroke: 'none'},
+              grid: {stroke: 'none'},
               tickLabels: {
                 fontSize: 10,
                 paddingTop: 45,
@@ -265,6 +269,11 @@ let PastFiveDays = (props) => {
             tickCount={7}
           />
           <VictoryAxis
+          style={{
+            axis: {stroke: "none"},
+            ticks: {stroke: 'none'},
+            grid: {stroke: 'lightgrey'}
+          }}
             dependentAxis
           />
         </VictoryChart>
@@ -410,6 +419,7 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     marginTop: -40,
+    paddingLeft:8,
   },
   weatherImageContainer: {
     height: 50,
@@ -463,13 +473,13 @@ const styles = StyleSheet.create({
     lineHeight: 40
   },
   arrow: {
-    marginTop: 30,
-    marginLeft: 10,
+    marginTop: 25,
+    marginLeft: 20,
     height: 10,
     position: 'absolute',
   },
   beachLabel: {
-    fontSize: 30,
+    fontSize: 22,
     marginTop: 20,
     fontFamily: 'Nunito-Bold',
     color: '#464646',
