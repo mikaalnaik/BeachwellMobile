@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
 
   greetingText: {
     fontFamily: 'Nunito-Bold',
-    fontSize: 20,
+    fontSize: 22,
     marginBottom: 20,
     marginTop: 50,
     marginLeft: '7%',
