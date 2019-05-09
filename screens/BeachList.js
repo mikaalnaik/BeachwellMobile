@@ -7,6 +7,8 @@ import {
   StatusBar,
   View,
   Dimensions,
+  AsyncStorage,
+  Alert,
   TouchableWithoutFeedback
 } from 'react-native';
 import BeachCard from './BeachCard';
@@ -39,6 +41,24 @@ export default class BeachList extends React.Component {
       overlay: true,
       fontLoaded: true,
     })
+    if(await this.getAgreedToTerms() !== 'true') {
+      Alert.alert(
+        'Disclaimer',
+        `The data presented here is predicted by a machine learning models that, like human beings, are subject to errors. Use common sense when swimming. By agreeing, you acknowledge the producers of this app are free from any liability in connection with the use of this information.`,
+        [
+          {text: 'Agree', onPress: () => this.setAgreedToTerms()},
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+
+  setAgreedToTerms = async () => {
+    await AsyncStorage.setItem('agreedToTerms', 'true');
+  }
+
+  getAgreedToTerms = async () => {
+    return await AsyncStorage.getItem('agreedToTerms')
   }
 
   beachFocus = (beach) => {
