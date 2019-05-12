@@ -1,18 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  View,
-  StatusBar,
-  Linking,
-  Modal,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Linking, TouchableHighlight, } from 'react-native';
 import NavFooter from '../components/NavFooter';
-import * as scale from 'd3-scale';
-import _ from 'lodash';
 
 
 
@@ -59,8 +47,8 @@ export default class AboutUsScreen extends React.Component {
               </Text>
 
               <Text style={styles.aboutUsBody}>
-                The data presented here is predicted by a machine learning models
-                that, like human beings, are subject to errors. Use common sense.
+                The data presented here is predicted by a machine learning model
+                that, like human beings, is subject to errors. Use common sense.
               </Text>
 
              <Text style={[styles.madeByHeader, styles.topMargin]} allowFontScaling={false}>
