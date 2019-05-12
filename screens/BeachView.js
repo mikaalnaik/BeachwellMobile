@@ -1,46 +1,63 @@
 import React from 'react';
-import { StyleSheet, FlatList, ScrollView, Text, View, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  Text,
+  View,
+  Dimensions,
+  StatusBar,
+  TouchableOpacity
+} from 'react-native';
 import Images from '../assets/beachImages.js';
 import WeatherImages from '../assets/weatherImages.js';
 import WeatherIcon from '../components/WeatherIcon.js';
-import  Image  from 'react-native-scalable-image';
-import { Font } from 'expo';
+import Image from 'react-native-scalable-image';
+import {Font} from 'expo';
 import moment from 'moment';
 import BeachImageSelector from '../components/BeachImageSelector';
 import posed from 'react-native-pose';
 import {BarChart, Grid, YAxis, XAxis} from 'react-native-svg-charts'
 import NavFooter from '../components/NavFooter';
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryContainer, VictoryLine, VictoryLabel, VictoryTheme } from "victory-native";
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryAxis,
+  VictoryContainer,
+  VictoryLine,
+  VictoryLabel,
+  VictoryTheme
+} from "victory-native";
 import * as scale from 'd3-scale';
 import _ from 'lodash';
 
 const Box = posed.View({
   enter: {
-     y: 0,
-     opacity: 1,
+    y: 0,
+    opacity: 1,
     delay: 300,
     transition: {
-      duration: 1000,
+      duration: 1000
     }
-   },
+  },
   exit: {
     y: 50,
     opacity: 0,
-    transition: { duration: 900 }
+    transition: {
+      duration: 900
+    }
   }
 });
 let WeatherCard = (props) => {
-  return (
-    <View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
-      <WeatherIcon weatherType={props.weatherData.weather[0].description}/>
-      <Text style={[styles.temperature]} allowFontScaling={false}>
-        {Math.floor(props.weatherData.main.temp - 273.15)}°C
-      </Text>
-      <Text style={styles.sunsetText} allowFontScaling={false}>
-        Sunset at {moment.unix(props.weatherData.sys.sunset).format('h:mm A')}
-      </Text>
-    </View>
-  )
+  return (<View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
+    <WeatherIcon weatherType={props.weatherData.weather[0].description}/>
+    <Text style={[styles.temperature]} allowFontScaling={false}>
+      {Math.floor(props.weatherData.main.temp - 273.15)}°C
+    </Text>
+    <Text style={styles.sunsetText} allowFontScaling={false}>
+      Sunset at {moment.unix(props.weatherData.sys.sunset).format('h:mm A')}
+    </Text>
+  </View>)
 }
 
 let PredictedEcoliChart = (props) => {
@@ -56,101 +73,76 @@ let PredictedEcoliChart = (props) => {
       paddingLeft: 40,
       width: 80,
       alignSelf: 'center',
-      alignContent: 'center',
-    },
+      alignContent: 'center'
+    }
   })
 
   const data = props.currentEcoliReading
   let topOfDomain;
   let xTickValues;
 
-  if (data < 100 ) {
+  if (data < 100) {
     topOfDomain = 120;
-    xTickValues = _.range(0, topOfDomain , 10);
+    xTickValues = _.range(0, topOfDomain, 10);
   } else {
     topOfDomain = Number(data) + 35;
-      xTickValues = _.range(0, topOfDomain , 25);
+    xTickValues = _.range(0, topOfDomain, 25);
   }
 
+  const strokeDasharray = "10,1";
 
+  return (<View style={{
+      marginTop: -40,
+      padding: 10,
+      marginLeft: -5
+    }} pointerEvents="none">
 
-  return (
-    <View pointerEvents="none">
-     <VictoryChart
-      height={100}
-      width={350}
+    <VictoryChart
       horizontal={true}
-      style={styles.past14ChartStyles}
+      width={Dimensions.get('window').width} 
+      height={140}
       theme={VictoryTheme.material}
-      containerComponent={
-        <VictoryContainer
-          style={{
-            flex: .5,
-            height: 50,
-            display: 'flex',
-            marginRight: 0,
-            right: 20,
-            paddingTop: 20,
-            width: 80,
+      containerComponent={<VictoryContainer
+      style = {{
+            flex: 1,
+            height: 100,
             alignSelf: 'center',
             alignContent: 'center',
           }}
-        />
-        }
-     >
-      <VictoryBar
-        animate={{ duration: 1000 }}
-        data={[data]}
-        barWidth={40}
-        cornerRadius={5}
-        alignment="start"
-        height={100}
-        width={150}
-        style={{
+      />}
+    >
+      <VictoryBar animate={{
+          duration: 1000
+        }} data={[data]} barWidth={40} cornerRadius={5} alignment="start" style={{
           data: {
-            fill: (data) => data._y > 100 ? "#c43a31" : "#21984F",
+            fill: (data) => data._y > 100
+              ? "#c43a31"
+              : "#21984F"
+          }
+        }}/>
+      <VictoryAxis responsive={true} dependentAxis="dependentAxis" style={{
+          tickLabels: {
+            fontSize: 10,
+            angle: 45
           },
-      //     grid: {
-      //   fill: "none",
-      //   stroke: 'black',
-      //   pointerEvents: "painted"
-      // },
-        }}
-      />
-       <VictoryAxis
-          responsive={false}
-          dependentAxis
-          height={100}
-          width={ Dimensions.get('window').width / 1.1 }
-          style={{
-            tickLabels: {
-              fontSize: 10,
-              paddingTop: 45,
-              paddingLeft: 15,
-              angle: 45,
-              marginTop: 90,
-            },
-            axis: {
-              stroke: 'none'
-            },
-            ticks: {
-              stroke: 'none',
-
-            },
-            grid: {
-              fill: "red",
-              stroke: "red",
-              pointerEvents: "painted"
-            },
-          }}
-          tickValues={xTickValues}
-          orientation={'bottom'}
-          padding={{left: 40, right: 40, bottom: 0, top: 0}}
-          standAlone={true}
-        />
-     </VictoryChart>
-   </View>
-)
+          axisLabel: {
+            padding: 30,
+            lineHeight: 60
+          },
+          axis: {
+            stroke: 'none'
+          },
+          ticks: {
+            stroke: 'none'
+          },
+          grid: {
+            stroke: "rgb(193, 193, 193)",
+            strokeDasharray,
+            pointerEvents: "painted"
+          }
+        }} tickValues={xTickValues} orientation={'bottom'} standAlone={true} label="E.coli (ppm)"/>
+    </VictoryChart>
+  </View>)
 }
 
 let BeachCardDetails = (props) => {
@@ -166,14 +158,13 @@ let BeachCardDetails = (props) => {
       paddingLeft: 40,
       width: 80,
       alignSelf: 'center',
-      alignContent: 'center',
+      alignContent: 'center'
     },
     contentCardHeader: {
       fontSize: 12,
       color: '#919191',
-      letterSpacing: .5,
-
-      }
+      letterSpacing: .5
+    }
   })
 
   return (<View style={[styles.beachViewCard]}>
@@ -181,29 +172,23 @@ let BeachCardDetails = (props) => {
       TODAY'S PROJECTED READING
     </Text>
     <Text style={styles.boldStat} allowFontScaling={false}>
-      {props.beachData.eColi} {' '}
+      {props.beachData.eColi}
+      {' '}
       E. coli ppm
     </Text>
-      {
-        props.beachData.eColi < 100 &&
-
-        <Text style={styles.waterComment} allowFontScaling={false}>
+    {
+      props.beachData.eColi < 100 && <Text style={styles.waterComment} allowFontScaling={false}>
           The water is exeptionally clean
         </Text>
-      }
-      {
-        props.beachData.eColi > 100 &&
-
-        <Text style={styles.waterComment} allowFontScaling={false}>
+    }
+    {
+      props.beachData.eColi > 100 && <Text style={styles.waterComment} allowFontScaling={false}>
           E.coli levels exceed provincial standards.
         </Text>
-      }
-    <PredictedEcoliChart
-      currentEcoliReading={props.beachData.eColi}
-    />
+    }
+    <PredictedEcoliChart currentEcoliReading={props.beachData.eColi}/>
   </View>)
 }
-
 
 let PastFiveDays = (props) => {
 
@@ -218,116 +203,112 @@ let PastFiveDays = (props) => {
       paddingLeft: 40,
       width: 80,
       alignSelf: 'center',
-      alignContent: 'center',
+      alignContent: 'center'
     },
     bottomMargin: {
-      marginBottom: 40,
+      marginBottom: 40
     }
   })
 
   let dataForChart = [];
   props.pastResults.forEach(day => {
-    dataForChart.push({ x: day.sampleDate, y: Number(day.eColiCount) })
+    dataForChart.push({
+      x: day.sampleDate,
+      y: Number(day.eColiCount)
+    })
   })
   dataForChart = dataForChart.reverse();
 
   const latestReadingFromCity = props.pastResults[0].eColiCount
-  return (
-    <View style={ [styles.beachViewCard, eColiCardStyles.bottomMargin] } pointerEvents="none">
-      <Text style={ styles.contentCardHeader } allowFontScaling={false}>
-        LATEST READING FROM THE CITY
-      </Text>
-      <Text style={ styles.boldStat } allowFontScaling={false}>
-        {latestReadingFromCity}{' '}
-        E. coli ppm
-      </Text>
-      <Text style={ styles.waterComment } allowFontScaling={false}>
-        Sampled yesterday
-      </Text>
-      <View style={ styles.chartContainer }>
-        <VictoryChart
-          theme={VictoryTheme.material}
-          height={200}
-          width={ Dimensions.get('window').width / 1.1 }
-          domainPadding={15}
-          animate={{ duration: 2000,}}
-          containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
-        >
-          <VictoryLine
-            height={200}
-            interpolation="natural"
-            style={{
-              data: { stroke: "rgb(19, 55, 116)" },
-                parent: { border: "1px solid #ccc"}
-              }}
-              data={dataForChart}
-            />
-          <VictoryAxis
-            style={{
-              axis: {stroke: "none"},
-              ticks: {stroke: 'none'},
-              grid: {stroke: 'none'},
-              tickLabels: {
-                fontSize: 10,
-                paddingTop: 45,
-                paddingLeft: 15,
-                angle: 45,
-                marginTop: 90,
-              },
-            }}
-            tickCount={7}
-          />
-          <VictoryAxis
-          style={{
-            axis: {stroke: "none"},
-            ticks: {stroke: 'none'},
-            grid: {stroke: 'lightgrey'}
-          }}
-            dependentAxis
-          />
-        </VictoryChart>
-      </View>
+  return (<View style={[styles.beachViewCard, eColiCardStyles.bottomMargin]} pointerEvents="none">
+    <Text style={styles.contentCardHeader} allowFontScaling={false}>
+      LATEST READING FROM THE CITY
+    </Text>
+    <Text style={styles.boldStat} allowFontScaling={false}>
+      {latestReadingFromCity}{' '}
+      E. coli ppm
+    </Text>
+    <Text style={styles.waterComment} allowFontScaling={false}>
+      Sampled yesterday
+    </Text>
+    <View style={styles.chartContainer}>
+      <VictoryChart theme={VictoryTheme.material} height={200} width={Dimensions.get('window').width / 1.1} domainPadding={15} animate={{
+          duration: 2000
+        }} containerComponent={<VictoryContainer style = {
+          eColiCardStyles.todayChartContainer
+        } />}>
+        <VictoryLine height={200} interpolation="natural" style={{
+            data: {
+              stroke: "rgb(19, 55, 116)"
+            },
+            parent: {
+              border: "1px solid #ccc"
+            }
+          }} data={dataForChart}/>
+        <VictoryAxis style={{
+            axis: {
+              stroke: "none"
+            },
+            ticks: {
+              stroke: 'none'
+            },
+            grid: {
+              stroke: 'none'
+            },
+            tickLabels: {
+              fontSize: 10,
+              paddingTop: 45,
+              paddingLeft: 15,
+              angle: 45,
+              marginTop: 90
+            }
+          }} tickCount={7}/>
+        <VictoryAxis style={{
+            axis: {
+              stroke: "none"
+            },
+            ticks: {
+              stroke: 'none'
+            },
+            grid: {
+              stroke: 'lightgrey'
+            }
+          }} dependentAxis="dependentAxis"/>
+      </VictoryChart>
     </View>
-  )
+  </View>)
 }
 
 let TopSection = (props) => {
-      const beachMap = {
-        "Hanlan's Point Beach" : 'hanlans',
-        "Gibraltar Point Beach" : 'gibraltar',
-        "Sunnyside Beach" : 'sunnyside',
-        "Cherry Beach" : 'cherry',
-        "Woodbine Beaches" : 'woodbine',
-        "Marie Curtis Park East Beach" : 'mariecurtis',
-        "Ward's Island Beach" : 'wards',
-        "Centre Island Beach" : 'center',
-        "Kew Balmy Beach" : 'kewbalmy',
-        "Bluffer's Beach Park": 'bluffs',
-        "Rouge Beach" : 'rouge',
+  const beachMap = {
+    "Hanlan's Point Beach": 'hanlans',
+    "Gibraltar Point Beach": 'gibraltar',
+    "Sunnyside Beach": 'sunnyside',
+    "Cherry Beach": 'cherry',
+    "Woodbine Beaches": 'woodbine',
+    "Marie Curtis Park East Beach": 'mariecurtis',
+    "Ward's Island Beach": 'wards',
+    "Centre Island Beach": 'center',
+    "Kew Balmy Beach": 'kewbalmy',
+    "Bluffer's Beach Park": 'bluffs',
+    "Rouge Beach": 'rouge'
+  }
 
-      }
-
-      return (
-        <View>
-          <Image
-            width={ Dimensions.get('window').width }
-            source={ Images[beachMap[props.nav.navigation.state.params.data.beachName]] }
-          />
-        </View>
-      );
-    }
-
+  return (<View>
+    <Image width={Dimensions.get('window').width} source={Images[beachMap[props.nav.navigation.state.params.data.beachName]]}/>
+  </View>);
+}
 
 let BodySection = (props) => {
-  return (
-    <Box pose={props.isVisible ? 'enter' : 'exit'} >
-    <View style={ styles.centerBlock }>
-        <WeatherCard weatherData={ props.weatherData }/>
-        <BeachCardDetails beachData={ props.beachData }/>
-        <PastFiveDays pastResults={ props.pastResults } />
+  return (<Box pose={props.isVisible
+      ? 'enter'
+      : 'exit'}>
+    <View style={styles.centerBlock}>
+      <WeatherCard weatherData={props.weatherData}/>
+      <BeachCardDetails beachData={props.beachData}/>
+      <PastFiveDays pastResults={props.pastResults}/>
     </View>
-  </Box>
-  )
+  </Box>)
 }
 
 let BeachName = (props) => {
@@ -336,20 +317,14 @@ let BeachName = (props) => {
     props.nav.goBack();
   }
 
-  return (
-    <View style={[styles.beachViewHeader]}>
-      <TouchableOpacity onPress={this.goBack}>
-        <Image
-          width={20}
-          style={styles.arrow}
-          source={require('../assets/arrow.png')}
-        />
-        <Text style={styles.beachLabel} allowFontScaling={false}>
-          {props.name}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  )
+  return (<View style={[styles.beachViewHeader]}>
+    <TouchableOpacity onPress={this.goBack}>
+      <Image width={20} style={styles.arrow} source={require('../assets/arrow.png')}/>
+      <Text style={styles.beachLabel} allowFontScaling={false}>
+        {props.name}
+      </Text>
+    </TouchableOpacity>
+  </View>)
 }
 
 export default class BeachView extends React.Component {
@@ -357,7 +332,7 @@ export default class BeachView extends React.Component {
     super(props)
     this.state = {
       beachData: '',
-      isVisible: false,
+      isVisible: false
     }
   }
   static navigationOptions = {
@@ -365,41 +340,24 @@ export default class BeachView extends React.Component {
     gesturesEnabled: true
   }
 
-
   componentDidMount() {
-    this.setState({
-      isVisible: true,
-    })
+    this.setState({isVisible: true})
   }
 
   render() {
     return (<View style={styles.viewContainer}>
-      <BeachName
-        name={this.props.navigation.state.params.data.beachName}
-        nav={this.props.navigation}
-      />
-      <ScrollView
-        decelerationRate={0.99}
-        showsVerticalScrollIndicator={true}
-        style={styles.scrollContainer}
-        >
+      <BeachName name={this.props.navigation.state.params.data.beachName} nav={this.props.navigation}/>
+      <ScrollView decelerationRate={0.99} showsVerticalScrollIndicator={true} style={styles.scrollContainer}>
 
-            <TopSection
-              beachInfo={this.props.navigation.state.params.data}
-              nav={this.props}
-            />
-            <View style={{backgroundColor: '#EFEFEF'}}>
-          <BodySection
-            beachData={this.props.navigation.state.params.data}
-            isVisible={this.state.isVisible}
-            weatherData={this.props.navigation.state.params.weather}
-            pastResults={this.props.navigation.state.params.pastResults}
-          />
+        <TopSection beachInfo={this.props.navigation.state.params.data} nav={this.props}/>
+        <View style={{
+            backgroundColor: '#EFEFEF',
+            paddingBottom: 50,
+          }}>
+          <BodySection beachData={this.props.navigation.state.params.data} isVisible={this.state.isVisible} weatherData={this.props.navigation.state.params.weather} pastResults={this.props.navigation.state.params.pastResults}/>
         </View>
       </ScrollView>
-      <NavFooter
-        nav={this.props.navigation}
-      />
+      <NavFooter nav={this.props.navigation}/>
     </View>);
   }
 }
@@ -407,11 +365,10 @@ export default class BeachView extends React.Component {
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
-    flexDirection: 'column',
-
+    flexDirection: 'column'
   },
   scrollContainer: {
-    height: '100%',
+    height: '100%'
   },
   currentWeatherCard: {
     width: '100%',
@@ -424,7 +381,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor: '#EFEFEF',
+    backgroundColor: '#EFEFEF'
   },
   chartContainer: {
     // marginTop: -40,
@@ -432,7 +389,7 @@ const styles = StyleSheet.create({
   },
   weatherImageContainer: {
     height: 50,
-    width: 10,
+    width: 10
   },
   weatherImage: {
     flex: 1,
@@ -447,19 +404,19 @@ const styles = StyleSheet.create({
   boldStat: {
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
-    color: '#464646',
+    color: '#464646'
   },
   temperature: {
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
     color: '#464646',
     marginLeft: '4%',
-    marginRight: '4%',
+    marginRight: '4%'
   },
   row: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   beachViewCard: {
     flex: 1,
@@ -473,7 +430,7 @@ const styles = StyleSheet.create({
     fontSize: 40
   },
   firstCard: {
-    marginTop: -14,
+    marginTop: -14
   },
   superScript: {
     lineHeight: 40
@@ -482,7 +439,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 20,
     height: 10,
-    position: 'absolute',
+    position: 'absolute'
   },
   beachLabel: {
     fontSize: 22,
@@ -490,27 +447,26 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito-Bold',
     color: '#464646',
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   beachViewHeader: {
     paddingTop: 30,
-    height: 100,
+    height: 100
   },
   contentCardHeader: {
     fontSize: 12,
     color: '#919191',
     letterSpacing: .5,
-    marginBottom: 5,
+    marginBottom: 5
   },
   waterComment: {
     fontFamily: 'Nunito-SemiBoldItalic',
     color: '#464646',
-    fontSize: 14,
+    fontSize: 14
   },
-  sunsetText:{
+  sunsetText: {
     fontFamily: 'Nunito-SemiBold',
     color: '#464646',
-    fontSize: 14,
-  },
-
+    fontSize: 14
+  }
 });
