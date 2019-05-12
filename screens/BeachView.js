@@ -121,7 +121,7 @@ let PredictedEcoliChart = (props) => {
           responsive={false}
           dependentAxis
           height={100}
-          width={150}
+          width={ Dimensions.get('window').width / 1.1 }
           style={{
             tickLabels: {
               fontSize: 10,
@@ -184,9 +184,20 @@ let BeachCardDetails = (props) => {
       {props.beachData.eColi} {' '}
       E. coli ppm
     </Text>
-    <Text style={styles.waterComment} allowFontScaling={false}>
-      The water is exeptionally clean
-    </Text>
+      {
+        props.beachData.eColi < 100 &&
+
+        <Text style={styles.waterComment} allowFontScaling={false}>
+          The water is exeptionally clean
+        </Text>
+      }
+      {
+        props.beachData.eColi > 100 &&
+
+        <Text style={styles.waterComment} allowFontScaling={false}>
+          E.coli levels exceed provincial standards.
+        </Text>
+      }
     <PredictedEcoliChart
       currentEcoliReading={props.beachData.eColi}
     />
@@ -235,13 +246,11 @@ let PastFiveDays = (props) => {
       </Text>
       <View style={ styles.chartContainer }>
         <VictoryChart
-          style={styles.past14ChartStyles}
           theme={VictoryTheme.material}
           height={200}
           width={ Dimensions.get('window').width / 1.1 }
-          //padding={40}
           domainPadding={15}
-          animate={{ duration: 2000,  }}
+          animate={{ duration: 2000,}}
           containerComponent={<VictoryContainer style={eColiCardStyles.todayChartContainer}/>}
         >
           <VictoryLine
@@ -418,8 +427,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
   },
   chartContainer: {
-    marginTop: -40,
-    paddingLeft:8,
+    // marginTop: -40,
+    // paddingLeft:8,
   },
   weatherImageContainer: {
     height: 50,
@@ -439,9 +448,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontFamily: 'Nunito-Bold',
     color: '#464646',
-  },
-  past14ChartStyles: {
-
   },
   temperature: {
     fontSize: 26,
