@@ -355,25 +355,29 @@ export default class FerrySchedule extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center',}}>
-        <ScrollView  showsVerticalScrollIndicator={true}>
-            <View style={styles.buttonContainer}>
+      <View style={{flex: 1}}>
+        <View style={{height: 100}}>
 
-              <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
-                <View style={[styles.directionPicker,styles.directionButton,  styles.directionIsland, this.state.directionOfTravel === 'island' && styles.active]}>
-                  <Text style={[styles.directionText, this.state.directionOfTravel === 'island' && styles.textActive]}>
-                    TO THE ISLAND
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
-                <View style={[styles.directionPicker, styles.directionButton, styles.directionCity, this.state.directionOfTravel === 'city' && styles.active]}>
-                  <Text style={[styles.directionText, this.state.directionOfTravel === 'city' && styles.textActive]}>
-                    TO THE CITY
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
+        <View style={styles.buttonContainer}>
+
+          <TouchableWithoutFeedback onPress={() => this.directionOfTravel('island')}>
+            <View style={[styles.directionPicker,styles.directionButton,  styles.directionIsland, this.state.directionOfTravel === 'island' && styles.active]}>
+              <Text style={[styles.directionText, this.state.directionOfTravel === 'island' && styles.textActive]}>
+                TO THE ISLAND
+              </Text>
             </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => this.directionOfTravel('city')}>
+            <View style={[styles.directionPicker, styles.directionButton, styles.directionCity, this.state.directionOfTravel === 'city' && styles.active]}>
+              <Text style={[styles.directionText, this.state.directionOfTravel === 'city' && styles.textActive]}>
+                TO THE CITY
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+
+        <ScrollView showsVerticalScrollIndicator={true}>
 
           <View style={styles.screen}>
             <Image
@@ -418,7 +422,7 @@ export default class FerrySchedule extends React.Component {
 
 const styles = StyleSheet.create({
   screen: {
-    marginTop: 40,
+    // marginTop: 40,
     marginBottom: 40,
     height: '100%',
     flex: 1,
