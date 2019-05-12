@@ -126,7 +126,7 @@ export default class BeachList extends React.Component {
           </View>
 
           <Text style={styles.beachAreaText} allowFontScaling={false}>
-            West Toronto
+            East Toronto
           </Text>
 
           <View style={styles.areaContainer}>
@@ -147,7 +147,7 @@ export default class BeachList extends React.Component {
           </View>
 
           <Text style={styles.beachAreaText} allowFontScaling={false}>
-            East Toronto
+            West Toronto
           </Text>
 
           <View style={styles.areaContainer}>
