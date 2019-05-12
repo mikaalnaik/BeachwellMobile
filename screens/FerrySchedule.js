@@ -290,13 +290,16 @@ class Ferry extends React.Component {
                 {this.state.lastFerryFromIsland}
               </Text>
             </View>
-            <TouchableWithoutFeedback onPress={this.buyTicket}>
-              <View style={styles.buyButtonStyle}>
-                <Text style={[styles.buybuttonText,]}>
-                  BUY TICKET
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
+            {
+              this.props.directionOfTravel === 'island' &&
+                <TouchableWithoutFeedback onPress={this.buyTicket}>
+                  <View style={styles.buyButtonStyle}>
+                    <Text style={[styles.buybuttonText,]}>
+                      BUY TICKET
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+            }
           </View>
         </View>
       </Box>
