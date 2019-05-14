@@ -51,6 +51,14 @@ export default class AboutUsScreen extends React.Component {
                 that, like human beings, is subject to errors. Use common sense.
               </Text>
 
+              <Text style={[styles.madeByHeader, styles.topMargin]} allowFontScaling={false}>
+                What is E.coli?
+              </Text>
+              <Text style={styles.aboutUsBody}>
+                Escherichia coli, also known as E.coli, is a bacteria. In high concentrations,
+                it can cause rashes, upset stomaches, diarrhea, and ear, nose, and throat infections.
+              </Text>
+
              <Text style={[styles.madeByHeader, styles.topMargin]} allowFontScaling={false}>
                Privacy Policy
              </Text>

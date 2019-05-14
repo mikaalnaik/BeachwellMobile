@@ -64,7 +64,7 @@ let PredictedEcoliChart = (props) => {
 
   const eColiCardStyles = StyleSheet.create({
     todayChartContainer: {
-      flex: .5,
+      flex: 1,
       height: 50,
       display: 'flex',
       marginRight: 0,
@@ -73,7 +73,8 @@ let PredictedEcoliChart = (props) => {
       paddingLeft: 40,
       width: 80,
       alignSelf: 'center',
-      alignContent: 'center'
+      alignContent: 'center',
+      backgroundColor: 'beige',
     }
   })
 
@@ -91,15 +92,19 @@ let PredictedEcoliChart = (props) => {
 
   const strokeDasharray = "10,1";
 
-  return (<View style={{
-      marginTop: -40,
-      padding: 10,
-      marginLeft: -5
-    }} pointerEvents="none">
+  return (
+    <View
+      pointerEvents="none"
+      style={{
+        marginTop: -40,
+        padding: 10,
+        marginLeft: -5
+      }}
+    >
 
     <VictoryChart
       horizontal={true}
-      width={Dimensions.get('window').width} 
+      width={Dimensions.get('window').width}
       height={140}
       theme={VictoryTheme.material}
       containerComponent={<VictoryContainer
@@ -111,16 +116,23 @@ let PredictedEcoliChart = (props) => {
           }}
       />}
     >
-      <VictoryBar animate={{
-          duration: 1000
-        }} data={[data]} barWidth={40} cornerRadius={5} alignment="start" style={{
+      <VictoryBar
+        animate={{ duration: 1000 }}
+        data={[data]}
+        barWidth={40}
+        cornerRadius={5}
+        alignment="start"
+        style={{
           data: {
             fill: (data) => data._y > 100
               ? "#c43a31"
               : "#21984F"
           }
         }}/>
-      <VictoryAxis responsive={true} dependentAxis="dependentAxis" style={{
+      <VictoryAxis
+        responsive={true}
+        dependentAxis={true}
+        style={{
           tickLabels: {
             fontSize: 10,
             angle: 45
@@ -140,7 +152,12 @@ let PredictedEcoliChart = (props) => {
             strokeDasharray,
             pointerEvents: "painted"
           }
-        }} tickValues={xTickValues} orientation={'bottom'} standAlone={true} label="E.coli (ppm)"/>
+        }}
+        tickValues={xTickValues}
+        orientation={'bottom'}
+        standAlone={true}
+        label="E.coli (ppm)"
+      />
     </VictoryChart>
   </View>)
 }
@@ -194,30 +211,44 @@ let PastFiveDays = (props) => {
 
   const eColiCardStyles = StyleSheet.create({
     todayChartContainer: {
-      flex: .5,
-      height: 50,
-      display: 'flex',
-      marginRight: 0,
-      right: 20,
-      paddingTop: 20,
-      paddingLeft: 40,
-      width: 80,
-      alignSelf: 'center',
-      alignContent: 'center'
+      // flex: .5,
+      // height: 50,
+      // display: 'flex',
+      // marginRight: 0,
+      // right: 20,
+      // paddingTop: 20,
+      // paddingLeft: 40,
+      // width: 80,
+      // alignSelf: 'center',
+      // alignContent: 'center'
     },
     bottomMargin: {
-      marginBottom: 40
+      // marginBottom: 40
     }
   })
 
   let dataForChart = [];
+  let maxYValue = 0;
   props.pastResults.forEach(day => {
     dataForChart.push({
       x: day.sampleDate,
       y: Number(day.eColiCount)
     })
+
+    console.log('day ecoli count:', Number(day.eColiCount));
+  console.log('date', day.sampleDate);
+
+    if(Number(day.eColiCount) > maxYValue) {
+      maxYValue = Number(day.eColiCount);
+    }
   })
+
+
   dataForChart = dataForChart.reverse();
+
+  let ecoliTickMarks = _.range(0, maxYValue + 20, 20);
+
+  const strokeDasharray = "10,0";
 
   const latestReadingFromCity = props.pastResults[0].eColiCount
   return (<View style={[styles.beachViewCard, eColiCardStyles.bottomMargin]} pointerEvents="none">
@@ -231,21 +262,50 @@ let PastFiveDays = (props) => {
     <Text style={styles.waterComment} allowFontScaling={false}>
       Sampled yesterday
     </Text>
-    <View style={styles.chartContainer}>
-      <VictoryChart theme={VictoryTheme.material} height={200} width={Dimensions.get('window').width / 1.1} domainPadding={15} animate={{
-          duration: 2000
-        }} containerComponent={<VictoryContainer style = {
-          eColiCardStyles.todayChartContainer
-        } />}>
-        <VictoryLine height={200} interpolation="natural" style={{
+
+    <View
+      pointerEvents="none"
+      style={{
+        marginTop: -20,
+        // padding: 10,
+        marginLeft: 10,
+        flex: 1,
+        // height: 100,
+        alignSelf: 'center',
+        alignContent: 'center',
+      }}
+    >
+      <VictoryChart
+        // theme={VictoryTheme.material}
+        height={200}
+        width={Dimensions.get('window').width / 1.2}
+        // domainPadding={5}
+        minDomain={{y: 0}}
+        containerComponent={ <VictoryContainer
+          style = {{
+                flex: 1,
+                height: 100,
+                alignSelf: 'center',
+                alignContent: 'center',
+              }}
+        /> }
+      >
+        <VictoryLine
+          animate={{ duration: 2000 }}
+          height={200}
+          data={dataForChart}
+          interpolation="natural"
+          style={{
             data: {
               stroke: "rgb(19, 55, 116)"
             },
-            parent: {
-              border: "1px solid #ccc"
-            }
-          }} data={dataForChart}/>
-        <VictoryAxis style={{
+            // parent: {
+            //   border: "1px solid #ccc"
+            // }
+          }}
+        />
+        <VictoryAxis
+          style={{
             axis: {
               stroke: "none"
             },
@@ -253,17 +313,24 @@ let PastFiveDays = (props) => {
               stroke: 'none'
             },
             grid: {
-              stroke: 'none'
+              stroke: 'none',
             },
             tickLabels: {
               fontSize: 10,
-              paddingTop: 45,
-              paddingLeft: 15,
+              // paddingTop: 45,
+              // paddingLeft: 15,
               angle: 45,
-              marginTop: 90
+              // marginTop: 90
             }
-          }} tickCount={7}/>
-        <VictoryAxis style={{
+          }}
+          tickCount={7}
+        />
+        <VictoryAxis
+          // tickValues={ecoliTickMarks}
+          // ticksFormat={(t) => {
+          //   t > 999 ? `${Math.round(t)}k` : t}
+          // }
+          style={{
             axis: {
               stroke: "none"
             },
@@ -271,11 +338,15 @@ let PastFiveDays = (props) => {
               stroke: 'none'
             },
             grid: {
-              stroke: 'lightgrey'
+              stroke: 'lightgrey',
+              strokeDasharray,
             }
-          }} dependentAxis="dependentAxis"/>
+          }}
+          dependentAxis={true}
+        />
       </VictoryChart>
     </View>
+
   </View>)
 }
 
@@ -352,7 +423,7 @@ export default class BeachView extends React.Component {
         <TopSection beachInfo={this.props.navigation.state.params.data} nav={this.props}/>
         <View style={{
             backgroundColor: '#EFEFEF',
-            paddingBottom: 50,
+            paddingBottom: 100,
           }}>
           <BodySection beachData={this.props.navigation.state.params.data} isVisible={this.state.isVisible} weatherData={this.props.navigation.state.params.weather} pastResults={this.props.navigation.state.params.pastResults}/>
         </View>
@@ -383,10 +454,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#EFEFEF'
   },
-  chartContainer: {
-    // marginTop: -40,
-    // paddingLeft:8,
-  },
+
   weatherImageContainer: {
     height: 50,
     width: 10
