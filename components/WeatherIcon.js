@@ -88,7 +88,6 @@ let WeatherIcon = (props) => {
     803: 'partlycloudy',
     804: 'partlycloudy',
   }
-  console.log('weather props', props.weatherID.id);
 
 
 
