@@ -15,22 +15,6 @@ import WeatherImages from '../assets/weatherImages.js';
 
 let WeatherIcon = (props) => {
 
-  const weatherTypes = {
-    'clear sky': 'sunshine',
-    'few clouds': 'sunshine',
-    'scattered clouds': 'partlycloudy',
-    'overcast clouds': 'partlycloudy',
-    'broken clouds': 'partlycloudy',
-    'thunder storm': 'storm',
-    'snow': 'storm',
-    'light intensity shower rain': 'rain',
-    'light intensity drizzle': 'rain',
-    'light rain': 'rain',
-    'shower rain': 'rain',
-    'rain': 'rain',
-    'mist': 'rain',
-  }
-
   const weatherID = {
     200: 'storm',
     201: 'storm',
