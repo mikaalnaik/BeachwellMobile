@@ -78,7 +78,7 @@ let WeatherIcon = (props) => {
   return (
     <View style={styles.weatherImageContainer}>
       <Image
-        source={WeatherImages[weatherTypes[props.weatherID.id]]}
+        source={WeatherImages[weatherID[props.weatherID.id]]}
         style={[styles.weatherImage]}
       />
     </View>

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   topMargin: {
-    marginTop: 60,
+    marginTop: 40,
   },
   scrollContainer: {
     height: '100%',
