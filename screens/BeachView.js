@@ -380,9 +380,18 @@ let BeachName = (props) => {
   return (<View style={[styles.beachViewHeader]}>
     <TouchableOpacity onPress={this.goBack}>
       <Image width={20} style={styles.arrow} source={require('../assets/arrow.png')}/>
-      <Text style={styles.beachLabel} allowFontScaling={false}>
-        {props.name}
-      </Text>
+        {
+          props.name === 'Marie Curtis Park East Beach' &&
+          <Text style={styles.beachLabel} allowFontScaling={false}>
+              Marie Curtis Park E. Beach
+          </Text>
+        }
+        {
+          props.name !== 'Marie Curtis Park East Beach' &&
+          <Text style={styles.beachLabel} allowFontScaling={false}>
+            {props.name}
+          </Text>
+        }
     </TouchableOpacity>
   </View>)
 }

@@ -104,7 +104,7 @@ export default class BeachList extends React.Component {
 
 
 
-          <Text style={[styles.beachAreaText]} allowFontScaling={false}>
+          <Text style={[styles.beachAreaText, { marginTop: -3 }]} allowFontScaling={false}>
             Toronto Island
           </Text>
           <View style={styles.areaContainer}>
@@ -117,7 +117,7 @@ export default class BeachList extends React.Component {
                       onPress={() => this.beachFocus(item)}
                       key={item.beachId.toString()}
                     >
-                      <View>
+                      <View style={{marginBottom: -10}}>
                         <BeachCard beachData={item} weatherData={this.state.weatherData}/>
                       </View>
                     </TouchableWithoutFeedback>
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginTop: 15,
     textAlign: 'left'
   },
   areaContainer: {

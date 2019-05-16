@@ -123,13 +123,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     shadowColor: "#000",
     shadowOffset: {
-    	width: 0,
-    	height: 5,
+      width: 0,
+      height: 5,
     },
-    shadowOpacity: 0.27,
+    shadowOpacity: 0.20,
     shadowRadius: 4.65,
-
-    elevation: 6,
+    elevation: 1,
   },
   cardImageBorder: {
     borderTopRightRadius: 10,

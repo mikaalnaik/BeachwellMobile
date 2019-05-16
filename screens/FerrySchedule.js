@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   portName: {
-    fontSize: 30,
+    fontSize: 26,
     marginBottom: 10,
     fontFamily: 'Nunito-Bold',
     color: '#464646',
