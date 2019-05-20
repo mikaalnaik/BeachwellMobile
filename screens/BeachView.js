@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Images from '../assets/beachImages.js';
 import WeatherImages from '../assets/weatherImages.js';
+import EcoliReading from '../components/EcoliReading.js';
 import WeatherIcon from '../components/WeatherIcon.js';
 import Image from 'react-native-scalable-image';
 import {Font} from 'expo';
@@ -191,44 +192,26 @@ let BeachCardDetails = (props) => {
     <Text style={styles.contentCardHeader} allowFontScaling={false}>
       TODAY'S PROJECTED READING
     </Text>
-    <Text style={styles.boldStat} allowFontScaling={false}>
-      {props.beachData.eColi}
-      {' '}
-      E. coli ppm
-    </Text>
+    <EcoliReading
+      eColiReading={props.beachData.eColi}
+    />
     {
       props.beachData.eColi < 100 && <Text style={styles.waterComment} allowFontScaling={false}>
-          The water is exeptionally clean
+        E. coli levels are below 100ppm, go for it
         </Text>
     }
     {
       props.beachData.eColi > 100 && <Text style={styles.waterComment} allowFontScaling={false}>
-          E.coli levels exceed provincial standards.
+          E.coli levels are above 100ppm, use caution.
         </Text>
     }
     <PredictedEcoliChart currentEcoliReading={props.beachData.eColi}/>
   </View>)
 }
 
-let PastFiveDays = (props) => {
 
-  const eColiCardStyles = StyleSheet.create({
-    todayChartContainer: {
-      // flex: .5,
-      // height: 50,
-      // display: 'flex',
-      // marginRight: 0,
-      // right: 20,
-      // paddingTop: 20,
-      // paddingLeft: 40,
-      // width: 80,
-      // alignSelf: 'center',
-      // alignContent: 'center'
-    },
-    bottomMargin: {
-      // marginBottom: 40
-    }
-  })
+
+let PastFiveDays = (props) => {
 
   let dataForChart = [];
   let maxYValue = 0;
@@ -248,16 +231,13 @@ let PastFiveDays = (props) => {
 
   const strokeDasharray = "10,0";
 
-  const latestReadingFromCity = props.pastResults[0].eColiCount
-
-  return (<View style={[styles.beachViewCard, eColiCardStyles.bottomMargin]} pointerEvents="none">
+  return (<View style={[styles.beachViewCard,]} pointerEvents="none">
     <Text style={styles.contentCardHeader} allowFontScaling={false}>
       LATEST READING FROM THE CITY
     </Text>
-    <Text style={styles.boldStat} allowFontScaling={false}>
-      {latestReadingFromCity}{' '}
-      E. coli ppm
-    </Text>
+    <EcoliReading
+      eColiReading={props.pastResults[0].eColiCount}
+    />
     <Text style={styles.waterComment} allowFontScaling={false}>
       Sampled yesterday
     </Text>
@@ -266,10 +246,8 @@ let PastFiveDays = (props) => {
       pointerEvents="none"
       style={{
         marginTop: -20,
-        // padding: 10,
         marginLeft: 10,
         flex: 1,
-        // height: 100,
         alignSelf: 'center',
         alignContent: 'center',
       }}

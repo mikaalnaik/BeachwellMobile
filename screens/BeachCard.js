@@ -71,14 +71,48 @@ export default class BeachCard extends React.Component {
             <View style={styles.beachBodyContent}>
               {this.props.beachData.eColi < 100 && <View style={[styles.beachCardConditionSafe, styles.beachConditionBlock]}/>}
               {this.props.beachData.eColi > 100 && <View style={[styles.beachCardConditionUnsafe, styles.beachConditionBlock]}/>}
-              <Text style={styles.eColiBold} allowFontScaling={false}>
-                {this.props.beachData.eColi} E. coli ppm
-              </Text>
+              <EcoliReading
+                eColi={this.props.beachData.eColi}
+              />
             </View>
           </View>
         </View>
       </Box>
     );
+  }
+}
+
+class EcoliReading extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      validResult: true,
+      ppmMessage: 'E. coli ppm'
+    }
+  }
+
+  componentDidMount() {
+    this.setState({eColi: this.props.eColi});
+    console.log('ecoli state', this.props.eColi);
+    if(typeof(this.state.eColi) === 'string') {
+      console.log('Yeah this shit aint a number');
+      this.setState({
+        eColi: 'Unable to predict',
+        invalidResult: false,
+        ppmMessage: ' ',
+      })
+    }
+  }
+
+
+  render() {
+    return (
+      <View>
+        <Text style={styles.eColiBold} allowFontScaling={false}>
+          {this.state.eColi} {this.state.ppmMessage}
+        </Text>
+      </View>
+    )
   }
 }
 

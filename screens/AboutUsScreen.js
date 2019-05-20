@@ -17,10 +17,6 @@ export default class AboutUsScreen extends React.Component {
     gesturesEnabled: true
   }
 
-  componentDidMount() {
-    console.log('about us props', this.props);
-  }
-
   goToPrivacyPolicy = () => {
     Linking.openURL('https://www.beachwell.co/privacy');
   }

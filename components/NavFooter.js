@@ -22,10 +22,6 @@ export default class NavFooter extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log('nav props', this.props);
-  }
-
   aboutUsNav = () => {
     if(this.props.nav.state.routeName === 'AboutUs') {
       return;
