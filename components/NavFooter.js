@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
+import moment from 'moment';
 import Images from '../assets/beachImages';
 
 
@@ -16,6 +17,13 @@ import Images from '../assets/beachImages';
 export default class NavFooter extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      currentMonth: moment().format('MM'),
+    };
+  }
+
+  componentDidMount() {
+    console.log('nav props', this.props);
   }
 
   aboutUsNav = () => {
@@ -33,10 +41,14 @@ export default class NavFooter extends React.Component {
   }
 
   beachList = () => {
-    if(this.props.nav.state.routeName === 'BeachList') {
-      return;
+    if(this.state.currentMonth < 9 || this.state.currentMonth > 5) {
+      this.props.nav.navigate('OffSeason');
+    } else {
+      if(this.props.nav.state.routeName === 'BeachList') {
+        return;
+      }
+      this.props.nav.navigate('BeachList');
     }
-    this.props.nav.navigate('BeachList');
   }
 
 render() {

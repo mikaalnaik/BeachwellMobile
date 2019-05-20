@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Animated, Image, Easing, ImageBackground } from 'react-native';
 import posed from 'react-native-pose';
 import Images from '../assets/beachImages';
+import moment from 'moment';
 import { Font } from 'expo';
 const Firebase = require("firebase");
 require("firebase/functions");
@@ -45,6 +46,7 @@ export default class Splash extends React.Component {
     this.state = {
       loading: true,
       fontLoaded: false,
+      currentMonth: moment().format('MM'),
     };
   }
 
@@ -56,46 +58,66 @@ export default class Splash extends React.Component {
       'Nunito-Bold': require('../assets/fonts/Nunito/Nunito-Bold.ttf'),
     });
     this.setState({ fontLoaded: true });
-    let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
-    collectAllDataFromServer().then((result) => {
-      let formatedBeachData = result.data.beachToday.elements[0].elements[1].elements.map((beach, index) => {
-        if(index > 0) {
-          let beachData = {
-             beachId: beach.attributes.beachId,
-             beachName: BEACH_NAMES[beach.attributes.beachId],
-             condition: beach.elements[4].elements[0].text,
-             date: beach.elements[0].elements[0].text,
-             eColi: beach.elements[2].elements[0].text,
-          }
-          return beachData
-        }
-      })
-      formatedBeachData.shift()
-      let beachData = {
-        eastToronto: [],
-        torontoIsland: [],
-        westToronto: [],
-      }
-      formatedBeachData.forEach(beach => {
-        beachData[BEACH_AREAS[beach.beachId]].push(beach)
-      })
-      this.setState({
-        weatherData: result.data.weatherData,
-        beachToday: beachData,
-        beach14: result.data.beach14,
-        loading: false,
-      })
 
-      if(!this.state.loading) {
-        this.props.navigation.navigate('BeachList' , {
-          weatherData: this.state.weatherData,
-          beachToday: this.state.beachToday,
-          beach14: result.data.beach14,
+
+
+
+    console.log('Date', moment().format('MM'));
+
+    if(this.state.currentMonth > 9 || this.state.currentMonth < 5) {
+      let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
+      collectAllDataFromServer().then((result) => {
+        let formatedBeachData = result.data.beachToday.elements[0].elements[1].elements.map((beach, index) => {
+          if(index > 0) {
+            let beachData = {
+              beachId: beach.attributes.beachId,
+              beachName: BEACH_NAMES[beach.attributes.beachId],
+              condition: beach.elements[4].elements[0].text,
+              date: beach.elements[0].elements[0].text,
+              eColi: beach.elements[2].elements[0].text,
+            }
+            return beachData
+          }
         })
-      }
-    }).catch(err => {
-      console.log(err)
-    })
+        formatedBeachData.shift()
+        let beachData = {
+          eastToronto: [],
+          torontoIsland: [],
+          westToronto: [],
+        }
+        formatedBeachData.forEach(beach => {
+          beachData[BEACH_AREAS[beach.beachId]].push(beach)
+        })
+        this.setState({
+          weatherData: result.data.weatherData,
+          beachToday: beachData,
+          beach14: result.data.beach14,
+          loading: false,
+        })
+
+        if(!this.state.loading) {
+          this.props.navigation.navigate('BeachList' , {
+            weatherData: this.state.weatherData,
+            beachToday: this.state.beachToday,
+            beach14: result.data.beach14,
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    } else {
+      this.setState({
+        loading: false,
+        offSeason: true,
+      })
+      this.props.navigation.navigate('OffSeason', {
+        offSeason: this.state.offSeason,
+        weattherData: null,
+        beachToday: null,
+        beach14: null,
+      })
+    }
+
   }
 
   render() {

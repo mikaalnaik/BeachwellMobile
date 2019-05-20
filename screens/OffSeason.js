@@ -4,13 +4,9 @@ import NavFooter from '../components/NavFooter';
 
 
 
-export default class AboutUsScreen extends React.Component {
+export default class OffSeason extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      beachData: '',
-      modalVisible: false,
-    }
   }
   static navigationOptions = {
     header: null,
@@ -18,15 +14,7 @@ export default class AboutUsScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log('about us props', this.props);
-  }
-
-  goToPrivacyPolicy = () => {
-    Linking.openURL('https://www.beachwell.co/privacy');
-  }
-
-  goToEmail = () => {
-    Linking.openURL('mailto:support@example.com?subject=SendMail&body=Description')
+    console.log('off season', this.props);
   }
 
   render() {
@@ -55,34 +43,8 @@ export default class AboutUsScreen extends React.Component {
                 that, like human beings, is subject to errors. Use common sense.
               </Text>
 
-              <Text style={[styles.madeByHeader, styles.topMargin]} allowFontScaling={false}>
-                What is E. coli?
-              </Text>
-              <Text style={styles.aboutUsBody}>
-                Escherichia coli, also known as E. coli, is a bacteria. In high concentrations,
-                it can cause rashes, upset stomaches, diarrhea, and ear, nose, and throat infections.
-              </Text>
 
-              <Text style={[styles.madeByHeader, styles.topMargin]} allowFontScaling={false}>
-                What is safe?
-              </Text>
-              <Text style={styles.aboutUsBody}>
-                The standard for beach water quality in Ontario is set by the Ministry of Environment and Climate Change at 100 E. coli per 100 millilitres of water.
-              </Text>
 
-             <Text style={[styles.madeByHeader, styles.topMargin,]} allowFontScaling={false}>
-               Privacy Policy
-             </Text>
-             <Text style={styles.aboutUsBody}>
-               We don't do anything with your data, ever. But if you want to check out
-               our privacy policy, please do.
-             </Text>
-             <TouchableHighlight
-              onPress={() => {
-                this.goToPrivacyPolicy();
-              }}>
-              <Text style={{marginBottom: 70}}>Go To Privacy Policy</Text>
-            </TouchableHighlight>
             </View>
         </ScrollView>
         <NavFooter
@@ -113,7 +75,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     height: '100%',
-    // paddingTop: 60,
   },
   cardShadow: {
     shadowColor: '#000',
