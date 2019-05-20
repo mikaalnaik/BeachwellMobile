@@ -69,14 +69,6 @@ export default class BeachList extends React.Component {
     })
   }
 
-  aboutUsNav = () => {
-    this.props.navigation.navigate('AboutUs');
-  }
-
-  ferrySchedule = () => {
-    this.props.navigation.navigate('FerrySchedule');
-  }
-
   render() {
     let fullWidth = Dimensions.get('window').width;
     StatusBar.setBarStyle('dark-content', true);
