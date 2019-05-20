@@ -27,20 +27,20 @@ export default class OffSeason extends React.Component {
           >
             <View style={[styles.aboutUsCard]}>
               <Text style={styles.madeByHeader} allowFontScaling={false}>
-                Made by
+                Hey!
               </Text>
               <Text style={styles.header} allowFontScaling={false}>
-                Mikaal Naik & Steve Shearer
+                Thanks for all the love this year.
               </Text>
               <Text style={styles.aboutUsBody}>
-                If you have any feedback or questions about the project please
-                let us know. We'd love to hear what you think. Reach out to us at
-                beachwell.co@gmail.com
+                The City of Toronto only samples the water quality from June to the end
+                of August.
               </Text>
 
               <Text style={styles.aboutUsBody}>
-                The data presented here is predicted by a machine learning model
-                that, like human beings, is subject to errors. Use common sense.
+                Feel free to reach us to us at beachwell.co@gmail.com with any questions,
+                concerns, or feedback about the app. We'd love to hear what you think.
+                
               </Text>
 
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   aboutUsCard : {
     width: '80%',
     margin: 30,
-    marginTop: 60,
+    marginTop: 160,
   },
   topMargin: {
     marginTop: 40,
