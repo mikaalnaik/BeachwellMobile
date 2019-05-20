@@ -93,9 +93,7 @@ class EcoliReading extends React.Component {
 
   componentDidMount() {
     this.setState({eColi: this.props.eColi});
-    console.log('ecoli state', this.props.eColi);
     if(typeof(this.state.eColi) === 'string') {
-      console.log('Yeah this shit aint a number');
       this.setState({
         eColi: 'Unable to predict',
         invalidResult: false,
