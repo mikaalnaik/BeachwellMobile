@@ -83,6 +83,14 @@ render() {
             />
           }
           {
+            this.props.nav.state.routeName === 'OffSeason'
+            &&
+            <Image
+              style={[styles.navImage,]}
+              source={require('../assets/beachwellBlue.png')}
+            />
+          }
+          {
             this.props.nav.state.routeName === 'BeachView'
             &&
             <Image
@@ -91,8 +99,7 @@ render() {
             />
           }
           {
-            (this.props.nav.state.routeName !== 'BeachList' && this.props.nav.state.routeName !== 'BeachView')
-            &&
+            (this.props.nav.state.routeName !== 'BeachList' && this.props.nav.state.routeName !== 'BeachView' && this.props.nav.state.routeName !== 'OffSeason' ) &&
             <Image
               style={[styles.navImage,]}
               source={require('../assets/beachwellGrey.png')}
