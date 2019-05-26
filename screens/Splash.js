@@ -15,11 +15,11 @@ const BEACH_NAMES = {
   4: "Gibraltar Point Beach",
   5: "Centre Island Beach",
   6: "Ward's Island Beach",
-  7: "Woodbine Beaches",
-  8:"Kew Balmy Beach",
-  9:"Bluffer's Beach Park",
-  10:"Rouge Beach",
-  11:"Cherry Beach",
+  7: "Cherry Beach",
+  8: "Woodbine Beaches",
+  9: "Kew Balmy Beach",
+  10: "Bluffer's Beach Park",
+  11: "Rouge Beach",
 }
 
 const BEACH_AREAS = {
@@ -62,18 +62,30 @@ export default class Splash extends React.Component {
     if(this.state.currentMonth > 9 || this.state.currentMonth <= 5) {
       let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
       collectAllDataFromServer().then((result) => {
-        let formatedBeachData = result.data.beachToday.elements[0].elements[1].elements.map((beach, index) => {
-          if(index > 0) {
-            let beachData = {
-              beachId: beach.attributes.beachId,
-              beachName: BEACH_NAMES[beach.attributes.beachId],
-              condition: beach.elements[4].elements[0].text,
-              date: beach.elements[0].elements[0].text,
-              eColi: beach.elements[2].elements[0].text,
-            }
-            return beachData
+        let formatedBeachData;
+          if(result.data.predictedValues.eColi === 0) {
+             formatedBeachData = Object.keys(BEACH_AREAS).map(beach => {
+              let beachData = {
+                beachId: beach,
+                beachName: BEACH_NAMES[beach],
+                date: moment().format('YYYY-MM-DD'),
+                eColi: 'N/A',
+              }
+              return beachData
+            })
+          } else {
+            formatedBeachData = result.data.predictedValues.map((beach, index) => {
+              if(index > 0) {
+                let beachData = {
+                  beachId: beach.beachId,
+                  beachName: BEACH_NAMES[beach.beachName],
+                  date: beach.date,
+                  eColi: beach.eColi,
+                }
+                return beachData
+              }
+            })
           }
-        })
         formatedBeachData.shift()
         let beachData = {
           eastToronto: [],
@@ -81,6 +93,7 @@ export default class Splash extends React.Component {
           westToronto: [],
         }
         formatedBeachData.forEach(beach => {
+          // console.log('formated each daa', beach);
           beachData[BEACH_AREAS[beach.beachId]].push(beach)
         })
         this.setState({
@@ -91,6 +104,7 @@ export default class Splash extends React.Component {
         })
 
         if(!this.state.loading) {
+          console.log('just before nav', this.state.weatherData);
           this.props.navigation.navigate('BeachList' , {
             weatherData: this.state.weatherData,
             beachToday: this.state.beachToday,

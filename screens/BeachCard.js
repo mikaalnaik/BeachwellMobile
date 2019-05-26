@@ -49,6 +49,7 @@ export default class BeachCard extends React.Component {
   }
 
   render() {
+    console.log('above props', this.props);
     return (
       <Box style={styles.box} pose={this.state.isVisible ? 'enter' : 'exit'} >
 
@@ -132,7 +133,6 @@ class WhichImage extends React.Component {
       "Bluffer's Beach Park": 'bluffs',
       "Rouge Beach" : 'rouge',
     }
-
     return (
       <View style={styles.cardImageBorder}>
         <Image

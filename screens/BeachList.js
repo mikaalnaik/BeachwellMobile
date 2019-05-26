@@ -44,7 +44,11 @@ export default class BeachList extends React.Component {
     if(await this.getAgreedToTerms() !== 'true') {
       Alert.alert(
         'Disclaimer',
-        `The data presented here is predicted by a machine learning models that, like human beings, are subject to errors. Use common sense when swimming. By agreeing, you acknowledge the producers of this app are free from any liability in connection with the use of this information.`,
+        `Use this data with extreme caution.
+        The data presented here is predicted by a machine learning models that, 
+        like human beings, are subject to errors. Use common sense when swimming.
+        By agreeing, you acknowledge the producers of this app are free from any
+        liability in connection with the use of this information.`,
         [
           {text: 'Agree', onPress: () => this.setAgreedToTerms()},
         ],

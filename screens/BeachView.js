@@ -51,10 +51,10 @@ const Box = posed.View({
 });
 let WeatherCard = (props) => {
   return (<View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
-    <WeatherIcon
-      weatherType={props.weatherData.weather[0].description}
-      weatherID={props.weatherData.weather[0]}
-    />
+      {/* <WeatherIcon
+        weatherType={props.weatherData.weather[0].description}
+        weatherID={props.weatherData.weather[0]}
+      /> */}
     <Text style={[styles.temperature]} allowFontScaling={false}>
       {Math.floor(props.weatherData.main.temp - 273.15)}°C
     </Text>
@@ -139,7 +139,7 @@ let PredictedEcoliChart = (props) => {
         style={{
           tickLabels: {
             fontSize: 10,
-            angle: 45
+            // angle: 45
           },
           axisLabel: {
             padding: 30,
@@ -163,7 +163,8 @@ let PredictedEcoliChart = (props) => {
         label="E.coli (ppm)"
       />
     </VictoryChart>
-  </View>)
+  </View>
+  )
 }
 
 let BeachCardDetails = (props) => {
@@ -187,14 +188,17 @@ let BeachCardDetails = (props) => {
       letterSpacing: .5
     }
   })
-
+  console.log('beach card detail' ,props);
   return (<View style={[styles.beachViewCard]}>
     <Text style={styles.contentCardHeader} allowFontScaling={false}>
       TODAY'S PROJECTED READING
     </Text>
-    <EcoliReading
-      eColiReading={props.beachData.eColi}
-    />
+    {
+      props.beachData.eColi !== "N/A" &&
+      <EcoliReading
+        eColiReading={props.beachData.eColi}
+      />
+    }
     {
       props.beachData.eColi < 100 && <Text style={styles.waterComment} allowFontScaling={false}>
         E. coli levels are below 100ppm, go for it
@@ -205,7 +209,10 @@ let BeachCardDetails = (props) => {
           E.coli levels are above 100ppm, use caution.
         </Text>
     }
-    <PredictedEcoliChart currentEcoliReading={props.beachData.eColi}/>
+    {
+      props.beachData.eColi !== "N/A" &&
+        <PredictedEcoliChart currentEcoliReading={props.beachData.eColi}/>
+    }
   </View>)
 }
 
@@ -291,7 +298,7 @@ let PastFiveDays = (props) => {
             },
             tickLabels: {
               fontSize: 10,
-              angle: 45,
+              // angle: 45,
             }
           }}
         />
