@@ -51,10 +51,10 @@ const Box = posed.View({
 });
 let WeatherCard = (props) => {
   return (<View style={[styles.beachViewCard, styles.firstCard, styles.row]}>
-      {/* <WeatherIcon
+      <WeatherIcon
         weatherType={props.weatherData.weather[0].description}
         weatherID={props.weatherData.weather[0]}
-      /> */}
+      />
     <Text style={[styles.temperature]} allowFontScaling={false}>
       {Math.floor(props.weatherData.main.temp - 273.15)}°C
     </Text>
@@ -139,7 +139,7 @@ let PredictedEcoliChart = (props) => {
         style={{
           tickLabels: {
             fontSize: 10,
-            // angle: 45
+            angle: 45
           },
           axisLabel: {
             padding: 30,
@@ -200,6 +200,12 @@ let BeachCardDetails = (props) => {
       />
     }
     {
+      props.beachData.eColi === "N/A" &&
+      <Text style={styles.waterComment} allowFontScaling={false}>
+        No reading for today
+      </Text>
+    }
+    {
       props.beachData.eColi < 100 && <Text style={styles.waterComment} allowFontScaling={false}>
         E. coli levels are below 100ppm, go for it
         </Text>
@@ -213,6 +219,7 @@ let BeachCardDetails = (props) => {
       props.beachData.eColi !== "N/A" &&
         <PredictedEcoliChart currentEcoliReading={props.beachData.eColi}/>
     }
+
   </View>)
 }
 
@@ -298,7 +305,7 @@ let PastFiveDays = (props) => {
             },
             tickLabels: {
               fontSize: 10,
-              // angle: 45,
+              angle: 45,
             }
           }}
         />

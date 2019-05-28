@@ -49,7 +49,6 @@ export default class BeachCard extends React.Component {
   }
 
   render() {
-    console.log('above props', this.props);
     return (
       <Box style={styles.box} pose={this.state.isVisible ? 'enter' : 'exit'} >
 
