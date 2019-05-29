@@ -4,7 +4,7 @@ const Images = {
     sunnyside: require('./sunnyside.jpg'),
     logoMark: require('./beachLogoMark.png'),
     sunshine1: require('./sunshine.png'),
-    gibraltar: require('./gibraltar.png'),
+    gibraltar: require('./gibraltar.jpg'),
     kewbalmy: require('./kewbalmy.jpg'),
     mariecurtis: require('./mariecurtis.jpg'),
     rouge: require('./rouge.jpg'),

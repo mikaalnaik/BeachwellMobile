@@ -59,7 +59,7 @@ export default class Splash extends React.Component {
     });
     this.setState({ fontLoaded: true });
 
-    if(this.state.currentMonth > 9 || this.state.currentMonth <= 5) {
+    if(this.state.currentMonth > 9 || this.state.currentMonth < 5) {
       let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
       collectAllDataFromServer().then((result) => {
         let formatedBeachData;
