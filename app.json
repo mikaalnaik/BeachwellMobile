@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
-    "version": "2",
+    "version": "3",
     "orientation": "portrait",
     "icon": "./assets/beachwell-icon.png",
     "splash": {
@@ -30,7 +30,7 @@
     "android": {
      "package": "com.mikaalnaik.mikaalnaik",
      "permissions": [],
-     "versionCode": 8,
+     "versionCode": 9,
    }
   }
 }
