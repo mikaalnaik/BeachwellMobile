@@ -59,23 +59,23 @@ export default class Splash extends React.Component {
     });
     this.setState({ fontLoaded: true });
 
-    if(this.state.currentMonth > 9 || this.state.currentMonth < 5) {
+    if(this.state.currentMonth < 9 || this.state.currentMonth >= 5) {
       let collectAllDataFromServer = Firebase.functions().httpsCallable('beachAndWeatherData');
       collectAllDataFromServer().then((result) => {
         let formatedBeachData;
           if(result.data.predictedValues.eColi === 0) {
              formatedBeachData = Object.keys(BEACH_AREAS).map(beach => {
-              let beachData = {
-                beachId: beach,
-                beachName: BEACH_NAMES[beach],
-                date: moment().format('YYYY-MM-DD'),
-                eColi: 'N/A',
-              }
-              return beachData
-            })
-          } else {
-            formatedBeachData = result.data.predictedValues.map((beach, index) => {
-              if(index > 0) {
+               let beachData = {
+                 beachId: beach,
+                 beachName: BEACH_NAMES[beach],
+                 date: moment().format('YYYY-MM-DD'),
+                 eColi: 'N/A',
+                }
+                return beachData
+              })
+            } else {
+              formatedBeachData = result.data.predictedValues.map((beach, index) => {
+                if(index > 0) {
                 let beachData = {
                   beachId: beach.beachId,
                   beachName: BEACH_NAMES[beach.beachName],
@@ -104,7 +104,6 @@ export default class Splash extends React.Component {
         })
 
         if(!this.state.loading) {
-          console.log('just before nav', this.state.weatherData);
           this.props.navigation.navigate('BeachList' , {
             weatherData: this.state.weatherData,
             beachToday: this.state.beachToday,

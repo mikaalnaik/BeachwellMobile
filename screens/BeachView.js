@@ -235,7 +235,6 @@ let PastFiveDays = (props) => {
       y: Number(day.eColiCount)
     })
 
-
     if(Number(day.eColiCount) > maxYValue) {
       maxYValue = Number(day.eColiCount);
     }
@@ -244,16 +243,16 @@ let PastFiveDays = (props) => {
   dataForChart = dataForChart.reverse();
 
   const strokeDasharray = "10,0";
-
+  const samepledOn = moment(props.pastResults[0].sampleDate, 'MM DD').format('MMM Do')
   return (<View style={[styles.beachViewCard,]} pointerEvents="none">
     <Text style={styles.contentCardHeader} allowFontScaling={false}>
       LATEST READING FROM THE CITY
     </Text>
-    <EcoliReading
+    <EcoliReading 
       eColiReading={props.pastResults[0].eColiCount}
     />
     <Text style={styles.waterComment} allowFontScaling={false}>
-      Sampled yesterday
+      Sampled {samepledOn}
     </Text>
 
     <View
@@ -406,6 +405,7 @@ export default class BeachView extends React.Component {
   }
 
   render() {
+    // console.log('past Results', this.props.navigation.state.params.pastResults);
     return (<View style={styles.viewContainer}>
       <BeachName name={this.props.navigation.state.params.data.beachName} nav={this.props.navigation}/>
       <ScrollView decelerationRate={0.99} showsVerticalScrollIndicator={true} style={styles.scrollContainer}>
@@ -415,7 +415,12 @@ export default class BeachView extends React.Component {
             backgroundColor: '#EFEFEF',
             paddingBottom: 100,
           }}>
-          <BodySection beachData={this.props.navigation.state.params.data} isVisible={this.state.isVisible} weatherData={this.props.navigation.state.params.weather} pastResults={this.props.navigation.state.params.pastResults}/>
+          <BodySection 
+            beachData={this.props.navigation.state.params.data} 
+            isVisible={this.state.isVisible} 
+            weatherData={this.props.navigation.state.params.weather} 
+            pastResults={this.props.navigation.state.params.pastResults}
+          />
         </View>
       </ScrollView>
       <NavFooter nav={this.props.navigation}/>
